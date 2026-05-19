@@ -88,6 +88,15 @@ describe('apply-migrations on fresh PGLite (v0.36.1.x #1100)', () => {
         env,
         180_000,
       );
+      if (apply.exitCode !== 0) {
+        // Dump for CI triage — local repro passes; this surfaces the
+        // Ubuntu-specific failure mode (probably env-related: BUN_INSTALL,
+        // HOME-relative path, or a PGLite WASM quirk).
+        console.error('--- apply-migrations stdout ---\n' + apply.stdout);
+        console.error('--- apply-migrations stderr ---\n' + apply.stderr);
+        console.error('--- init stdout ---\n' + init.stdout);
+        console.error('--- init stderr ---\n' + init.stderr);
+      }
       expect(apply.exitCode).toBe(0);
       const applyOut = apply.stdout + apply.stderr;
       expect(applyOut).not.toMatch(/Timed out waiting for PGLite lock/);
