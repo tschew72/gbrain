@@ -22,13 +22,24 @@ set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT"
 
-# Run doctor with this repo's own skills as the explicit target. Capturing
-# JSON output; redirect stderr to keep progress noise out of the parse.
+# Run doctor with this repo's own skills as the explicit target.
+#
+# --fast is REQUIRED here. Without it, doctor calls connectEngine() which
+# exits 1 when no ~/.gbrain/config.json exists (the CI runner's case — no
+# brain init), producing zero stdout and tripping the parser's
+# `parse_error` fallback. --fast routes through runDoctor(null, ...) which
+# runs filesystem-only checks (resolver_health, skill_conformance,
+# skill_brain_first) and emits the standard JSON envelope. The
+# skill_brain_first check is filesystem-only by design, so --fast is the
+# correct knob, not a workaround.
+#
+# Capturing JSON output; redirect stderr to keep progress noise out of the
+# parse.
 TMPOUT="$(mktemp -t gbrain-doctor-XXXXXXXX)"
 # shellcheck disable=SC2064
 trap "rm -f \"$TMPOUT\"" EXIT
 
-GBRAIN_SKILLS_DIR="$ROOT/skills" bun run src/cli.ts doctor --json >"$TMPOUT" 2>/dev/null || true
+GBRAIN_SKILLS_DIR="$ROOT/skills" bun run src/cli.ts doctor --fast --json >"$TMPOUT" 2>/dev/null || true
 
 # Extract the skill_brain_first check status. Use python3 (already a
 # repo-wide dependency via image-decoders + admin tooling) so we don't
