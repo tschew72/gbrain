@@ -456,9 +456,9 @@ export class PostgresEngine implements BrainEngine {
       && (!probe.sources_archived_exists
           || !probe.sources_archived_at_exists
           || !probe.sources_archive_expires_at_exists);
-    // v0.37.0 (v77): pages_last_retrieved_at_idx in SCHEMA_SQL references
-    // last_retrieved_at. Pre-v77 brains crash without the column; bootstrap
-    // adds it before SCHEMA_SQL replay creates the index. v77 runs later
+    // v0.37.0 (v79): pages_last_retrieved_at_idx in SCHEMA_SQL references
+    // last_retrieved_at. Pre-v79 brains crash without the column; bootstrap
+    // adds it before SCHEMA_SQL replay creates the index. v79 runs later
     // via runMigrations and is idempotent.
     const needsPagesLastRetrievedAt = probe.pages_exists && !(probe as { pages_last_retrieved_at_exists?: boolean }).pages_last_retrieved_at_exists;
 
@@ -648,9 +648,9 @@ export class PostgresEngine implements BrainEngine {
     }
 
     if (needsPagesLastRetrievedAt) {
-      // v77 (pages_last_retrieved_at): adds the real stale-page signal column
+      // v79 (pages_last_retrieved_at): adds the real stale-page signal column
       // + full B-tree index. SCHEMA_SQL's CREATE INDEX
-      // pages_last_retrieved_at_idx crashes without the column. v77 runs
+      // pages_last_retrieved_at_idx crashes without the column. v79 runs
       // later via runMigrations and is idempotent.
       await conn.unsafe(`
         ALTER TABLE pages ADD COLUMN IF NOT EXISTS last_retrieved_at TIMESTAMPTZ;
@@ -1484,16 +1484,21 @@ export class PostgresEngine implements BrainEngine {
     // read config — caller (hybrid/op) resolved it and passed it in.
     // normalizeEngineColumn accepts the legacy union (string literals,
     // ResolvedColumn, undefined) and produces a canonical descriptor.
+    //
+    // v0.36 Phase 3: 'embedding_multimodal' is the unified column populated
+    // by `gbrain reindex --multimodal`. Carries BOTH text and image content
+    // in Voyage multimodal-3 space — no modality filter; the column itself
+    // is the discriminator (rows without embedding_multimodal aren't searched).
     const resolvedCol = normalizeEngineColumn(opts?.embeddingColumn);
     const { col, castSql } = buildVectorCastFragment(resolvedCol);
-    // Modality filter: image rows live in modality='image'; text/code in
-    // 'text'. The image-column literal is the only one with image rows.
-    // For all other columns (default + user-declared), restrict to text
-    // mode to avoid cross-modality dim leaks. The check is on
-    // resolved.name (already validated, never raw input).
-    const modalityFilter = resolvedCol.name === 'embedding_image'
-      ? `AND cc.modality = 'image'`
-      : `AND cc.modality = 'text'`;
+    let modalityFilter: string;
+    if (resolvedCol.name === 'embedding_image') {
+      modalityFilter = `AND cc.modality = 'image'`;
+    } else if (resolvedCol.name === 'embedding_multimodal') {
+      modalityFilter = '';
+    } else {
+      modalityFilter = `AND cc.modality = 'text'`;
+    }
 
     const rawQuery = `
       WITH hnsw_candidates AS (

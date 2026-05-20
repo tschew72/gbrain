@@ -392,8 +392,8 @@ export class PGLiteEngine implements BrainEngine {
       && (!probe.sources_archived_exists
           || !probe.sources_archived_at_exists
           || !probe.sources_archive_expires_at_exists);
-    // v0.37.0 (v77): pages_last_retrieved_at_idx in PGLITE_SCHEMA_SQL
-    // references last_retrieved_at. Pre-v77 brains crash without the column.
+    // v0.37.0 (v79): pages_last_retrieved_at_idx in PGLITE_SCHEMA_SQL
+    // references last_retrieved_at. Pre-v79 brains crash without the column.
     const needsPagesLastRetrievedAt = probe.pages_exists && !probe.pages_last_retrieved_at_exists;
 
     // Fresh installs (no tables yet) and modern brains both no-op.
@@ -583,9 +583,9 @@ export class PGLiteEngine implements BrainEngine {
     }
 
     if (needsPagesLastRetrievedAt) {
-      // v77 (pages_last_retrieved_at): adds the stale-page signal column +
+      // v79 (pages_last_retrieved_at): adds the stale-page signal column +
       // full B-tree index. PGLITE_SCHEMA_SQL's CREATE INDEX
-      // pages_last_retrieved_at_idx crashes without the column. v77 runs
+      // pages_last_retrieved_at_idx crashes without the column. v79 runs
       // later via runMigrations and is idempotent.
       await this.db.exec(`
         ALTER TABLE pages ADD COLUMN IF NOT EXISTS last_retrieved_at TIMESTAMPTZ;
@@ -1452,15 +1452,20 @@ export class PGLiteEngine implements BrainEngine {
     // v0.36 (D11): column routing via resolved descriptor. Engine doesn't
     // read config — caller resolved at hybrid/op boundary. The cast SQL
     // ($1::vector vs $1::halfvec(N)) comes from buildVectorCastFragment.
+    //
+    // v0.36 Phase 3: 'embedding_multimodal' is the unified column populated
+    // by `gbrain reindex --multimodal`. No modality filter — the column
+    // itself is the discriminator (only re-embedded rows have non-NULL).
     const resolvedCol = normalizeEngineColumn(opts?.embeddingColumn);
     const { col, castSql } = buildVectorCastFragment(resolvedCol);
-    // Image rows live in modality='image'; text/code in 'text'. Restrict
-    // by modality so non-image columns can't accidentally pull image
-    // chunks (or vice versa). resolved.name has already passed regex
-    // validation; never compares against raw input.
-    const modalityFilter = resolvedCol.name === 'embedding_image'
-      ? `AND cc.modality = 'image'`
-      : `AND cc.modality = 'text'`;
+    let modalityFilter: string;
+    if (resolvedCol.name === 'embedding_image') {
+      modalityFilter = `AND cc.modality = 'image'`;
+    } else if (resolvedCol.name === 'embedding_multimodal') {
+      modalityFilter = '';
+    } else {
+      modalityFilter = `AND cc.modality = 'text'`;
+    }
 
     const { rows } = await this.db.query(
       `WITH hnsw_candidates AS (

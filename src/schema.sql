@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS pages (
   effective_date_source TEXT,
   import_filename       TEXT,
   salience_touched_at   TIMESTAMPTZ,
-  -- v0.37.0 (migration v77): real stale-page signal for `gbrain lsd`. Bumped
+  -- v0.37.0 (migration v79): real stale-page signal for `gbrain lsd`. Bumped
   -- by op-layer write-back inside `search`/`query`/`get_page` op handlers
   -- (NOT inside engine methods — internal callers must not pollute the
   -- signal). NULL = never retrieved (LSD prioritizes these first).
@@ -167,7 +167,10 @@ CREATE TABLE IF NOT EXISTS content_chunks (
   -- mixed-provider brains (e.g. OpenAI 1536 text + Voyage 1024 images) keep
   -- both columns populated with distinct dim spaces.
   modality              TEXT NOT NULL DEFAULT 'text',
-  embedding_image       vector(1024)
+  embedding_image       vector(1024),
+  -- v0.36 Phase 3 cross-modal: unified column populated by reindex.
+  -- Migration v75 also adds it for upgrade paths.
+  embedding_multimodal  vector(1024)
 );
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_chunks_page_index ON content_chunks(page_id, chunk_index);

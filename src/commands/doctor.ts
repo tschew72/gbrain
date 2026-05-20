@@ -9,6 +9,7 @@ import { compareVersions } from './migrations/index.ts';
 import { createProgress, startHeartbeat, type ProgressReporter } from '../core/progress.ts';
 import { getCliOptions, cliOptsToProgressOptions } from '../core/cli-options.ts';
 import type { DbUrlSource } from '../core/config.ts';
+import { gbrainPath } from '../core/config.ts';
 import { dirname, isAbsolute, join, resolve as resolvePath } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
@@ -573,7 +574,7 @@ export async function doctorReportRemote(engine: BrainEngine): Promise<DoctorRep
   checks.push(await checkRerankerHealth(engine));
 
   // 9b. v0.37.0 brainstorm_health: surfaces three brainstorm/lsd readiness
-  // signals: (a) migration v77 applied (last_retrieved_at column exists),
+  // signals: (a) migration v79 applied (last_retrieved_at column exists),
   // (b) calibration cold-start status (active_bias_tags empty), (c)
   // search.track_retrieval enabled/disabled. Each surfaces a paste-ready
   // fix hint.
@@ -848,7 +849,7 @@ export async function checkRerankerHealth(engine: BrainEngine): Promise<Check> {
  *
  * Surfaces three readiness signals for `gbrain brainstorm` / `gbrain lsd`:
  *
- *   1. Migration v77 applied — the `pages.last_retrieved_at` column exists.
+ *   1. Migration v79 applied — the `pages.last_retrieved_at` column exists.
  *      If missing, LSD's stale-page signal degrades silently (corpus-sampling
  *      fallback only). Fix: `gbrain apply-migrations --yes`.
  *
@@ -922,7 +923,7 @@ export async function checkBrainstormHealth(engine: BrainEngine): Promise<Check>
       return {
         name: 'brainstorm_health',
         status: 'ok',
-        message: `Migration v77 applied; tracking enabled. Calibration profile not yet generated — brainstorm/lsd will run unbiased until enough takes are resolved.`,
+        message: `Migration v79 applied; tracking enabled. Calibration profile not yet generated — brainstorm/lsd will run unbiased until enough takes are resolved.`,
       };
     }
     const tags = calibRows[0].active_bias_tags;
@@ -930,13 +931,13 @@ export async function checkBrainstormHealth(engine: BrainEngine): Promise<Check>
       return {
         name: 'brainstorm_health',
         status: 'ok',
-        message: `Migration v77 applied; tracking enabled. Calibration cold-start (no active_bias_tags) — judge runs unbiased. Fix when ready: \`gbrain calibration --regenerate\`.`,
+        message: `Migration v79 applied; tracking enabled. Calibration cold-start (no active_bias_tags) — judge runs unbiased. Fix when ready: \`gbrain calibration --regenerate\`.`,
       };
     }
     return {
       name: 'brainstorm_health',
       status: 'ok',
-      message: `Migration v77 applied; tracking enabled; calibration profile with ${tags.length} bias tag(s) loaded.`,
+      message: `Migration v79 applied; tracking enabled; calibration profile with ${tags.length} bias tag(s) loaded.`,
     };
   } catch {
     // Pre-v0.36.1 brain (no calibration_profiles table). Brainstorm/lsd still
@@ -944,7 +945,7 @@ export async function checkBrainstormHealth(engine: BrainEngine): Promise<Check>
     return {
       name: 'brainstorm_health',
       status: 'ok',
-      message: `Migration v77 applied; tracking enabled. calibration_profiles table missing (pre-v0.36.1 brain) — judge runs unbiased.`,
+      message: `Migration v79 applied; tracking enabled. calibration_profiles table missing (pre-v0.36.1 brain) — judge runs unbiased.`,
     };
   }
 }
@@ -1745,6 +1746,69 @@ export async function runDoctor(engine: BrainEngine | null, args: string[], dbSo
     }
   } catch {
     // Best-effort; audit-log read failure shouldn't stop doctor.
+  }
+
+  // 3e. home_dir_in_worktree (v0.35.8.0). Walks up from `gbrainPath()`
+  // looking for a `.git` directory OR file. If found, warns: `~/.gbrain/`
+  // lives inside a git worktree, so an accidental `git add` from the
+  // worktree root could stage the brain. Pairs with the retroactive
+  // `~/.gbrain/.gitignore` (single-line `*`) laid down by saveConfig +
+  // post-upgrade. Honest scope: the .gitignore covers casual `git add`
+  // but NOT already-tracked files, screenshots, backups, or `git add -f`.
+  //
+  // Walk termination: stops at $HOME (don't keep walking into / on a user
+  // who set GBRAIN_HOME=/tmp/something). Handles `.git` as both a directory
+  // (main repo) and a file (linked worktree pointing at parent's worktrees/).
+  // Honors GBRAIN_HOME via gbrainPath().
+  try {
+    const gbrainHome = gbrainPath();
+    const home = process.env.HOME || '';
+    let worktreeRoot: string | null = null;
+    if (gbrainHome && home && gbrainHome.startsWith(home + '/')) {
+      // Walk up from gbrainHome's parent toward $HOME, stopping at $HOME.
+      // We don't check gbrainHome itself: a `.git` directly inside ~/.gbrain
+      // isn't a containing-worktree, it would be a brain repo cloned there.
+      let cur = dirname(gbrainHome);
+      while (cur && cur.length >= home.length) {
+        const gitPath = join(cur, '.git');
+        try {
+          const st = statSync(gitPath);
+          // Either a directory (main repo) or a file (linked worktree pointer).
+          if (st.isDirectory() || st.isFile()) {
+            worktreeRoot = cur;
+            break;
+          }
+        } catch {
+          // No .git at this level; continue.
+        }
+        if (cur === home) break;
+        const parent = dirname(cur);
+        if (parent === cur) break;
+        cur = parent;
+      }
+    }
+    if (worktreeRoot) {
+      const homeEnvHint = process.env.GBRAIN_HOME
+        ? `# Or move \`~/.gbrain\` outside the worktree by setting GBRAIN_HOME elsewhere.`
+        : `# Fix: \`export GBRAIN_HOME=/some/path/outside/the/worktree\` (gbrain appends \`.gbrain\`).`;
+      checks.push({
+        name: 'home_dir_in_worktree',
+        status: 'warn',
+        message:
+          `~/.gbrain lives inside git worktree at ${worktreeRoot}. ` +
+          `Config + brain DB could be committed by accident. ` +
+          `A retroactive ~/.gbrain/.gitignore blocks casual \`git add\`, but does NOT cover ` +
+          `already-tracked files, screenshots, backups, or \`git add -f\`. ${homeEnvHint}`,
+      });
+    } else {
+      checks.push({
+        name: 'home_dir_in_worktree',
+        status: 'ok',
+        message: 'gbrain home is outside any enclosing git worktree.',
+      });
+    }
+  } catch {
+    // Best-effort filesystem-hygiene check; never block doctor.
   }
 
   // 3b-multi-source. Multi-source drift (v0.31.8 — D8 + D17 + OV12 + OV13).
@@ -2568,6 +2632,124 @@ export async function runDoctor(engine: BrainEngine | null, args: string[], dbSo
   progress.heartbeat('whoknows_health');
   checks.push(await whoknowsHealthCheck(engine));
 
+  // v0.36 cross-modal wave: modality column cleanup.
+  //
+  // Historical brains that imported image assets before v0.27.1's
+  // `modality='image'` default-set may have image chunks where
+  // embedding_image is populated but modality wasn't tagged. The cross-modal
+  // search routing in v0.36 depends on `modality` for keyword filtering;
+  // surface the gap so operators can run `gbrain backfill modality`.
+  progress.heartbeat('cross_modal_modality_backfill');
+  try {
+    const mismatchRows = await engine.executeRaw<{ count: string | number }>(
+      `SELECT COUNT(*)::text AS count FROM content_chunks
+       WHERE embedding_image IS NOT NULL
+         AND chunk_source = 'image_asset'
+         AND (modality IS NULL OR modality != 'image')`,
+    );
+    const mismatch = parseInt(String(mismatchRows[0]?.count ?? '0'), 10);
+    if (mismatch === 0) {
+      checks.push({
+        name: 'cross_modal_modality_backfill',
+        status: 'ok',
+        message: 'All image-asset chunks have modality=image',
+      });
+    } else {
+      checks.push({
+        name: 'cross_modal_modality_backfill',
+        status: 'warn',
+        message:
+          `${mismatch} image-asset chunk(s) have embedding_image populated but modality != 'image'. ` +
+          `Fix: \`gbrain backfill modality\``,
+      });
+    }
+  } catch {
+    // Engine probably doesn't have the modality column (pre-v0.27.1 brain) —
+    // skip silently. Auto-migration will land it on next upgrade.
+    checks.push({
+      name: 'cross_modal_modality_backfill',
+      status: 'ok',
+      message: 'modality column not present (pre-v0.27.1 brain); skipped',
+    });
+  }
+
+  // v0.36 Phase 3 — unified_multimodal coverage (D21 source-aware).
+  //
+  // Only meaningful when search.unified_multimodal is on. Reports the
+  // percentage of content_chunks with embedding_multimodal populated.
+  // Source-aware: a global 95% can hide 0% coverage for a specific source.
+  progress.heartbeat('unified_multimodal_coverage');
+  try {
+    const unifiedFlag = await engine.getConfig('search.unified_multimodal').catch(() => null);
+    const unifiedOnlyFlag = await engine.getConfig('search.unified_multimodal_only').catch(() => null);
+    const unifiedOn = unifiedFlag === 'true' || unifiedFlag === '1';
+    const unifiedOnlyOn = unifiedOnlyFlag === 'true' || unifiedOnlyFlag === '1';
+
+    if (!unifiedOn) {
+      checks.push({
+        name: 'unified_multimodal_coverage',
+        status: 'ok',
+        message: 'search.unified_multimodal is off; coverage check N/A',
+      });
+    } else {
+      // D21 source-aware: report per-source coverage so multi-source brains
+      // can't hide 0% on one source behind a high global average.
+      const rows = await engine.executeRaw<{ source_id: string | null; total: string; covered: string }>(
+        `SELECT
+           COALESCE(p.source_id, 'default') AS source_id,
+           COUNT(*)::text AS total,
+           SUM(CASE WHEN cc.embedding_multimodal IS NOT NULL THEN 1 ELSE 0 END)::text AS covered
+         FROM content_chunks cc
+         JOIN pages p ON p.id = cc.page_id
+         GROUP BY p.source_id`,
+      );
+      const perSource = rows.map(r => ({
+        source: r.source_id || 'default',
+        total: parseInt(String(r.total), 10),
+        covered: parseInt(String(r.covered), 10),
+      }));
+      const lowestCoverage = perSource.reduce(
+        (acc, r) => Math.min(acc, r.total > 0 ? r.covered / r.total : 1),
+        1,
+      );
+      const summary = perSource.map(r => {
+        const pct = r.total > 0 ? Math.round((r.covered / r.total) * 100) : 0;
+        return `${r.source}:${pct}%`;
+      }).join(', ');
+
+      if (unifiedOnlyOn && lowestCoverage < 0.99) {
+        checks.push({
+          name: 'unified_multimodal_coverage',
+          status: 'fail',
+          message:
+            `unified_multimodal_only is ON but lowest source coverage is ${(lowestCoverage * 100).toFixed(1)}% (${summary}). ` +
+            `Run \`gbrain reindex --multimodal\` to bring coverage to 99%+ or disable strict mode.`,
+        });
+      } else if (lowestCoverage < 0.95) {
+        checks.push({
+          name: 'unified_multimodal_coverage',
+          status: 'warn',
+          message:
+            `unified_multimodal is on but lowest source coverage is ${(lowestCoverage * 100).toFixed(1)}% (${summary}). ` +
+            `Run \`gbrain reindex --multimodal\` to fill the gap.`,
+        });
+      } else {
+        checks.push({
+          name: 'unified_multimodal_coverage',
+          status: 'ok',
+          message: `unified_multimodal coverage: ${summary}`,
+        });
+      }
+    }
+  } catch {
+    // Column probably not present (pre-v0.36 brain pre-migration); skip silently.
+    checks.push({
+      name: 'unified_multimodal_coverage',
+      status: 'ok',
+      message: 'embedding_multimodal column not present yet; skipped',
+    });
+  }
+
   // 11. Markdown body completeness (v0.12.3 reliability wave).
   // v0.12.0's splitBody ate everything after the first `---` horizontal rule,
   // truncating wiki-style pages. Heuristic: pages whose body is <30% of the
@@ -3322,7 +3504,7 @@ export async function runDoctor(engine: BrainEngine | null, args: string[], dbSo
     // v0.35.0.0+ reranker_health — read JSONL audit; warn on auth or volume.
     progress.heartbeat('reranker_health');
     checks.push(await checkRerankerHealth(engine));
-    // v0.37.0 brainstorm_health — migration v77, track_retrieval, calibration cold-start.
+    // v0.37.0 brainstorm_health — migration v79, track_retrieval, calibration cold-start.
     progress.heartbeat('brainstorm_health');
     checks.push(await checkBrainstormHealth(engine));
     // v0.36.0.0 (A5): ZE embedding key health + schema/config width consistency.
