@@ -571,6 +571,12 @@ export async function hybridSearch(
     // undefined for all 3 bundles → no behavior change unless caller sets
     // SearchOpts.floorRatio or `search.floor_ratio` config key.
     floorRatio: resolvedMode.floor_ratio,
+    // v0.40.4 — graph_signals stage threaded from resolved mode. Defaults
+    // per ModeBundle (conservative=false, balanced/tokenmax=true). Per-call
+    // SearchOpts.graph_signals overrides through resolveSearchMode.
+    // Without this thread, the entire graph-signals wave is dead code —
+    // codex outside-voice caught the missing wire pre-merge.
+    graphSignalsEnabled: resolvedMode.graph_signals,
   };
 
   // Skip vector search entirely if the gateway has no embedding provider configured (Codex C3).
