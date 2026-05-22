@@ -1612,6 +1612,106 @@ export async function checkSyncFreshness(
 }
 
 /**
+ * v0.38 — per-source `last_full_cycle_at` freshness check.
+ *
+ * Sibling to `sync_freshness`. Where sync_freshness reads `last_sync_at`
+ * (one phase of the cycle), this check reads `sources.config->>'last_full_cycle_at'`
+ * which is the canonical "this whole cycle completed" timestamp written
+ * by runCycle's exit hook. Autopilot's per-source fan-out gate (the
+ * v0.38 fan-out wave) reads the same field — so this check surfaces
+ * exactly what autopilot sees when deciding to skip a source.
+ *
+ * Default thresholds: warn at 6h, fail at 24h. Tighter than sync_freshness
+ * because full-cycle staleness compounds (sync stale → extract stale →
+ * embed stale → search stale). Env overrides:
+ *   - GBRAIN_CYCLE_FRESHNESS_WARN_HOURS (default 6)
+ *   - GBRAIN_CYCLE_FRESHNESS_FAIL_HOURS (default 24)
+ */
+export async function checkCycleFreshness(
+  engine: BrainEngine,
+  opts?: { nowMs?: number },
+): Promise<Check> {
+  try {
+    const sources = await engine.listAllSources({ localPathOnly: true });
+    if (sources.length === 0) {
+      return {
+        name: 'cycle_freshness',
+        status: 'ok',
+        message: 'No federated sources to cycle',
+      };
+    }
+
+    const warnHours = _resolveSyncFreshnessHours('GBRAIN_CYCLE_FRESHNESS_WARN_HOURS', 6);
+    const failHours = _resolveSyncFreshnessHours('GBRAIN_CYCLE_FRESHNESS_FAIL_HOURS', 24);
+    const warnMs = warnHours * 60 * 60 * 1000;
+    const failMs = failHours * 60 * 60 * 1000;
+    const now = opts?.nowMs ?? Date.now();
+
+    const issues: string[] = [];
+    let hasWarnings = false;
+    let hasFailures = false;
+
+    for (const source of sources) {
+      const display = source.name && source.name !== source.id
+        ? `'${source.id}' (${source.name})`
+        : `'${source.id}'`;
+      const raw = source.config?.last_full_cycle_at;
+      if (typeof raw !== 'string') {
+        issues.push(`Source ${display} has never completed a full cycle`);
+        hasFailures = true;
+        continue;
+      }
+      const last = new Date(raw).getTime();
+      if (!Number.isFinite(last)) {
+        issues.push(`Source ${display} has unparseable last_full_cycle_at: ${raw}`);
+        hasWarnings = true;
+        continue;
+      }
+      const ageMs = now - last;
+      if (ageMs < 0) {
+        issues.push(`Source ${display} has future last_full_cycle_at — clock skew`);
+        hasWarnings = true;
+        continue;
+      }
+      const ageHours = Math.floor(ageMs / (1000 * 60 * 60));
+      if (ageMs > failMs) {
+        issues.push(`Source ${display} last cycled ${ageHours}h ago`);
+        hasFailures = true;
+      } else if (ageMs > warnMs) {
+        issues.push(`Source ${display} last cycled ${ageHours}h ago`);
+        hasWarnings = true;
+      }
+    }
+
+    if (hasFailures) {
+      return {
+        name: 'cycle_freshness',
+        status: 'fail',
+        message: `${issues.join('; ')}. Run \`gbrain dream --source <id>\` for each stale source, or start \`gbrain autopilot\`.`,
+      };
+    }
+    if (hasWarnings) {
+      return {
+        name: 'cycle_freshness',
+        status: 'warn',
+        message: `${issues.join('; ')}.`,
+      };
+    }
+    return {
+      name: 'cycle_freshness',
+      status: 'ok',
+      message: `All ${sources.length} federated source(s) cycled recently`,
+    };
+  } catch (e) {
+    return {
+      name: 'cycle_freshness',
+      status: 'warn',
+      message: `Could not check cycle freshness: ${e instanceof Error ? e.message : String(e)}`,
+    };
+  }
+}
+
+/**
  * Run doctor with filesystem-first, DB-second architecture.
  * Filesystem checks (resolver, conformance) run without engine.
  * DB checks run only if engine is provided.
@@ -3815,6 +3915,11 @@ export async function runDoctor(engine: BrainEngine | null, args: string[], dbSo
   if (engine !== null) {
     progress.heartbeat('sync_freshness');
     checks.push(await checkSyncFreshness(engine));
+    // v0.38 — full-cycle freshness, sibling to sync_freshness. Reads
+    // last_full_cycle_at from sources.config; mirrors what autopilot's
+    // per-source dispatch gate sees.
+    progress.heartbeat('cycle_freshness');
+    checks.push(await checkCycleFreshness(engine));
   }
 
   // v0.32.3 search-lite — mode + eval_drift surfaces. Status stays 'ok' per
