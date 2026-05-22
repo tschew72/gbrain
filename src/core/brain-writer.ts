@@ -419,26 +419,37 @@ export async function scanBrainSources(
   let ignoredMissingOpen = 0;
   let abortedAtSource: string | null = null;
 
+  // Helper: mark sources from index i onward as 'skipped'. Used at every
+  // between-source abort point (top of loop AND after the COUNT await).
+  const markRemainingSkipped = (startIdx: number) => {
+    for (let j = startIdx; j < sources.length; j++) {
+      const skipped = sources[j];
+      if (!skipped.local_path) continue;
+      perSource.push({
+        source_id: skipped.id,
+        source_path: skipped.local_path,
+        total: 0,
+        errors_by_code: {},
+        sample: [],
+        ignoredMissingOpen: 0,
+        status: 'skipped',
+        files_scanned: 0,
+      });
+    }
+  };
+
   for (let i = 0; i < sources.length; i++) {
     const src = sources[i];
     // Between-source abort check: AbortSignal works here (no sync I/O blocking
     // the event loop at this boundary). For mid-walk interruption use deadline.
     if (opts.signal?.aborted || (opts.deadline && Date.now() > opts.deadline)) {
-      // Remaining sources get 'skipped' status so doctor can name them honestly.
-      for (let j = i; j < sources.length; j++) {
-        const skipped = sources[j];
-        if (!skipped.local_path) continue;
-        perSource.push({
-          source_id: skipped.id,
-          source_path: skipped.local_path,
-          total: 0,
-          errors_by_code: {},
-          sample: [],
-          ignoredMissingOpen: 0,
-          status: 'skipped',
-          files_scanned: 0,
-        });
+      // Codex adversarial review #3: when deadline fires BETWEEN sources,
+      // also stamp aborted_at_source with the source we were about to start.
+      // Pre-fix, the doctor message said "PARTIAL SCAN" with no source name.
+      if (abortedAtSource === null && src.local_path) {
+        abortedAtSource = src.id;
       }
+      markRemainingSkipped(i);
       break;
     }
     if (!src.local_path) continue;
@@ -459,13 +470,42 @@ export async function scanBrainSources(
     }
 
     // Best-effort denominator fetch — degrades gracefully on query failure.
+    // Codex adversarial #4: also race against the deadline. A wedged Postgres
+    // pool can make this await hang past the budget. Without the race, we'd
+    // wait indefinitely AND defeat the wall-clock guarantee.
     let dbPageCount: number | null = null;
     if (opts.dbPageCountForSource) {
       try {
-        dbPageCount = await opts.dbPageCountForSource(src.id);
+        if (opts.deadline) {
+          const remainingMs = opts.deadline - Date.now();
+          if (remainingMs <= 0) {
+            dbPageCount = null;
+          } else {
+            // Race COUNT against the deadline so a hung query can't eat the budget.
+            dbPageCount = await Promise.race([
+              opts.dbPageCountForSource(src.id),
+              new Promise<null>(resolve => setTimeout(() => resolve(null), remainingMs)),
+            ]);
+          }
+        } else {
+          dbPageCount = await opts.dbPageCountForSource(src.id);
+        }
       } catch {
         dbPageCount = null;
       }
+    }
+
+    // Codex adversarial #2: re-check deadline AFTER the COUNT await. If the
+    // await ate the budget, we must NOT call scanOneSource — it would return
+    // status='partial' with files_scanned=0, which is misleading ("partial
+    // scan" when actually nothing was scanned). Mark this source + remainder
+    // as 'skipped' so the doctor message is honest.
+    if (opts.signal?.aborted || (opts.deadline && Date.now() > opts.deadline)) {
+      if (abortedAtSource === null) {
+        abortedAtSource = src.id;
+      }
+      markRemainingSkipped(i);
+      break;
     }
 
     const report = scanOneSource(src.id, src.local_path, opts);

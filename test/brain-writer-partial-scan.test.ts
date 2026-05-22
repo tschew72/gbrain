@@ -132,4 +132,65 @@ describe('scanBrainSources partial-scan state', () => {
     // files_scanned numerator still populated regardless of denominator outcome.
     expect(b.files_scanned).toBe(5);
   });
+
+  // Codex adversarial #3 regression: when the outer-loop deadline check fires
+  // BEFORE any source starts, aborted_at_source MUST stamp the first
+  // would-have-been-scanned source so the doctor message can name it.
+  test('aborted_at_source stamped when deadline fires before any source starts', async () => {
+    const report = await scanBrainSources(engine, {
+      deadline: Date.now() - 1,
+    });
+    expect(report.partial).toBe(true);
+    // First source in deterministic order (sources ORDER BY id) is 'src-a'.
+    expect(report.aborted_at_source).toBe('src-a');
+    // Every source skipped, no scans started.
+    expect(report.per_source.every(r => r.status === 'skipped')).toBe(true);
+  });
+
+  // Codex adversarial #2 regression: a slow dbPageCountForSource that exceeds
+  // the deadline must NOT result in scanOneSource running and reporting
+  // status='partial' with files_scanned=0 (misleading — nothing was scanned).
+  // The post-await deadline re-check should mark the source as 'skipped'.
+  test('slow COUNT that exceeds deadline marks source skipped, not partial', async () => {
+    const start = Date.now();
+    const report = await scanBrainSources(engine, {
+      deadline: start + 50, // 50ms budget
+      dbPageCountForSource: async () => {
+        // Simulate a hung query: take 100ms (past the deadline).
+        await new Promise(resolve => setTimeout(resolve, 100));
+        return 42;
+      },
+    });
+    // The first source should be skipped (post-await deadline re-check fires),
+    // NOT marked partial with files_scanned=0.
+    const firstSource = report.per_source.find(r => r.source_id === 'src-a')!;
+    expect(firstSource.status).toBe('skipped');
+    expect(firstSource.files_scanned).toBe(0);
+    expect(report.partial).toBe(true);
+    expect(report.aborted_at_source).toBe('src-a');
+  });
+
+  // Codex adversarial #4 regression: even when dbPageCountForSource itself
+  // would hang indefinitely, the Promise.race against the deadline must
+  // resolve null and the scan must abort cleanly.
+  test('hanging COUNT does not exceed deadline — Promise.race timeout fires', async () => {
+    const start = Date.now();
+    const report = await scanBrainSources(engine, {
+      deadline: start + 100, // 100ms budget
+      dbPageCountForSource: () => {
+        // Never resolves — would hang forever without the deadline race.
+        return new Promise<number | null>(() => {});
+      },
+    });
+    const elapsed = Date.now() - start;
+    // Generous bound: should complete within 2x the deadline budget (setup overhead).
+    expect(elapsed).toBeLessThan(500);
+    expect(report.partial).toBe(true);
+    const firstSource = report.per_source.find(r => r.source_id === 'src-a')!;
+    expect(firstSource.status).toBe('skipped');
+    // Skipped sources never get db_page_count set — they weren't attempted.
+    // (Either null from the race or undefined from never reaching the DB
+    // path; both express "no denominator available" honestly.)
+    expect(firstSource.db_page_count == null).toBe(true);
+  });
 });

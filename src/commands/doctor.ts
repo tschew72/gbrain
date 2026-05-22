@@ -3132,8 +3132,12 @@ export async function runDoctor(engine: BrainEngine | null, args: string[], dbSo
       const sourceMessages: string[] = [];
       for (const src of report.per_source) {
         if (src.status === 'skipped') {
+          // Codex adversarial #1: `gbrain frontmatter validate` takes a
+          // filesystem PATH, not a source id. Pre-fix the hint pointed users
+          // at a command that would fail with "no such directory" — breaking
+          // the very remediation path this PR ships to give them.
           sourceMessages.push(
-            `${src.source_id}: NOT SCANNED (timeout — run \`gbrain frontmatter validate ${src.source_id}\`)`,
+            `${src.source_id}: NOT SCANNED (timeout — run \`gbrain frontmatter validate ${src.source_path}\`)`,
           );
           continue;
         }
