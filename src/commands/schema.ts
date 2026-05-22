@@ -130,7 +130,17 @@ function runList(_args: string[]): void {
 }
 
 async function runShow(args: string[]): Promise<void> {
-  const packName = args[0];
+  // v0.39 T18 — `gbrain schema show --as-filing-rules` emits the JSON
+  // shape currently maintained by hand at `skills/_brain-filing-rules.json`.
+  // First step of the 4-step T18 sequence (per codex finding #3): ship
+  // the alternative source, then migrate consumers, then update tests,
+  // then DELETE the hand-maintained files. v0.39.0.0 ships the source;
+  // consumer migration + deletion deferred to v0.39.1 to avoid breaking
+  // synthesize/patterns/filing-audit/check-resolvable mid-wave.
+  const asFilingRules = args.includes('--as-filing-rules');
+  const jsonFlag = args.includes('--json') || asFilingRules;
+  const packArg = args.find((a) => !a.startsWith('--'));
+  const packName = packArg;
   let manifest;
   if (packName) {
     const path = packPathByName(packName);
@@ -143,6 +153,41 @@ async function runShow(args: string[]): Promise<void> {
   } else {
     const pack = await loadActivePack({ cfg: loadConfig(), remote: false });
     manifest = pack.manifest;
+  }
+  if (asFilingRules) {
+    // Emit the filing-rules-shaped JSON for downstream consumers per T18.
+    // Shape mirrors skills/_brain-filing-rules.json so synthesize.ts +
+    // patterns.ts + filing-audit.ts + check-resolvable.ts can migrate
+    // their reads to this output without re-shaping.
+    const filingRules = {
+      schema_version: 1,
+      source: 'gbrain schema show --as-filing-rules',
+      pack: { name: manifest.name, version: manifest.version },
+      page_types: manifest.page_types.map((pt) => ({
+        name: pt.name,
+        primitive: pt.primitive,
+        directory: pt.path_prefixes[0] ?? null,
+        path_prefixes: pt.path_prefixes,
+        extractable: pt.extractable,
+        expert_routing: pt.expert_routing,
+        aliases: pt.aliases ?? [],
+      })),
+      // Preserve the dream_synthesize_paths.globs key the synthesize
+      // protected-name guard depends on. v0.39.1 migration moves this
+      // to a first-class manifest field; for now derive from extractable
+      // entity types (the same set the old file curated).
+      dream_synthesize_paths: {
+        globs: manifest.page_types
+          .filter((pt) => pt.extractable)
+          .flatMap((pt) => pt.path_prefixes.map((p) => `${p}**`)),
+      },
+    };
+    console.log(JSON.stringify(filingRules, null, 2));
+    return;
+  }
+  if (jsonFlag) {
+    console.log(JSON.stringify({ schema_version: 1, ...manifest }, null, 2));
+    return;
   }
   console.log(`# ${manifest.name} v${manifest.version}`);
   if (manifest.description) console.log(`# ${manifest.description}`);
