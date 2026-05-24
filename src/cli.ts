@@ -10,6 +10,7 @@ import type { AIGatewayConfig } from './core/ai/types.ts';
 import type { BrainEngine } from './core/engine.ts';
 import { operations, OperationError } from './core/operations.ts';
 import type { Operation, OperationContext } from './core/operations.ts';
+import { awaitPendingLastRetrievedWrites } from './core/last-retrieved.ts';
 import { serializeMarkdown } from './core/markdown.ts';
 import { parseGlobalFlags, setCliOptions, getCliOptions } from './core/cli-options.ts';
 import type { CliOptions } from './core/cli-options.ts';
@@ -180,6 +181,17 @@ async function main() {
 
   // Local engine path (unchanged behavior for local installs).
   const engine = await connectEngine();
+  // v0.40.10.0 (#1247, #1269, #1290): the search / query / get_page
+  // op handlers fire-and-forget `bumpLastRetrievedAt` after returning
+  // results. On PGLite that IIFE keeps Bun's event loop alive past
+  // engine.disconnect(), hanging the CLI at ~95-98% CPU until SIGKILL.
+  // Drain the fire-and-forget set BEFORE disconnect; force-exit only
+  // if the drain itself times out (preserves stderr diagnostic signal
+  // AND guarantees the CLI doesn't re-hang at the disconnect layer).
+  let drainResult: { outcome: 'drained' | 'timeout'; pending: number } = {
+    outcome: 'drained',
+    pending: 0,
+  };
   try {
     const ctx = await makeContext(engine, params);
     const rawResult = await op.handler(ctx, params);
@@ -194,6 +206,10 @@ async function main() {
       const { awaitPendingSearchCacheWrites } = await import('./core/search/hybrid.ts');
       await awaitPendingSearchCacheWrites();
     }
+    // Drain unconditionally for every op — empty-set fast-path is a
+    // few microseconds. Not per-op-name gated: that was the original
+    // PR #1259 mistake that left search and get_page exposed.
+    drainResult = await awaitPendingLastRetrievedWrites();
   } catch (e: unknown) {
     if (e instanceof OperationError) {
       console.error(`Error [${e.code}]: ${e.message}`);
@@ -204,7 +220,28 @@ async function main() {
     process.exit(1);
   } finally {
     await engine.disconnect();
+    // Narrow force-exit: only when the drain timed out AND we are NOT
+    // running a daemon. The drain helper already stderr-warned with the
+    // pending count, so the diagnostic signal is preserved. Without
+    // this guard a hung underlying promise can still keep Bun's loop
+    // alive past disconnect — Codex outside-voice finding #1.
+    if (drainResult.outcome === 'timeout' && shouldForceExitAfterMain()) {
+      process.exit(0);
+    }
   }
+}
+
+/**
+ * v0.40.10.0 — gate for the narrow timeout-only force-exit in the
+ * op-dispatch finally block. Excludes daemons (currently just `serve`)
+ * so `gbrain serve --http` and the stdio MCP path stay alive past
+ * main(). Mirrors PR #1337's `shouldForceExitAfterMain` guard, but
+ * narrower in scope: we only force-exit AFTER the drain timed out,
+ * not unconditionally for every non-serve command.
+ */
+export function shouldForceExitAfterMain(argv: string[] = process.argv.slice(2)): boolean {
+  const command = argv.find((arg) => !arg.startsWith('-'));
+  return command !== 'serve';
 }
 
 function hasHelpFlag(args: string[]): boolean {

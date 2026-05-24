@@ -106,3 +106,67 @@ describe('v0.36.1.x #1124 — query --no-expand actually negates expand', () => 
     expect(src).toMatch(/params\[positiveKey\]\s*=\s*false/);
   });
 });
+
+describe('v0.40.10.0 #1247/#1269/#1290 — drain last-retrieved before CLI disconnect', () => {
+  test('cli.ts imports awaitPendingLastRetrievedWrites', () => {
+    const src = readFileSync('src/cli.ts', 'utf8');
+    expect(src).toMatch(/import\s+\{\s*awaitPendingLastRetrievedWrites\s*\}\s*from\s+['"]\.\/core\/last-retrieved\.ts['"]/);
+  });
+
+  test('last-retrieved.ts exports the drain + tracks promises in a module-scoped Set', () => {
+    const src = readFileSync('src/core/last-retrieved.ts', 'utf8');
+    expect(src).toMatch(/export async function awaitPendingLastRetrievedWrites/);
+    expect(src).toMatch(/pendingLastRetrievedWrites\s*=\s*new\s+Set/);
+    expect(src).toMatch(/pendingLastRetrievedWrites\.add\(promise\)/);
+    // Per D5+D8: snapshot pattern (Codex finding #3) + bounded timeout
+    expect(src).toMatch(/Promise\.race/);
+    expect(src).toMatch(/drain timed out/);
+  });
+
+  test('cli.ts behavioral positioning: drain appears BEFORE engine.disconnect in op-dispatch', () => {
+    const src = readFileSync('src/cli.ts', 'utf8');
+    // Per D5+D8: replaces the brittle literal-output regex from PR #1259
+    // with a behavioral-positioning assertion. The drain CALL must appear
+    // textually before the disconnect CALL in the local-engine path.
+    // Match `await fn(` not bare names — bare names also appear in
+    // comments and would false-match the comment ordering.
+    const localPath = src.match(/\/\/ Local engine path \(unchanged behavior[\s\S]+?^\}/m);
+    expect(localPath).not.toBeNull();
+    const block = localPath![0];
+    const drainCallRe = /await\s+awaitPendingLastRetrievedWrites\s*\(/;
+    const disconnectCallRe = /await\s+engine\.disconnect\s*\(/;
+    expect(block).toMatch(drainCallRe);
+    expect(block).toMatch(disconnectCallRe);
+    const drainMatch = block.match(drainCallRe);
+    const disconnectMatch = block.match(disconnectCallRe);
+    const drainIdx = block.indexOf(drainMatch![0]);
+    const disconnectIdx = block.indexOf(disconnectMatch![0]);
+    expect(drainIdx).toBeGreaterThan(-1);
+    expect(disconnectIdx).toBeGreaterThan(-1);
+    expect(drainIdx).toBeLessThan(disconnectIdx);
+  });
+
+  test('cli.ts shouldForceExitAfterMain excludes "serve" so daemons stay alive', () => {
+    const src = readFileSync('src/cli.ts', 'utf8');
+    expect(src).toMatch(/function\s+shouldForceExitAfterMain/);
+    expect(src).toMatch(/command\s*!==\s*['"]serve['"]/);
+    expect(src).toMatch(/drainResult\.outcome\s*===\s*['"]timeout['"]/);
+  });
+});
+
+describe('v0.40.10.0 #1340 — PGLite WASM init classifier', () => {
+  test('pglite-engine.ts exports classifyPgliteInitError + buildPgliteInitErrorMessage', () => {
+    const src = readFileSync('src/core/pglite-engine.ts', 'utf8');
+    expect(src).toMatch(/export function classifyPgliteInitError/);
+    expect(src).toMatch(/export function buildPgliteInitErrorMessage/);
+    // Per Codex finding #9: regex tightened to $$bunfs OR ENOENT+pglite.data
+    expect(src).toMatch(/\$\$bunfs/);
+    expect(src).toMatch(/ENOENT/);
+  });
+
+  test('pglite-engine.ts connect catch block routes through the classifier', () => {
+    const src = readFileSync('src/core/pglite-engine.ts', 'utf8');
+    expect(src).toMatch(/classifyPgliteInitError\(original\)/);
+    expect(src).toMatch(/buildPgliteInitErrorMessage\(verdict, original\)/);
+  });
+});
