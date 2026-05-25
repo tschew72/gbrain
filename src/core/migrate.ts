@@ -4344,6 +4344,60 @@ export const MIGRATIONS: Migration[] = [
         WHERE budget_root_owner_id IS NOT NULL;
     `,
   },
+  {
+    version: 94,
+    name: 'facts_extract_conversation_session_index',
+    // v0.41.11.0 — partial index supporting the doctor query for
+    // conversation_facts_backlog (Codex round-1 T2 + round-2 C2).
+    // The doctor check runs:
+    //   SELECT COUNT(*) FROM pages p WHERE p.type = ANY($1::text[])
+    //     AND p.deleted_at IS NULL
+    //     AND NOT EXISTS (SELECT 1 FROM facts f
+    //                     WHERE f.source = 'cli:extract-conversation-facts:terminal'
+    //                       AND f.source_session = 'cli:extract-conversation-facts:terminal:' || p.slug
+    //                       AND f.source_id = p.source_id)
+    //
+    // Without this index, the NOT EXISTS subquery seq-scans facts on
+    // every doctor invocation including autopilot. The partial index
+    // is tiny — only rows written by this command are indexed
+    // (per-segment facts + the page-level terminal row).
+    //
+    // Engine-aware via handler (not SQL): Postgres uses CREATE INDEX
+    // CONCURRENTLY (avoid SHARE lock on facts) + pre-drops any invalid
+    // remnant from a prior failed run (mirrors migration v14 precedent).
+    // PGLite has no concurrent writers, so plain CREATE is safe.
+    transaction: false,
+    sql: '',
+    handler: async (engine) => {
+      if (engine.kind === 'postgres') {
+        await engine.runMigration(
+          94,
+          `DO $$ BEGIN
+             IF EXISTS (
+               SELECT 1 FROM pg_index i
+               JOIN pg_class c ON c.oid = i.indexrelid
+               WHERE c.relname = 'idx_facts_extract_conversation_session' AND NOT i.indisvalid
+             ) THEN
+               EXECUTE 'DROP INDEX CONCURRENTLY IF EXISTS idx_facts_extract_conversation_session';
+             END IF;
+           END $$;`
+        );
+        await engine.runMigration(
+          94,
+          `CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_facts_extract_conversation_session
+             ON facts (source_id, source_session)
+             WHERE source LIKE 'cli:extract-conversation-facts%';`
+        );
+      } else {
+        await engine.runMigration(
+          94,
+          `CREATE INDEX IF NOT EXISTS idx_facts_extract_conversation_session
+             ON facts (source_id, source_session)
+             WHERE source LIKE 'cli:extract-conversation-facts%';`
+        );
+      }
+    },
+  },
 ];
 
 export const LATEST_VERSION = MIGRATIONS.length > 0
