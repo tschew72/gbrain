@@ -128,7 +128,7 @@ export function computeSnapshotSchemaHash(
 }
 
 /**
- * v0.40.10.0 (#1340) — classify PGLite.create() init failures so
+ * v0.41.6.0 (#1340) — classify PGLite.create() init failures so
  * the user-visible hint points at the right next step.
  *
  * `bunfs` — Bun's vfs ENOENT on older macOS where `/$$bunfs/root`
@@ -234,7 +234,7 @@ export class PGLiteEngine implements BrainEngine {
         extensions: { vector, pg_trgm },
       });
     } catch (err) {
-      // v0.13.1: any PGLite.create() failure becomes actionable. v0.40.10.0
+      // v0.13.1: any PGLite.create() failure becomes actionable. v0.41.6.0
       // (#1340): the previous error hint hardcoded the macOS 26.3 link, but
       // the same crash shape can come from Bun's vfs (`/$$bunfs/root` is
       // read-only on older macOS + Bun 1.3.x, so PGLite can't extract its
@@ -254,7 +254,7 @@ export class PGLiteEngine implements BrainEngine {
   }
 
   async disconnect(): Promise<void> {
-    // v0.40.10.0: snapshot + early-null up front so a concurrent
+    // v0.41.6.0: snapshot + early-null up front so a concurrent
     // `connect()` cannot observe `_db` pointing at a handle that's
     // mid-close (partial-state race). Closes the bug class PR #1337
     // originally surfaced.

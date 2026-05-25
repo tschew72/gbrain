@@ -182,7 +182,7 @@ async function main() {
 
   // Local engine path (unchanged behavior for local installs).
   const engine = await connectEngine();
-  // v0.40.10.0 (#1247, #1269, #1290): the search / query / get_page
+  // v0.41.6.0 (#1247, #1269, #1290): the search / query / get_page
   // op handlers fire-and-forget `bumpLastRetrievedAt` after returning
   // results. On PGLite that IIFE keeps Bun's event loop alive past
   // engine.disconnect(), hanging the CLI at ~95-98% CPU until SIGKILL.

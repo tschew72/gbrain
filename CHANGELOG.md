@@ -2,7 +2,7 @@
 
 All notable changes to GBrain will be documented in this file.
 
-## [0.40.10.0] - 2026-05-24
+## [0.41.6.0] - 2026-05-24
 
 **`gbrain search`, `gbrain query`, and `gbrain get` now actually exit when they finish on PGLite.**
 
@@ -10,7 +10,7 @@ Until today, if you ran `gbrain search "fox"` on a PGLite brain, the results pri
 
 The fix turns out to be one structural change in two parts. v0.37 added a stale-page-detection feature that fires a background `UPDATE pages SET last_retrieved_at = NOW()` after every search/query/get. The CLI's job is to print the results, close the database, and exit — but on PGLite the database is a WASM runtime that holds Bun's event loop alive while the background UPDATE is still in flight. Closing the database mid-write strands the write on a dead handle, and Bun never notices the process is supposed to exit. So now the CLI explicitly waits for the background write to finish before closing the database. On the rare pathological case where the wait itself takes more than 5 seconds (a future bug we haven't seen yet but want to defend against), we log a stderr warning naming the leak and force-exit cleanly. Daemons (`gbrain serve`, `gbrain serve --http`) are explicitly excluded from the force-exit so they stay running.
 
-### How to take advantage of v0.40.10.0
+### How to take advantage of v0.41.6.0
 
 ```bash
 gbrain upgrade
@@ -32,7 +32,7 @@ PGLite failed to initialize its WASM runtime.
 
 ### The numbers that matter
 
-| Scenario | Before v0.40.10.0 | After v0.40.10.0 |
+| Scenario | Before v0.41.6.0 | After v0.41.6.0 |
 |---|---|---|
 | `gbrain search "x"` on PGLite, exit time | Never (hangs at ~95-98% CPU until SIGKILL) | <2s |
 | `gbrain query "x" --no-expand` on PGLite | Never exits | <2s |
@@ -54,7 +54,7 @@ We took the drain from #1259, took the snapshot+early-null pattern from #1337, a
 - If you ever see `[last-retrieved] drain timed out after 5000ms; N writes still pending` on stderr, that's a defense-in-depth signal — it means a tracked background write took longer than 5 seconds. It's safe to ignore (the CLI still exits cleanly), but please file an issue with the pending count and the command you ran. This is how we'd find the next bug class in this surface.
 - #1342 (`gbrain sync` hang after schema v89→v92) is NOT fixed in this release. It's a single-reporter bug with a pure-JS infinite-loop shape (per `sample <pid>`) that doesn't match any of the hypotheses we ruled out. We've filed it as a follow-up investigation in [TODOS.md](TODOS.md) with concrete diagnostic next steps. If you hit it, please attach a `bun --inspect-brk` stack — the new breadcrumbs will name which phase to look at.
 
-### To take advantage of v0.40.10.0
+### To take advantage of v0.41.6.0
 
 `gbrain upgrade` should do this automatically. If you were hitting #1247/#1269/#1290 before, no manual action is required — the fix is in the binary.
 

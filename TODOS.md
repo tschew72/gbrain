@@ -156,9 +156,9 @@ cleanup can move each into the relevant area section.
   doesn't. (Embedding cluster.)
 
 ---
-## v0.40.10.0 PGLite hang follow-ups (v0.41+)
+## v0.41.6.0 PGLite hang follow-ups (v0.41+)
 
-These were filed when v0.40.10.0 shipped the search/query/get hang fix
+These were filed when v0.41.6.0 shipped the search/query/get hang fix
 (#1247/#1269/#1290) + WASM init classifier (#1340) + sync breadcrumbs.
 Three items deferred:
 
@@ -171,7 +171,7 @@ Three items deferred:
   Stale lock recovery from a `brain.pglite.broken-20260523-120636`
   rename suggests half-applied schema state.
 
-  **Ruled out** (per v0.40.10.0 plan-eng-review): NOT the
+  **Ruled out** (per v0.41.6.0 plan-eng-review): NOT the
   `withRefreshingLock` heartbeat (user takes the legacy global-lock
   path — no setInterval); NOT the v91 trigger function (only fires on
   writes, user repros with `--dry-run`); NOT the two `while (true)`
@@ -194,22 +194,22 @@ Three items deferred:
   `ollama:nomic-embed-text` @ 768d, macOS 15.5, single 'default'
   source.
 
-  **Mitigation in v0.40.10.0**: phase breadcrumbs added to
+  **Mitigation in v0.41.6.0**: phase breadcrumbs added to
   `performSyncInner` so the next #1342-shaped report names WHICH phase
   spun (resolve_repo / load_active_pack / validate_repo_state /
   detect_head). Doesn't fix; makes reports actionable.
 
 - [ ] **Retrofit `awaitPendingSearchCacheWrites` with the same bounded
-  timeout v0.40.10.0 added to `awaitPendingLastRetrievedWrites`.** The
+  timeout v0.41.6.0 added to `awaitPendingLastRetrievedWrites`.** The
   v0.36.1.x #1090 fix at `src/core/search/hybrid.ts:36-45` shipped the
-  drain pattern without a timeout; v0.40.10.0 added the timeout + warn
+  drain pattern without a timeout; v0.41.6.0 added the timeout + warn
   pattern to the new `awaitPendingLastRetrievedWrites` helper. For
   symmetry (and to close the same future-failure mode in the cache
   drain), apply the same `Promise.race` + stderr warn pattern. ~15 LOC
   + 2 unit cases. Pair this with the drain-helper extraction below.
 
 - [ ] **Extract a shared `createDrainHelper<T>()` factory when a third
-  fire-and-forget surface appears.** Per D4 in the v0.40.10.0 eng
+  fire-and-forget surface appears.** Per D4 in the v0.41.6.0 eng
   review: two surfaces is the threshold for noticing, three for
   extracting. `src/core/search/hybrid.ts:awaitPendingSearchCacheWrites`
   + `src/core/last-retrieved.ts:awaitPendingLastRetrievedWrites` are
