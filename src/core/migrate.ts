@@ -4502,9 +4502,67 @@ export const MIGRATIONS: Migration[] = [
     },
   },
   {
+    version: 97,
+    name: 'pages_dedup_partial_index',
+    // v0.41.13 (#1309) — partial index for findDuplicatePage's hot path.
+    //
+    // Codex review of the original plan caught "no new index is hand-wavy":
+    // findDuplicatePage runs once per imported file. On a 100K-page brain
+    // syncing thousands of files, an unindexed sequential scan per
+    // invocation is O(n²) on import wallclock.
+    //
+    // Partial index excludes soft-deleted rows so the same-source dedup
+    // path (which already filters `deleted_at IS NULL`) gets an index-only
+    // scan. Composite key matches the WHERE clause shape.
+    //
+    // Postgres-only: PGLite has no concurrent writers, so the engine-wide
+    // SHARE lock that motivates CONCURRENTLY doesn't apply. PGLite
+    // re-uses plain CREATE INDEX via the `sqlFor.pglite` branch.
+    //
+    // The Postgres path uses CREATE INDEX CONCURRENTLY (with `transaction:
+    // false` so postgres.js doesn't wrap an implicit BEGIN) and pre-drops
+    // any invalid remnant from a prior failed CONCURRENTLY attempt.
+    //
+    // Slot history: originally v95, bumped to v96 after master's #1442
+    // landed (links CHECK widening), then bumped to v97 after master's
+    // v0.41.11.0 (#1446) claimed v96 for the facts conversation index.
+    // Migration content unchanged across renumbers.
+    sql: '',
+    transaction: false,
+    handler: async (engine) => {
+      if (engine.kind === 'postgres') {
+        await engine.runMigration(
+          97,
+          `DO $$ BEGIN
+             IF EXISTS (
+               SELECT 1 FROM pg_index i
+               JOIN pg_class c ON c.oid = i.indexrelid
+               WHERE c.relname = 'pages_dedup_idx' AND NOT i.indisvalid
+             ) THEN
+               EXECUTE 'DROP INDEX CONCURRENTLY IF EXISTS pages_dedup_idx';
+             END IF;
+           END $$;`
+        );
+        await engine.runMigration(
+          97,
+          `CREATE INDEX CONCURRENTLY IF NOT EXISTS pages_dedup_idx
+             ON pages (source_id, content_hash)
+             WHERE deleted_at IS NULL;`
+        );
+      } else {
+        await engine.runMigration(
+          97,
+          `CREATE INDEX IF NOT EXISTS pages_dedup_idx
+             ON pages (source_id, content_hash)
+             WHERE deleted_at IS NULL;`
+        );
+      }
+    },
+  },
+  {
     version: 98,
     name: 'gbrain_cycle_locks_last_refreshed_at',
-    // v0.41.13.0 (D-V3-4 + D-V4-1) — add last_refreshed_at column for
+    // v0.41.15.0 (D-V3-4 + D-V4-1) — add last_refreshed_at column for
     // `gbrain sync --break-lock --max-age <s>` to correctly identify
     // wedged-but-alive lock holders without stealing healthy long-running
     // holders that are actively refreshing.

@@ -1,9 +1,9 @@
 # TODOS
 
-## v0.41.13.0 sync-reliability follow-ups (v0.42+)
+## v0.41.15.0 sync-reliability follow-ups (v0.42+)
 
 - [ ] **v0.42+: subprocess fan-out for `sync --all` (`--independent` mode
-  revisit).** v0.41.13.0 deliberately rejected `--independent` (Minion
+  revisit).** v0.41.15.0 deliberately rejected `--independent` (Minion
   job-queue fan-out) in plan review and shipped the shell-level
   `timeout(1)` per-source loop instead — that gives real OS process
   isolation with zero new gbrain code. Revisit if shell `timeout` proves
@@ -17,7 +17,7 @@
   Priority: P3 (operator-comfort improvement; no correctness gap).
 
 - [ ] **v0.42+: full-sync `--timeout` coverage via AbortSignal in
-  `runImport`.** v0.41.13.0's `--timeout` covers the incremental sync
+  `runImport`.** v0.41.15.0's `--timeout` covers the incremental sync
   path (pull + delete + rename + import). It does NOT cover full-sync
   triggers: first sync, `--full` flag, missing-anchor recovery,
   chunker-version rewalk. `performFullSync` delegates to `runImport` as
@@ -31,7 +31,7 @@
 
 - [ ] **v0.42+: `runFactsBackstop(mode:'queue')` in-process microtask
   queue can keep the CLI alive briefly after sync returns.** Documented
-  as a known caveat in the v0.41.13.0 CHANGELOG. The queue uses an
+  as a known caveat in the v0.41.15.0 CHANGELOG. The queue uses an
   in-process microtask drain (not Minions) to fire-and-forget LLM
   enrichment for synced pages. After `gbrain sync` returns, the CLI
   process may stay alive for a few seconds while queued work drains.
@@ -39,6 +39,14 @@
   visible. A v0.42+ fix could either (a) route through Minions (more
   durable; needs job-queue dependency for plain sync), or (b) drop the
   in-process queue on sync exit. Priority: P3.
+## v0.41.14.0 #1451 drift-fix follow-ups (v0.42+)
+
+- [ ] **v0.42+: refactor `runRoutingEval` to take `ResolverEntry[]` directly** instead of `resolverContent: string`. Cleaner shape than synthesizing markdown then re-parsing it. Cascades through 9+ test files that depend on the string-content API. Defer until the next big refactor of the routing-eval module so the test-file churn lands with that wave.
+- [ ] **v0.42+: replace regex-based `parseSkillFrontmatter` with a real YAML parser** (js-yaml is already a transitive dep via gray-matter). Codex finding #4 from /plan-eng-review: the regex in `src/core/skill-frontmatter.ts` assumes YAML semantics it can't enforce (e.g. multi-line scalars, escaped quotes). For our current uniform-shape skills (all use `- "quoted"` block form), it works. Swap when a skill ships a YAML construct the regex misparses, or proactively for defense-in-depth.
+- [ ] **v0.42+: unify `parseSkillFrontmatter` (skill-frontmatter.ts) and MECE's `extractTriggers` (check-resolvable.ts:216)** into a single parser. Codex finding #5: two parsers, drift surface. Both extract `triggers:` arrays the same way today, so the drift is bounded — but every future change to one needs to be mirrored in the other. Consolidate when either needs to diverge.
+- [ ] **v0.42+: `bun run ci:local` should run `bun run verify`** (codex finding #10 from /plan-eng-review). Today ci:local runs guards + typecheck + unit + E2E but NOT verify, so the new `check:resolver` gate (and others added to verify) don't fire in local pre-push. Bigger conversation about local vs CI scope — defer as a separate UX decision after measuring how often verify-only failures land in CI.
+- [ ] **v0.42+: remove the deprecated `install/` skill directory entirely.** It has no SKILL.md (just a deprecation note pointing at setup/) and is correctly skipped by `loadSkillTriggerIndex`. Removing the directory cleans up the bundled skill tree. Orthogonal to #1451; small follow-up.
+- [ ] **v0.42+: extend `entriesToResolverContent` to escape backticks in trigger strings.** Today only pipes are escaped, because no real bundled trigger contains a backtick. If a future skill ships a trigger like ``` `code` ``` the markdown-table row would mangle. Add a single regex replace if a real case appears.
 
 ## v0.41.10.1 fix-wave follow-ups (v0.42+)
 
