@@ -2,7 +2,7 @@
 
 All notable changes to GBrain will be documented in this file.
 
-## [0.41.25.0] - 2026-05-27
+## [0.41.26.0] - 2026-05-27
 
 **`gbrain dream --source <id>` finally counts as a cycle.**
 
@@ -79,7 +79,7 @@ this release because the cycle plumbing doesn't exist to honor it
 yet (shipping the flag would be a lying flag); filed as a v0.42+
 follow-up.
 
-### To take advantage of v0.41.25.0
+### To take advantage of v0.41.26.0
 
 `gbrain upgrade` should do this automatically. If you target a
 specific source via cron or by hand:
