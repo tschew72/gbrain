@@ -4556,6 +4556,38 @@ export const MIGRATIONS: Migration[] = [
   },
   {
     version: 98,
+    name: 'gbrain_cycle_locks_last_refreshed_at',
+    // v0.41.15.0 (D-V3-4 + D-V4-1) — add last_refreshed_at column for
+    // `gbrain sync --break-lock --max-age <s>` to correctly identify
+    // wedged-but-alive lock holders without stealing healthy long-running
+    // holders that are actively refreshing.
+    //
+    // BACKFILL POLICY: last_refreshed_at = NOW() (NOT acquired_at).
+    //
+    // Why NOW(): during the upgrade window there can be ACTIVE sync
+    // processes still running the OLD binary. Their refresh() only bumps
+    // ttl_expires_at (the old code didn't know about last_refreshed_at).
+    // If we backfilled = acquired_at (e.g. 25 min ago), then `gbrain sync
+    // --break-lock --all --max-age 1800` after the migration would
+    // immediately delete the lock of a HEALTHY 25-min-old holder that's
+    // still actively writing. That IS the bug class this PR exists to
+    // fix; reintroducing it through the migration backfill would be
+    // worse than not shipping at all.
+    //
+    // Backfilling = NOW() gives every pre-upgrade holder a 30-min
+    // protection window: --max-age 1800 cannot identify them as wedged
+    // for 30 min after migrate. After that, all pre-upgrade syncs are
+    // either complete (lock released) OR genuinely wedged (--max-age
+    // does the right thing on the next operator command).
+    //
+    // Engine parity: same ALTER TABLE shape works on Postgres + PGLite.
+    sql: `
+      ALTER TABLE gbrain_cycle_locks ADD COLUMN IF NOT EXISTS last_refreshed_at TIMESTAMPTZ;
+      UPDATE gbrain_cycle_locks SET last_refreshed_at = NOW() WHERE last_refreshed_at IS NULL;
+    `,
+  },
+  {
+    version: 99,
     name: 'conversation_parser_llm_cache_table',
     // v0.41.16.0 — content-hash-keyed cache for the conversation
     // parser's LLM polish + fallback calls. Per D17 (codex outside
@@ -4575,7 +4607,9 @@ export const MIGRATIONS: Migration[] = [
     //     can be cached differently per call kind.
     //
     // Slot history: originally v97, bumped to v98 after master's
-    // v0.41.13.0 (#1422 fix-wave) claimed v97 for the dedup index.
+    // v0.41.13.0 (#1422 fix-wave) claimed v97 for the dedup index,
+    // bumped to v99 after master's v0.41.15.0 (#1506 sync RFC)
+    // claimed v98 for the lock-refresh column.
     sql: `
       CREATE TABLE IF NOT EXISTS conversation_parser_llm_cache (
         content_sha256 TEXT NOT NULL,
