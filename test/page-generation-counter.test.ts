@@ -2,14 +2,14 @@
  * v0.41.19.0 — page_generation_clock table + statement-level trigger
  *
  * Pins the global page-generation clock contract introduced in migration
- * v104 to close the codex CDX-1/CDX-2/CDX-6 bug class in the query-cache
+ * v105 to close the codex CDX-1/CDX-2/CDX-6 bug class in the query-cache
  * Layer 1 bookmark. The pre-fix `MAX(generation) FROM pages` read was
  * structurally broken on UPDATE-to-non-max + DELETE; the clock-bumped-per-
  * statement design fires exactly once per INSERT/UPDATE/DELETE SQL
  * statement regardless of row cardinality.
  *
  * Coverage (per D11 + D14 + CDX-7):
- *   - Migration v104 applies cleanly + bootstrap probe present in
+ *   - Migration v105 applies cleanly + bootstrap probe present in
  *     PGLITE_SCHEMA_SQL (table created on fresh install).
  *   - Statement-level trigger fires once per INSERT statement.
  *   - Statement-level trigger fires once per UPDATE statement.

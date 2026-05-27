@@ -2,7 +2,7 @@
 
 All notable changes to GBrain will be documented in this file.
 
-## [0.41.21.0] - 2026-05-27
+## [0.41.22.0] - 2026-05-27
 
 **Big-delete syncs no longer choke your brain — and your search results
 were silently going stale in a different way that's now fixed.**
@@ -24,7 +24,7 @@ upgrade as the cache gets re-stamped under the new contract, then it's
 faster than before because the bookmark is a one-row lookup instead of
 a brain-wide MAX scan.
 
-**To take advantage of v0.41.21.0**
+**To take advantage of v0.41.22.0**
 
 `gbrain upgrade` should do this automatically. If it didn't, or if
 `gbrain doctor` warns about a partial migration:
@@ -96,7 +96,7 @@ a brain-wide MAX scan.
   500). Per-row `pages.generation` stays for Layer 2's per-page
   snapshot semantics; only Layer 1's read source changed. Empty-result
   cache rows now trust Layer 1 exclusively.
-- **Migration v104** (`page_generation_clock_and_statement_trigger`)
+- **Migration v105** (`page_generation_clock_and_statement_trigger`)
   creates the clock table, seeds it with `COALESCE(MAX(pages.generation), 0)`
   so existing cache rows aren't all instantly invalidated, and wires
   the new trigger.
@@ -106,7 +106,7 @@ a brain-wide MAX scan.
   `test/page-generation-counter.test.ts`, plus an engine-parity
   extension in `test/e2e/engine-parity.test.ts`. The existing
   `test/query-cache-gate.test.ts` and `test/e2e/cache-gate-pglite.test.ts`
-  flip their pre-v0.41.21.0 "vacuously valid legacy row" assertions to
+  flip their pre-v0.41.22.0 "vacuously valid legacy row" assertions to
   match the new contract (legacy rows now invalidate once on first
   post-upgrade lookup, then the cache fills back correctly).
 - **Credit:** the SQL batching idea (`DELETE FROM pages WHERE slug =
@@ -137,6 +137,478 @@ a brain-wide MAX scan.
 - v0.42+ TODO: heavy regression test for two concurrent batch DELETEs
   against disjoint sources (the statement-level clock-row UPDATE
   contention shape). Filed under `tests/heavy/` per CLAUDE.md.
+
+## [0.41.21.0] - 2026-05-27
+
+**Five daily-driver ops pains, fixed in one wave. Your big brains stop
+silently wedging, you can see what the cycle is doing instead of
+guessing, and the 10-hour mention scan now resumes instead of restarting
+from zero.**
+
+If you run a 100K+ page brain you probably hit at least three of these
+this week. The cycle hung for ten minutes printing nothing, so you
+checked the database manually to see if it was alive. A worker crashed
+mid-phase and the lock held for 30 minutes before another worker could
+take over, so you cleared it by hand. Your mention scan died at 87% and
+you had to restart it from page 0. Your cron ran two separate sync
+entries because you didn't know `sync --all --parallel` existed. And the
+extract_atoms phase burned 5 to 10 minutes per cycle on a sequence of
+7,000 SQL roundtrips before it even started extracting anything. All five
+get fixed in this release.
+
+## To take advantage of v0.41.21.0
+
+`gbrain upgrade` should pick this up automatically. Migration v104 adds a
+partial expression index on `pages.frontmatter->>'source_hash'` for atom
+rows. On Postgres it builds with `CREATE INDEX CONCURRENTLY` so no
+table-level lock; PGLite uses plain `CREATE INDEX`. On a 100K-page brain
+the index takes seconds to build.
+
+1. **Confirm the migration applied:**
+   ```bash
+   gbrain doctor --json | jq '.checks[] | select(.name=="schema_version")'
+   ```
+2. **Confirm extract_atoms got fast:**
+   ```bash
+   time gbrain dream --phase extract_atoms --dry-run --json
+   ```
+   The idempotency check phase should finish in under a second instead
+   of taking 5 to 10 minutes.
+3. **Multi-source brains: pick up the new doctor nudge:**
+   ```bash
+   gbrain doctor --json | jq '.checks[] | select(.name=="sync_consolidation")'
+   ```
+   You'll see the paste-ready cron line for `sync --all --parallel`.
+
+If any step fails or the numbers look wrong, file an issue at
+https://github.com/garrytan/gbrain/issues with the output of `gbrain
+doctor` and `~/.gbrain/upgrade-errors.jsonl` if it exists.
+
+### What you'd see in a concrete example
+
+| Pain | Before | After |
+|---|---|---|
+| `extract_atoms` startup on 7K transcripts | 5-10 min of silent overhead | <1 s, then real work |
+| `extract_atoms` mid-run feedback | "start" then silence for 10+ min | tick every ~1s with running atom count |
+| `synthesize_concepts` mid-run feedback | "start" then silence | tick every ~1s with concept count |
+| Crashed cycle lock recovery | 30 min wait, often manual `gbrain sync --break-lock` | <5 min, no manual intervention |
+| `by-mention` resume after kill at 87% | re-scan 280K of 322K pages | resume from where you stopped |
+| Multi-source cron setup | two staggered per-source entries | one `sync --all --parallel 4` line |
+
+### Things to watch
+
+- **Lock TTL behavior changed (30 min → 5 min).** Cron-side
+  `gbrain sync --break-lock --max-age 1800` scripts that assumed the
+  old 30-min TTL still work, but the number is now larger than the
+  default TTL itself. Anyone who explicitly set `--max-age` against the
+  old TTL should drop the value to match the new shorter window.
+- **`by-mention --dry-run` no longer claims to be resumable.** Dry-run
+  intentionally skips both the checkpoint load and write so it stays an
+  inspection mode. To exercise the resume path you'll need a real run.
+- **One residual silent-failure window** under the new shorter TTL: if
+  a single `await chat()` call sits past 5 min wallclock, the lock can
+  expire mid-await without the original phase noticing. This is the
+  same silent-overwrite risk that existed before the wave, just on a
+  shorter timescale. Lock-loss detection is filed as a P2 follow-up
+  TODO (`DbLockHandle.refresh()` will throw on 0 rows affected, phases
+  catch + abort cleanly).
+
+### Itemized changes
+
+#### Added
+- `atomsExistingForHashes(engine, sourceId, hashes[])` exported from
+  `src/core/cycle/extract-atoms.ts` — one batched SQL roundtrip that
+  returns the set of `content_hash16` values already extracted as atoms
+  for this source. Replaces the prior per-hash loop that did 7K
+  individual queries on big brains. Fail-open: an SQL error logs to
+  stderr and returns an empty set so extraction proceeds.
+- `progress?: ProgressReporter` opt on `ExtractAtomsOpts` and
+  `SynthesizeConceptsOpts`. Cycle.ts now passes its phase-level reporter
+  down (NOT a child reporter — that would produce a path collision
+  `cycle.extract_atoms.extract_atoms.work`). Phases only call `tick()`
+  and `heartbeat()`; cycle.ts owns `start()` and `finish()`. You see
+  `[cycle.extract_atoms] N (atoms_created)` ticks every ~1s during both
+  long phases.
+- `yieldDuringPhase?: () => Promise<void>` opt on `ExtractAtomsOpts`
+  (and `synthesize_concepts` finally wires the existing one).
+  Cycle.ts builds a `buildYieldDuringPhase(lock, outer)` closure
+  (also exported for tests) that calls `lock.refresh()` AND any
+  external hook on every fire. Throttled to 30s inside each phase via
+  `maybeYield`. Fires both inside the main work loop AND immediately
+  after every `await chat(...)` LLM call so long Haiku/Sonnet calls
+  don't sit past TTL.
+- `mentionsFingerprint({source, type, since, gazetteerHash})` in
+  `src/core/op-checkpoint.ts`. The gazetteer hash is the load-bearing
+  field — adding new entity pages mid-pause shifts the hash, gets a
+  new fingerprint, and triggers a fresh scan against the new gazetteer
+  instead of silently skipping previously-scanned pages.
+- `gbrain extract links --by-mention` now resumes from where it died.
+  Wired through the existing `op_checkpoints` framework with a
+  `flushAndCheckpoint` ordering — links flush to the DB FIRST, page
+  keys commit to the checkpoint SECOND, persist THIRD. A crash between
+  `batch.push()` and the flush leaves the page un-checkpointed so
+  resume re-scans it. Persist cadence: every 1000 items OR every 30s,
+  whichever first. Clean exit clears the checkpoint.
+- `sync_consolidation` doctor check. Multi-source brains see a
+  paste-ready `gbrain sync --all --parallel 4 --workers 4
+  --skip-failed` recommendation. Single-source brains get
+  "not applicable." SQL errors return `warn` via the check's own
+  try/catch — outer doctor catch isn't a safe assumption.
+- "Multi-source brains" recipe block in
+  `skills/cron-scheduler/SKILL.md` documenting the `sync --all`
+  pattern as preferred over per-source entries.
+- Migration v104 `pages_atom_source_hash_idx` — partial expression
+  index on `frontmatter->>'source_hash'` for atom rows where
+  `deleted_at IS NULL`. Postgres uses `CREATE INDEX CONCURRENTLY` with
+  invalid-remnant pre-drop (mirrors v97 `pages_dedup_partial_index`);
+  PGLite uses plain `CREATE INDEX`. Without this, the new batch
+  idempotency check would seq-scan the pages table on big brains and
+  defeat the perf win.
+
+#### Changed
+- Cycle lock TTL dropped from 30 min to 5 min
+  (`src/core/cycle.ts:LOCK_TTL_MINUTES`). Combined with active
+  in-phase `lock.refresh()` via `buildYieldDuringPhase`, a healthy
+  long-running cycle keeps the lock alive while a crashed cycle
+  releases it 6x faster.
+- `synthesize_concepts` no longer fires `yieldDuringPhase` per-concept-
+  group. Same hook, throttled to 30s via the new shared `maybeYield`
+  helper — matches the actual lock-refresh budget instead of spamming
+  hundreds of redundant fires per phase.
+
+#### Fixed
+- The 7K-roundtrip overhead at the start of every `extract_atoms` cycle
+  on brains with conversation-transcript corpora.
+- The 30-min wait after a crashed cycle before another worker could
+  acquire the lock.
+- The 10+ hour `by-mention` sweep restarting from page 0 every time it
+  got interrupted.
+- Two correctness bugs in the original by-mention checkpoint design
+  that the codex review caught before merge: lost links if a crash
+  landed between `batch.push()` and `flush()`, and silent-miss-on-new-
+  entities if the gazetteer changed between paused runs. The fix
+  flushes links before committing the checkpoint and folds the
+  gazetteer hash into the fingerprint.
+- Multi-source brains seeing two separate cron entries with manual
+  staggering instead of one `sync --all --parallel` line.
+
+### For contributors
+
+- 44 new unit/PGLite tests across 9 files pinning every contract:
+  - `test/cycle/extract-atoms-batch.test.ts` (5 cases) — batch idempotency
+  - `test/cycle/cycle-lock-ttl.test.ts` (1 case) — regression pin on `LOCK_TTL_MINUTES === 5`
+  - `test/op-checkpoint-mentions-fingerprint.test.ts` (7 cases) — fingerprint sensitivity including gazetteer-hash regression guard
+  - `test/cycle/extract-atoms-progress.test.ts` (4 cases) — phase doesn't call start/finish, ticks fire per item
+  - `test/cycle/synthesize-concepts-progress.test.ts` (3 cases) — same shape
+  - `test/cycle/yield-during-phase-refresh.test.ts` (7 cases) — buildYieldDuringPhase actually calls lock.refresh() + outer hook, throws non-fatal
+  - `test/cycle/yield-during-phase-throttle.test.ts` (3 cases) — 30s throttle gate behavior
+  - `test/extract-by-mention-resume.test.ts` (5 cases) — checkpoint persistence ordering, dry-run skips persist, gazetteer change invalidates, filtered pages get checkpointed
+  - `test/doctor-sync-consolidation.test.ts` (6 cases) — edge case matrix for source counts + archived filtering + SQL error path
+- `LockHandle` and `buildYieldDuringPhase` exported from
+  `src/core/cycle.ts` for test seam access.
+- Two new follow-up TODOs filed in `TODOS.md` under
+  "v0.41.21.0 ops-fix-wave follow-ups": `gbrain sync print-cron`
+  subcommand and lock-loss detection (extending
+  `DbLockHandle.refresh()` to throw on 0 rows affected).
+
+## [0.41.20.0] - 2026-05-26
+
+**One command tells you if your brain is healthy. And `gbrain doctor`
+no longer says your brain is broken when it's actually your skills
+folder that needs attention.**
+
+Two friction items, both about restoring signal-to-noise. Until this
+release: there was no single command to answer "is my brain working?"
+You ran `gbrain sources status`, `gbrain stats`, `gbrain jobs
+supervisor status`, `gbrain jobs list`, and tailed audit logs.
+Separately, `gbrain doctor` would tell you your brain health was 15/100
+when the actual brain was fine — the score was being dragged down by
+504 RESOLVER.md warnings from an OpenClaw skills tree.
+
+After this release: `gbrain status` shows sync, last cycle, locks,
+workers, queue, and autopilot state on one screen. `gbrain doctor`
+leads with a brain-only figure and renders skill/ops/meta scores
+alongside, so a polluted overall score doesn't lie to you about your
+actual data.
+
+What you can do that you couldn't before:
+
+- `gbrain status` — single-screen dashboard. Per-source sync
+  freshness, last full cycle vs last targeted run, active locks,
+  worker health, live queue depth (including OLD stuck jobs — the
+  whole point of surfacing them), autopilot daemon liveness.
+- `gbrain status --json` — stable monitoring envelope
+  (`schema_version: 1`). Exit codes 0=ok, 1=snapshot-failed, 2=usage.
+- `gbrain status --section sync` — drill into one section.
+- `gbrain status` against a thin-client install — Sync + Cycle route
+  through a new admin-scope `get_status_snapshot` MCP op; local-only
+  sections render `local-only — N/A on remote brain` instead of
+  pretending the local install's empty state is the remote brain's.
+- `gbrain doctor --scope=brain` — sub-second on a brain with thousands
+  of skills. Skips computation of the SKILL check group (resolver
+  walk, skill conformance scan, brain-first audit, whoknows health)
+  entirely. Real skip, not just an output filter.
+- `gbrain doctor` JSON envelope adds `brain_checks_score` and
+  `category_scores` (brain/skill/ops/meta), each computed with the
+  same penalty math (100 − 20×fails − 5×warns) restricted to the
+  named category. The legacy `health_score` field is unchanged and
+  remains byte-identical for any fixed check set (back-compat for
+  every existing MCP consumer + CI gate).
+- Doctor human output leads with the brain figure, then shows
+  skill/ops/meta subscores and the existing weighted
+  `BrainHealth.brain_score` alongside, so operators see both lenses
+  without confusion.
+
+The two scores are intentionally orthogonal:
+- `BrainHealth.brain_score` — weighted data-composition health
+  (35/25/15/15/10). "How healthy is my brain's data?"
+- `brain_checks_score` — penalty over brain-category check failures.
+  "How many of the brain-category doctor checks failed?"
+
+## To take advantage of v0.41.20.0
+
+`gbrain upgrade` should do this automatically. Try:
+
+```bash
+gbrain status                          # see the dashboard
+gbrain doctor --scope=brain            # brain-only doctor, sub-second
+gbrain doctor --json | jq .category_scores
+gbrain doctor --json | jq .brain_checks_score
+```
+
+If any step fails or the numbers look wrong, please file an issue at
+https://github.com/garrytan/gbrain/issues with the output of
+`gbrain doctor` + the contents of `~/.gbrain/upgrade-errors.jsonl` if
+it exists.
+
+### Itemized changes
+
+- **`gbrain status` (NEW command).** `src/commands/status.ts`
+  orchestrates 6 section renderers (sync, cycle, locks, workers,
+  queue, autopilot). Composes existing primitives —
+  `buildSyncStatusReport` from sync.ts, `readSupervisorEvents` +
+  `summarizeCrashes` from `supervisor-audit.ts`, direct queries
+  against `gbrain_cycle_locks` and `minion_jobs`, `kill -0` probe of
+  `~/.gbrain/autopilot.lock`. No new schema, no new persistence.
+  Cycle section shows TWO rows ("Last full cycle" = latest
+  `autopilot-cycle` row, "Last targeted run" = latest `autopilot-*`
+  row of any kind) to reflect v0.36.4.0's health-aware autopilot
+  where targeted handlers fire most ticks and a full cycle every
+  ~60min. Cycle totals are read from `result.report.totals` (the
+  canonical handler output shape). Queue counts are LIVE (no
+  time-window filter) so old stuck `waiting` / `active` jobs surface
+  — that's the failure mode this dashboard exists to expose.
+- **`get_status_snapshot` MCP op (NEW).** `src/core/operations.ts`.
+  Admin scope (NOT localOnly). Payload:
+  `{schema_version: 1, sync, cycle}` only. Locks / Workers / Queue /
+  Autopilot deliberately omitted from the remote payload — they're
+  local-host concerns; the local CLI renders them as "N/A on remote
+  brain" in thin-client mode instead of pretending the local
+  install's state is the remote brain's. Admin-scoped from day one
+  to prevent future feature creep (adding locks/workers counters)
+  from quietly widening the data exposed under a read-scoped token.
+- **`src/core/doctor-categories.ts` (NEW).** Single source of truth
+  for check categorization. Four exported sets
+  (BRAIN/SKILL/OPS/META) cover every check name in
+  `src/commands/doctor.ts` today. The `categorizeCheck(name)` helper
+  maps unknown names to `'meta'` with a once-per-process stderr warn
+  so drift surfaces in dev runs before CI catches it.
+- **Doctor extensions.** `src/commands/doctor.ts` extends `Check`
+  with an optional `category?` field and `DoctorReport` with
+  `brain_checks_score` + `category_scores` (additive —
+  `schema_version` stays at 2). `computeDoctorReport` tags each check
+  via `categorizeCheck()` at compute time. `buildChecks` accepts a
+  `--scope=brain` arg that gates the SKILL check group behind
+  explicit early-skip branches at each call site (resolver walk,
+  skill conformance, skill brain-first audit, whoknows health).
+  Human output leads with the brain figure and renders the weighted
+  `BrainHealth.brain_score` alongside.
+- **`gbrain doctor --remediate` UNCHANGED.**
+  `src/core/brain-score-recommendations.ts` is not touched. Codex's
+  outside-voice review caught that `--remediate` already correctly
+  reads `engine.getHealth().brain_score` (the weighted 35/25/15/15/10
+  composite), NOT the doctor's polluted `health_score`. Switching it
+  to a new field would have replaced a weighted brain metric with a
+  coarser category counter — a regression the review caught before
+  any code was written.
+- **CLI dispatch.** `src/cli.ts` registers `status` in `CLI_ONLY` and
+  adds two dispatch sites: a pre-engine-bind branch for thin-client
+  mode (Sync + Cycle via MCP op, no PGLite needed) and a normal
+  engine-connected dispatch case for local mode. Architecture:
+  status is CLI-only with its own thin-client branch inside
+  `runStatus` (not routed through op dispatch), the only
+  architecture that honestly composes local-only sections.
+- **Tests (7 new files).**
+  - `test/doctor-categories.test.ts` — drift guard: every check name
+    in doctor.ts source is categorized exactly once; CI fires loudly
+    on missed additions. Catches both `name: 'foo'` inline form and
+    `const name = 'foo'` helper-function form.
+  - `test/doctor-brain-checks-score.test.ts` — back-compat
+    byte-identity on `health_score` for a fixed check set; new field
+    math; renaming regression that asserts NO `brain_health_score`
+    field ships (it's `brain_checks_score` to avoid colliding with
+    the weighted `BrainHealth.brain_score`).
+  - `test/doctor-scope-filter.test.ts` — `--scope=brain` skips
+    computation of SKILL group entirely; observable absence of
+    `resolver_health` / `skill_conformance` / `skill_brain_first` /
+    `whoknows_health` from the returned checks list.
+  - `test/status-sections.test.ts` — `parseSectionFlag` validation +
+    exit code policy + runStatus shape.
+  - `test/get-status-snapshot-op.test.ts` — op definition pins
+    (scope is admin, localOnly false, payload omits
+    Locks/Workers/Queue/Autopilot).
+  - `test/e2e/status-pglite.test.ts` — full PGLite E2E with seeded
+    minion_jobs rows, gbrain_cycle_locks rows, and supervisor audit.
+    Asserts dual cycle rows, totals from `result.report.totals`,
+    live queue counts (no time window).
+  - `test/doctor-home-dir-in-worktree.test.ts` (UPDATED) — fixed the
+    pre-existing fragile JSON parser to anchor on the canonical
+    `{"schema_version"` envelope prefix instead of walking back from
+    `"checks"` (which broke once `category_scores` introduced a
+    nested object between).
+## [0.41.19.0] - 2026-05-26
+
+**Your dream cycle stops silently losing wiki links.**
+
+If you sync against a Supabase brain, the nightly extract phase used to
+silently lose ~3,000 wiki links and timeline entries on every run. You
+didn't see an error — you just had fewer connections than you wrote.
+Backlinks that should have shown up didn't. The graph quietly degraded
+day after day. v0.41.19.0 stops it cold.
+
+The root cause: Supabase's pooler periodically drops connections, and
+when that happens it takes 5-10 seconds to recover. Old gbrain retried
+once after 500ms, which was almost always still inside the broken
+window. The new shape retries up to 3 times with 1s → ~3s → ~8s waits,
+which covers the full Supabase recovery window. Total worst-case wait
+is ~12 seconds before the call gives up, which is the right trade
+against silent data loss.
+
+**How to turn it on:** Nothing to do. `gbrain upgrade` is all you need.
+PGLite users pay zero cost because PGLite has no pooler. Supabase users
+get the fix everywhere — `gbrain extract`, `gbrain sync`,
+`gbrain reindex`, and even the MCP `put_page` path that every agent
+hits on every write.
+
+**How to see if it ever fires:** `gbrain doctor` learned a new
+`batch_retry_health` check. On a healthy brain it reads `ok`. If
+Supavisor ever burns through retries (the case where rows actually got
+lost), it warns with the exact site that failed and a paste-ready fix.
+History lives in `~/.gbrain/audit/batch-retry-YYYY-Www.jsonl` (auto-
+pruned after 30 days during the dream cycle's purge phase).
+
+**How to tune it if you need to:** the defaults are right for Supabase
+Supavisor session-mode. If you're on an unusually slow pooler or
+debugging:
+
+```bash
+export GBRAIN_BULK_MAX_RETRIES=5       # int >= 0; 0 = disable retries
+export GBRAIN_BULK_RETRY_BASE_MS=2000  # int > 0; base delay
+export GBRAIN_BULK_RETRY_MAX_MS=15000  # int >= base; cap
+```
+
+Bad values surface at `gbrain doctor` startup with a paste-ready fix.
+Not at first-retry mid-cycle, where you'd never see them.
+
+**What changed for an engineer reading the code:** retry is now a
+data-primitive contract. `engine.addLinksBatch`, `engine.addTimelineEntriesBatch`,
+and `engine.upsertChunks` self-retry inside the engine implementation.
+Callers don't wrap. Future callers don't need to wrap. A CI lint
+(`scripts/check-no-double-retry.sh`) fails the build if anyone adds an
+outer `withRetry` around an engine batch method (preventing 3×3=9
+retry amplification that would worsen circuit-breaker incidents).
+
+**What we caught before merge:** the first plan wrapped retry at every
+call site (11 sites). Eng review pivoted to engine-level wrap (3 sites,
+every caller benefits). Codex independent review caught that the initial
+backoff math (500/1000/2000 = 3.5s total) was still underpowered for
+Supavisor's recovery window, that `'full'` jitter could produce
+near-zero retries that re-hit the still-recovering breaker, and that
+the retry primitive needed `AbortSignal` support so deploys aren't
+blocked waiting for sleeping retries. All three landed in this release.
+
+Co-Authored-By: garrytan-agents (PR #1523, original extract.ts fix
+absorbed into the cathedral wave)
+
+### Itemized changes
+
+- **`src/core/retry.ts` (new):** canonical `withRetry<T>(fn, opts)`
+  primitive + `BULK_RETRY_OPTS` (`{maxRetries:3, delayMs:1000,
+  delayMaxMs:10000, jitter:'decorrelated'}`) + `BATCH_AUDIT_SITES`
+  typed const + `resolveBulkRetryOpts(env)` + `abortableSleep(ms, signal?)`
+  + `RetryAbortError` + `computeNextDelay()`. Decorrelated jitter
+  (AWS-style: `uniform(base, prevDelay*3)` capped) prevents the
+  thundering-herd-against-recovering-breaker class.
+- **Engine-level retry:** `postgres-engine.ts` + `pglite-engine.ts`
+  `addLinksBatch` / `addTimelineEntriesBatch` / `upsertChunks` self-retry
+  via a shared `batchRetry()` helper that composes withRetry + audit
+  emission. Callers pass `{auditSite}` kwarg for attribution; signal
+  flows from `MinionWorker.shutdownAbort` so SIGTERM aborts retries.
+- **`src/core/audit/batch-retry-audit.ts` (new):** ISO-week-rotated JSONL
+  at `~/.gbrain/audit/batch-retry-YYYY-Www.jsonl` built on the
+  `audit-writer.ts` cathedral. `logBatchRetry` (success path) +
+  `logBatchExhausted` (rows lost). 24h read window for doctor (codex
+  H-9: short window = less noise from historical blips). `pruneOldBatchRetryAuditFiles(30)`
+  hooked into the cycle's purge phase. Privacy posture: never logs
+  slugs / page IDs / content (mirrors `shell-audit.ts`).
+- **`doctor.ts:checkBatchRetryHealth`:** new check wired into both
+  local `runDoctor` AND `doctorReportRemote` (thin-client). Thresholds:
+  ok (zero in 24h OR <3 same-site), warn (>=3 same-site OR >=5
+  cross-site), fail (>=20 sustained breaker). Surfaces bad `GBRAIN_BULK_*`
+  env at doctor startup so misconfig doesn't wait for first-retry.
+  Corrupt-JSONL tolerant.
+- **`scripts/check-no-double-retry.sh` + `scripts/check-batch-audit-site.sh`:**
+  CI lint guards wired into `bun run verify`. Prevents migration-ordering
+  hazards (Eng-D6) and audit-site typo drift (codex H-7) at build time.
+- **`backfill-base.ts` cleanup:** inline `setTimeout(r, 1000)` calls
+  swap for the shared `abortableSleep`. Bespoke retry orchestrator
+  stays (statement_timeout halving is genuinely orthogonal to
+  connection retry); sleep primitive unified.
+- **PR #1523 absorbed verbatim:** @garrytan-agents' 5 new test cases
+  move to `test/core/retry.test.ts` with assertions adjusted for the
+  v0.41.18 BULK_RETRY_OPTS defaults. Co-Authored-By trailer on the
+  merge commit.
+- **Tests:** +37 cases in `test/core/retry.test.ts` (jitter math, abort
+  semantics, env-override boundaries, typed audit-site validation) +
+  12 in `test/audit/batch-retry-audit.test.ts` + 10 in
+  `test/doctor-batch-retry.test.ts` + 5 in
+  `test/core/retry-stress.slow.test.ts` (100 batches × 30% blip rate,
+  asserts zero row loss with BULK_RETRY_OPTS).
+- **Migration ordering safety:** T2 (core/retry.ts) + T3 (engine wrap)
+  + T4 (caller unwrap) land in one commit. The CI lint guard prevents
+  any future revert from leaving the codebase in the 3×3=9-retry state.
+
+### Codex review (independent challenge)
+
+23 findings on the v2 plan. 10 critical/high absorbed into the shipped
+build: decorrelated jitter (C-2), 12s backoff window (C-1),
+AbortSignal threading (H-5), inline commit-ambiguity proof per primitive
+(C-4), backfill-base sleep unification (H-6), typed audit-site enum
+(H-7), actual 30-day audit pruning (H-8), doctor 24h window with
+per-site thresholds (H-9), env validation at doctor startup (M-10),
+per-instance test seam via WeakMap (M-11), `GBRAIN_BULK_MAX_RETRIES=0`
+debug-disable (M-12).
+
+## To take advantage of v0.41.19.0
+
+`gbrain upgrade` does it automatically. No schema migration needed.
+
+1. **Run the orchestrator manually if `gbrain upgrade`'s post-upgrade
+   hook didn't kick in:**
+   ```bash
+   gbrain apply-migrations --yes
+   ```
+2. **Verify the new health check is alive:**
+   ```bash
+   gbrain doctor --json | jq '.checks[] | select(.name == "batch_retry_health")'
+   ```
+3. **(Optional) Watch the audit file as the next dream cycle runs:**
+   ```bash
+   tail -f ~/.gbrain/audit/batch-retry-*.jsonl
+   ```
+4. **If anything looks wrong,** file an issue at
+   https://github.com/garrytan/gbrain/issues with `gbrain doctor` output
+   and the contents of `~/.gbrain/audit/batch-retry-*.jsonl`.
 
 ## [0.41.18.0] - 2026-05-26
 
@@ -253,6 +725,7 @@ Note: schema migrations originally numbered v98/v99/v100 were renumbered
 to v101/v102/v103 post-merge because master claimed v98 (sync lock
 refresh column from v0.41.15.0) and v99 (conversation parser cache from
 v0.41.16.0). Migration content unchanged across the renumber.
+
 ## [0.41.17.0] - 2026-05-26
 
 **You can now run `extract-conversation-facts`, `extract`,
@@ -13873,7 +14346,7 @@ Frontmatter validation surface (the 7 codes shipped):
 | `MISSING_CLOSE` | No closing `---` before first heading | Yes ... inserts `---` |
 | `YAML_PARSE` | YAML failed to parse | Sometimes |
 | `SLUG_MISMATCH` | Frontmatter `slug:` differs from path-derived slug | Yes ... removes field |
-| `NULL_BYTES` | Binary corruption (` `) | Yes ... strips bytes |
+| `NULL_BYTES` | Binary corruption (`
 | `NESTED_QUOTES` | `title: "outer "inner" outer"` shape | Yes ... switches outer to single quotes |
 | `EMPTY_FRONTMATTER` | Open + close present, nothing meaningful between | No (human review) |
 

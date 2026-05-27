@@ -151,7 +151,7 @@ describe('cache gate end-to-end (PGLite)', () => {
     );
 
     // Write more pages. The global clock advances on every statement
-    // (statement-level trigger from migration v104). Pre-v0.41.19.0 the
+    // (statement-level trigger from migration v105). Pre-v0.41.19.0 the
     // empty snapshot served vacuously here — that was the CDX-6 bug. Now:
     // Layer 1 fails (clock > 0), Layer 2 rejects empty snapshots, row
     // invalidates. Acceptable one-time post-upgrade cache miss; correct

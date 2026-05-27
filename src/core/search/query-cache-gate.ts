@@ -24,7 +24,7 @@
  * + 1` on UPDATE. Updating a NON-MAX page didn't advance MAX(generation),
  * so the bookmark silently passed stale cache rows (codex CDX-2). DELETE
  * doesn't fire the trigger AT ALL, so deletion didn't advance MAX either
- * (codex CDX-1). Migration v104 introduces a global single-row counter
+ * (codex CDX-1). Migration v105 introduces a global single-row counter
  * (`page_generation_clock`) bumped per-statement by a separate trigger;
  * Layer 1 now reads the counter directly so every INSERT/UPDATE/DELETE
  * statement advances the bookmark exactly once regardless of which rows
@@ -132,11 +132,11 @@ export async function buildPageGenerationsSnapshot(
     }
     return snapshot;
   } catch {
-    // Pre-v104 brain (no `page_generation_clock` table yet). Return the
+    // Pre-v105 brain (no `page_generation_clock` table yet). Return the
     // empty snapshot with zero bookmark — every cache row will fall
     // through to Layer 2 (which is stricter post-v0.41.19.0 and will
     // invalidate empty snapshots). Acceptable upgrade-path one-time
-    // cache miss; migration v104 fills the table within the same
+    // cache miss; migration v105 fills the table within the same
     // initSchema() call so this branch is short-lived.
     return snapshot;
   }

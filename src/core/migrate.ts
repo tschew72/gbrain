@@ -4735,11 +4735,59 @@ export const MIGRATIONS: Migration[] = [
   },
   {
     version: 104,
+    name: 'pages_atom_source_hash_idx',
+    // Partial expression index on frontmatter->>'source_hash' for atom
+    // rows. Powers `atomsExistingForHashes` in extract_atoms
+    // (src/core/cycle/extract-atoms.ts), which replaces the prior
+    // per-hash loop that did 7K SQL round trips per cycle on a brain
+    // with ~7K conversation transcripts.
+    //
+    // Mirrors v97 pattern: Postgres uses CREATE INDEX CONCURRENTLY
+    // (no SHARE-lock blocking concurrent writes) and pre-drops any
+    // invalid remnant from a prior failed CONCURRENTLY attempt via
+    // pg_index.indisvalid. PGLite uses plain CREATE INDEX.
+    transaction: false,
+    sql: '',
+    handler: async (engine) => {
+      if (engine.kind === 'postgres') {
+        await engine.runMigration(
+          104,
+          `DO $$ BEGIN
+             IF EXISTS (
+               SELECT 1 FROM pg_index i
+               JOIN pg_class c ON c.oid = i.indexrelid
+               WHERE c.relname = 'pages_atom_source_hash_idx' AND NOT i.indisvalid
+             ) THEN
+               EXECUTE 'DROP INDEX CONCURRENTLY IF EXISTS pages_atom_source_hash_idx';
+             END IF;
+           END $$;`
+        );
+        await engine.runMigration(
+          104,
+          `CREATE INDEX CONCURRENTLY IF NOT EXISTS pages_atom_source_hash_idx
+             ON pages ((frontmatter->>'source_hash'))
+             WHERE type = 'atom' AND deleted_at IS NULL;`
+        );
+      } else {
+        await engine.runMigration(
+          104,
+          `CREATE INDEX IF NOT EXISTS pages_atom_source_hash_idx
+             ON pages ((frontmatter->>'source_hash'))
+             WHERE type = 'atom' AND deleted_at IS NULL;`
+        );
+      }
+    },
+  },
+  {
+    version: 105,
     name: 'page_generation_clock_and_statement_trigger',
-    // v0.41.19.0 (D18/D19, codex outside-voice on /plan-eng-review): global
+    // v0.41.22.0 (D18/D19, codex outside-voice on /plan-eng-review): global
     // page-generation clock + statement-level trigger.
     //
-    // Why this exists: the pre-v0.41.19.0 query-cache Layer 1 bookmark read
+    // Renumbered v104 → v105 during master merge: PR #1545 took v104 for
+    // pages_atom_source_hash_idx ahead of this PR landing.
+    //
+    // Why this exists: the pre-v0.41.22.0 query-cache Layer 1 bookmark read
     // `MAX(generation) FROM pages` to detect "writes happened since cache
     // store". Two bugs in that contract — independent of any sync work:
     //
@@ -4767,7 +4815,7 @@ export const MIGRATIONS: Migration[] = [
     //
     // Mirror lives in src/core/pglite-schema.ts (fresh-install path).
     // Forward-reference bootstrap probe in applyForwardReferenceBootstrap
-    // on both engines so pre-v0.41.19.0 brains pick it up cleanly.
+    // on both engines so pre-v0.41.22.0 brains pick it up cleanly.
     idempotent: true,
     sql: `
       CREATE TABLE IF NOT EXISTS page_generation_clock (
