@@ -2,6 +2,68 @@
 
 All notable changes to GBrain will be documented in this file.
 
+## [0.42.1.0] - 2026-05-29
+
+**Skill self-improvement no longer starts from a blank file.**
+
+v0.42.0.0 let agents optimize a skill against a benchmark, but you still had
+to come up with that benchmark. The only auto-generator, `--bootstrap-from-routing`,
+needed a `routing-eval.jsonl` you might not have, and it built tasks from routing
+fixtures — which test "does this phrasing pick this skill," not "is the output
+any good." So in practice the agent hand-wrote a benchmark from scratch every
+time, reinventing the same starting point on every run.
+
+Now there's one command that reads the skill itself and writes you a starter:
+
+```bash
+gbrain skillopt my-skill --bootstrap-from-skill
+```
+
+It makes a single LLM call that reads `skills/my-skill/SKILL.md`, figures out what
+the skill is supposed to produce, and writes ~15 realistic tasks — each with
+deterministic rule judges — to `skills/my-skill/skillopt-benchmark.jsonl`. Tune
+the count with `--bootstrap-tasks N` (max 50). No routing fixtures required.
+
+It does NOT silently trust the result. The file lands with a
+`# BOOTSTRAP_PENDING_REVIEW` line at the bottom, and the optimizer refuses to run
+until you review the tasks, **strengthen the generated judges** (they're weak
+drafts — generic `contains`, loose length caps), and delete that line. Then:
+
+```bash
+gbrain skillopt my-skill --bootstrap-reviewed --split 1:1:1
+```
+
+The `--split 1:1:1` matters: a 15-task starter needs it. The optimizer's default
+`4:1:5` split would leave a validation set of one task and refuse to run.
+
+For agents driving this brain, this is now the documented primary path for a skill
+with no benchmark: run the command, sharpen the draft, run the optimizer. Writing
+the benchmark freehand is the fallback for the rare skill the generator can't
+draft well.
+
+### Things to know
+
+- The model emits one task per line (JSONL). If the response gets cut off, the
+  finished lines are kept and only the truncated one is dropped — a clipped run
+  still gives you a usable starter instead of nothing.
+- Any task that ends up with fewer than two valid checks is dropped whole, so you
+  never get a task judged by a single weak check.
+- If the provider is down, you get the real error, not a misleading "0 tasks
+  generated."
+
+### Itemized changes
+
+- New `gbrain skillopt <skill> --bootstrap-from-skill [--bootstrap-tasks N]`
+  generator in `src/core/skillopt/bootstrap-benchmark.ts` (`runBootstrapFromSkill`),
+  sharing the overwrite guard + SKILL.md reader with the existing routing bootstrap.
+- The `benchmark not found` hint and `gbrain skillopt --help` now point at
+  `--bootstrap-from-skill` as the primary way to create a benchmark.
+- `skills/skill-optimizer/SKILL.md` and `docs/tutorials/improving-skills-with-skillopt.md`
+  reposition from-skill as the recommended starting path, with the
+  strengthen-the-judges + `--split 1:1:1` workflow spelled out.
+- Hardened the routing bootstrap's `routing-eval.jsonl` parse to skip malformed
+  lines instead of crashing the whole run.
+
 ## [0.42.0.0] - 2026-05-27
 
 **Your skills now improve themselves overnight.**
