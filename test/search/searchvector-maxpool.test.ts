@@ -23,6 +23,7 @@
 
 import { describe, test, expect, beforeAll, afterAll } from 'bun:test';
 import { PGLiteEngine } from '../../src/core/pglite-engine.ts';
+import { configureGateway } from '../../src/core/ai/gateway.ts';
 import type { ChunkInput } from '../../src/core/types.ts';
 
 let engine: PGLiteEngine;
@@ -44,6 +45,17 @@ function basisEmbedding(idx: number): Float32Array {
 }
 
 beforeAll(async () => {
+  // Pin the legacy OpenAI/1536 gateway BEFORE initSchema so the
+  // content_chunks.embedding column is vector(1536), matching this file's
+  // hardcoded 1536-d basis vectors. initSchema runs in beforeAll (before
+  // any preload beforeEach can re-pin), so we cannot rely on the legacy
+  // preload default surviving a sibling shard file that reconfigured the
+  // gateway to the v0.37 ZE/1280 default and didn't reset.
+  configureGateway({
+    embedding_model: 'openai:text-embedding-3-large',
+    embedding_dimensions: DIM,
+    env: { ...process.env },
+  });
   engine = new PGLiteEngine();
   await engine.connect({}); // in-memory
   await engine.initSchema();
