@@ -11,19 +11,22 @@
 import { describe, test, expect, beforeAll, afterAll } from 'bun:test';
 import { PGLiteEngine } from '../src/core/pglite-engine.ts';
 import type { ChunkInput } from '../src/core/types.ts';
+import { probeEmbeddingDim } from './fixtures/retrieval-quality/relational/corpus.ts';
 
-function emb(idx: number, dim = 1536): Float32Array {
+function emb(idx: number, dim: number): Float32Array {
   const e = new Float32Array(dim);
   e[idx % dim] = 1.0;
   return e;
 }
 
 let eng: PGLiteEngine;
+let DIM = 0;
 
 beforeAll(async () => {
   eng = new PGLiteEngine();
   await eng.connect({});
   await eng.initSchema();
+  DIM = await probeEmbeddingDim(eng); // match the schema's column width (1280 ZE / 1536 OpenAI)
 
   const pages: Array<[string, string, string]> = [
     ['companies/widget-co', 'company', 'Widget Co'],
@@ -38,7 +41,7 @@ beforeAll(async () => {
     await eng.putPage(slug, { type: type as 'company' | 'person', title, compiled_truth: `${title} body`, timeline: '' });
   }
   // investor-b carries a chunk (→ canonical_chunk_id non-null); investor-a stays chunkless.
-  const chunk: ChunkInput[] = [{ chunk_index: 0, chunk_text: 'b', chunk_source: 'compiled_truth', embedding: emb(2), token_count: 1 }];
+  const chunk: ChunkInput[] = [{ chunk_index: 0, chunk_text: 'b', chunk_source: 'compiled_truth', embedding: emb(2, DIM), token_count: 1 }];
   await eng.upsertChunks('people/investor-b', chunk);
 
   // Edges into widget-co.

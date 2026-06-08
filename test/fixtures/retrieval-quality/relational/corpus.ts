@@ -78,7 +78,10 @@ function pageType(slug: string): 'company' | 'person' {
 // (chunked) like a real brain. The query has no embedding in CI (no API key),
 // so vector search can't connect entities anyway — but the pages must carry a
 // chunk to be searchable at all. Body text stays generic + cross-mention-free.
-function basisEmbedding(slug: string, dim = 1536): Float32Array {
+// `dim` MUST match the schema's embedding column, which tracks the configured
+// gateway default (1280 ZE / 1536 OpenAI) and can shift with shard order —
+// so callers probe the real width via probeEmbeddingDim rather than hardcode.
+function basisEmbedding(slug: string, dim: number): Float32Array {
   let h = 0;
   for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
   const e = new Float32Array(dim);
@@ -86,8 +89,24 @@ function basisEmbedding(slug: string, dim = 1536): Float32Array {
   return e;
 }
 
+/**
+ * Probe the actual `content_chunks.embedding` column width. pgvector stores
+ * the dimension in `atttypmod` directly. Tests must size fixtures to this, not
+ * a hardcoded 1536 — the column tracks the gateway default and a prior test in
+ * the same shard can leave it at 1280 (ZE). Mirrors pglite-engine.test.ts.
+ */
+export async function probeEmbeddingDim(engine: BrainEngine): Promise<number> {
+  const db = (engine as unknown as { db: { query: (sql: string) => Promise<{ rows: Array<{ atttypmod: number }> }> } }).db;
+  const r = await db.query(
+    `SELECT atttypmod FROM pg_attribute
+       WHERE attrelid = 'content_chunks'::regclass AND attname = 'embedding'`,
+  );
+  return r.rows[0].atttypmod;
+}
+
 /** Seed the corpus into a fresh brain. Bodies never name related entities. */
 export async function seedRelationalCorpus(engine: BrainEngine): Promise<void> {
+  const dim = await probeEmbeddingDim(engine);
   for (const slug of allSlugs()) {
     const body = bodyFor(slug);
     await engine.putPage(slug, {
@@ -100,7 +119,7 @@ export async function seedRelationalCorpus(engine: BrainEngine): Promise<void> {
       chunk_index: 0,
       chunk_text: body,
       chunk_source: 'compiled_truth',
-      embedding: basisEmbedding(slug),
+      embedding: basisEmbedding(slug, dim),
       token_count: body.split(/\s+/).length,
     }] satisfies ChunkInput[]);
   }

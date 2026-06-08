@@ -10,6 +10,7 @@
 import { describe, test, expect, beforeAll, afterAll } from 'bun:test';
 import { PGLiteEngine } from '../src/core/pglite-engine.ts';
 import { buildRelationalArm } from '../src/core/search/relational-recall.ts';
+import { probeEmbeddingDim } from './fixtures/retrieval-quality/relational/corpus.ts';
 import type { ChunkInput } from '../src/core/types.ts';
 
 let eng: PGLiteEngine;
@@ -18,13 +19,14 @@ beforeAll(async () => {
   eng = new PGLiteEngine();
   await eng.connect({});
   await eng.initSchema();
+  const dim = await probeEmbeddingDim(eng); // match schema column width (1280 ZE / 1536 OpenAI)
 
   await eng.putPage('companies/widget-co', { type: 'company', title: 'Widget Co', compiled_truth: 'A payments company.', timeline: '' });
   // The investor's body deliberately NEVER mentions Widget Co — only the edge connects them.
   await eng.putPage('people/alice-example', { type: 'person', title: 'Alice Example', compiled_truth: 'Alice is a seed-stage investor based in Lisbon.', timeline: '' });
   await eng.upsertChunks('people/alice-example', [{
     chunk_index: 0, chunk_text: 'Alice is a seed-stage investor based in Lisbon.',
-    chunk_source: 'compiled_truth', embedding: new Float32Array(1536), token_count: 8,
+    chunk_source: 'compiled_truth', embedding: new Float32Array(dim), token_count: 8,
   }] satisfies ChunkInput[]);
   await eng.addLink('people/alice-example', 'companies/widget-co', '', 'invested_in', 'manual');
 }, 60_000);
