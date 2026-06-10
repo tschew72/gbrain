@@ -1193,7 +1193,15 @@ export async function importCodeFile(
   // chunk IDs are stable.
   if (extractedEdges.length > 0 && chunks.length > 0) {
     try {
-      const persistedChunks = await engine.getChunks(slug, sourceId ? { sourceId } : undefined);
+      // Normalize ONCE: '' and undefined both mean the schema-default source
+      // (pages.source_id DEFAULT 'default'). Using the normalized value for
+      // BOTH the chunk lookup and the edge stamp keeps them in lockstep —
+      // an unscoped getChunks here could fan out to same-slug chunks from
+      // another source, and a '' stamp would FK-violate against sources(id)
+      // and silently drop the file's whole call graph in the best-effort
+      // catch below (adversarial review findings).
+      const edgeSourceId = sourceId || 'default';
+      const persistedChunks = await engine.getChunks(slug, { sourceId: edgeSourceId });
       const byIndex = new Map<number, { id?: number; symbol_name_qualified?: string | null; start_line?: number | null; end_line?: number | null }>();
       for (const pc of persistedChunks) {
         byIndex.set(pc.chunk_index, pc);
@@ -1241,7 +1249,7 @@ export async function importCodeFile(
           // NULL-stamped edge would be invisible to the matching scoped
           // query getCallersOf(sym, { sourceId: 'default' }) — the same bug
           // through the other door.
-          source_id: sourceId ?? 'default',
+          source_id: edgeSourceId,
         });
       }
 
