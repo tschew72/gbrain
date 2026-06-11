@@ -1,0 +1,6 @@
+# gbrain checkout — dream filesystem phases write here
+# Generated files; do not commit synth/extract output manually
+synth/
+extract/
+patterns/
+*.tmp
