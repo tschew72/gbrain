@@ -1,5 +1,31 @@
 # TODOS
 
+## gbrain triage wave follow-ups (filed v0.42.41.0)
+
+Deferred from the v0.42.41.0 fix wave (eng-reviewed as separate scope, not hotfixes).
+See plan + GSTACK REVIEW REPORT at
+`~/.claude/plans/system-instruction-you-are-working-zany-thacker.md`.
+
+- [ ] **P1 — supervisor: retry-with-backoff instead of hard stop on transient DB outages (#1994).**
+  `max_crashes_exceeded` gives up permanently; a transient pooler blip that trips the
+  counter wedges the supervisor until manual restart. **Why:** the #2034 reconnect fix
+  makes the engine recover, but the supervisor still hard-stops. **Where:**
+  `src/core/minions/supervisor.ts` crash-count loop — add exponential backoff with a
+  much higher (or no) permanent-give-up threshold for recoverable errors.
+- [ ] **P2 — PGLite `reindex-frontmatter` / backfill statement_timeout boost (#1963).**
+  Community RCA: `SET LOCAL statement_timeout` is gated on `engine.kind === 'postgres'`,
+  so PGLite inherits the 30s session default and trips on non-trivial batches; the CLI
+  then swallows the error and exits 0. **Where:** `src/core/backfill-effective-date.ts`
+  (boost on PGLite too, or per-row updates) + the cli.ts catch that hides it.
+- [ ] **P2 — autopilot drain-worker concurrency self-deadlock (#2050).** Drain-worker
+  runs at concurrency=1, so any cycle phase that spawns a subagent (patterns, synthesize)
+  deadlocks waiting on a worker slot it can't get. **Where:** autopilot drain-worker
+  dispatch — raise concurrency or exempt subagent-spawning phases.
+- [ ] **P3 — name-keyed migration ledger (#2038 structural follow-up).** The always-run
+  index drift probe heals the one known case; the general fix is keying applied-migration
+  tracking by stable name rather than version integer so a renumber can't strand a
+  migration as recorded-but-not-executed. **Where:** `src/core/migrate.ts` ledger.
+
 ## gbrain#1981 Retrieval Reflex follow-ups (v0.43+)
 
 Filed from the #1981 ship (v0.42.39.0). Deliberately scoped OUT — the v1 extractor
