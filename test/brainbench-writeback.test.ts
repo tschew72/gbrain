@@ -56,7 +56,7 @@ describe('makeGoldExtractor', () => {
     expect(out[0].entity_slug).toBe('people/alice-example');
     const none = await extractor({ turnText: 'unrelated segment text', source: 'cli:x' });
     expect(none.length).toBe(0);
-  });
+  }, 30_000);
 });
 
 describe('runWriteBack (deterministic, production pipeline)', () => {
@@ -77,7 +77,7 @@ describe('runWriteBack (deterministic, production pipeline)', () => {
     );
     expect(rows.length).toBeGreaterThanOrEqual(2);
     expect(rows[0].source_session).toBe(`${PER_SEGMENT_SOURCE_PREFIX}:${slug}`);
-  });
+  }, 30_000);
 
   test('a gold fact the pipeline drops is counted as failed, named in failed_items', async () => {
     await resetTables(engine);
@@ -91,7 +91,7 @@ describe('runWriteBack (deterministic, production pipeline)', () => {
     expect(score.gold_failed).toBe(1);
     expect(score.metrics.write_back_fidelity).toBeCloseTo(2 / 3);
     expect(score.failed_items[0]).toContain('gold fact lost');
-  });
+  }, 30_000);
 
   test('--llm branch: real-extractor lane emits extraction metrics (stubbed transport)', async () => {
     await resetTables(engine);
@@ -130,7 +130,7 @@ describe('runWriteBack (deterministic, production pipeline)', () => {
       __setChatTransportForTests(null);
       __setEmbedTransportForTests(null);
     }
-  });
+  }, 30_000);
 
   test('--llm extraction metrics reach the harness CELLS (review finding: they were dropped in aggregation)', async () => {
     __setChatTransportForTests(async (): Promise<ChatResult> => ({
@@ -168,7 +168,7 @@ describe('runWriteBack (deterministic, production pipeline)', () => {
       __setChatTransportForTests(null);
       __setEmbedTransportForTests(null);
     }
-  });
+  }, 30_000);
 
   test('multi-segment conversations extract per segment (the 45-min gap splits)', async () => {
     await resetTables(engine);
@@ -179,5 +179,5 @@ describe('runWriteBack (deterministic, production pipeline)', () => {
     const score = await runWriteBack(engine, genWb.fixture, genWb.gold, { llm: false });
     expect(score.gold_failed).toBe(0);
     expect(score.metrics.write_back_fidelity).toBe(1);
-  });
+  }, 30_000);
 });

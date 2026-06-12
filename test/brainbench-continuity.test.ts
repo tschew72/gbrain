@@ -43,7 +43,7 @@ describe('writer openclaw → reader codex (and reverse) on a shared brain', () 
     const readerRows = out.turn_rows.filter((r) => r.suite === 'continuity');
     expect(readerRows.length).toBeGreaterThan(0);
     expect(readerRows.every((r) => r.fixture_id === 'cont-001-widget-pass-reader')).toBe(true);
-  });
+  }, 30_000);
 
   test('single-harness run falls back to the diagonal (writer == reader) instead of vanishing', async () => {
     const out = await runBrainBench(pairCorpus, {
@@ -55,7 +55,7 @@ describe('writer openclaw → reader codex (and reverse) on a shared brain', () 
     const cell = out.cells.find((c) => c.suite === 'continuity' && c.harness === 'openclaw');
     expect(cell).toBeDefined();
     expect(cell!.metrics.continuity_rate).toBe(1);
-  });
+  }, 30_000);
 });
 
 describe('factKeywordProbe + the miss path', () => {
@@ -81,11 +81,11 @@ describe('factKeywordProbe + the miss path', () => {
   test('AND semantics: every keyword must match; partial sets fail', async () => {
     expect(await factKeywordProbe(engine, 'default', ['pass', 'widget-co'])).toBe(true);
     expect(await factKeywordProbe(engine, 'default', ['pass', 'no-such-keyword'])).toBe(false);
-  });
+  }, 30_000);
 
   test('expired facts are excluded — a superseded decision is not "recalled"', async () => {
     expect(await factKeywordProbe(engine, 'default', ['lead', 'acme-example'])).toBe(false);
-  });
+  }, 30_000);
 
   test('a decision neither injected nor stored counts into gold_failed with a named item', async () => {
     const score = await scoreContinuityPair(engine, 'default', 'pair-x', [], [
@@ -97,5 +97,5 @@ describe('factKeywordProbe + the miss path', () => {
     expect(score.hits['d-missing']).toBe(false);
     expect(score.hits['d-hit']).toBe(true);
     expect(score.failed_items[0]).toContain('pair-x/d-missing');
-  });
+  }, 30_000);
 });

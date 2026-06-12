@@ -198,16 +198,23 @@ export async function runWriteBack(
   let survived = 0;
   let provenanceOk = 0;
   const failed: string[] = [];
+  // Each stored row may satisfy AT MOST one gold fact (codex adversarial
+  // finding: unconstrained find() let one merged/overly-broad extracted row
+  // inflate fidelity by matching several gold probes).
+  const consumed = new Set<number>();
   for (const { spec } of goldItems) {
-    const match = stored.find(
-      (row) =>
+    const matchIdx = stored.findIndex(
+      (row, idx) =>
+        !consumed.has(idx) &&
         spec.match_keywords.every((kw) => row.fact.toLowerCase().includes(kw.toLowerCase())) &&
         (spec.entity_slug === null || row.entity_slug === spec.entity_slug),
     );
-    if (!match) {
+    if (matchIdx === -1) {
       failed.push(`${fixture.fixture_id} (gold fact lost: ${spec.gist})`);
       continue;
     }
+    consumed.add(matchIdx);
+    const match = stored[matchIdx];
     survived++;
     if (
       match.source === PER_SEGMENT_SOURCE_PREFIX &&

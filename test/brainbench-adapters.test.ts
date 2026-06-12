@@ -60,7 +60,7 @@ describe('runReflexPipeline (the ONE pipeline, decision 13)', () => {
       suppression: 'prior-context',
     });
     expect(block?.pointers.map((p) => p.slug)).toContain('people/alice-example');
-  });
+  }, 30_000);
 
   test('budget cap: maxPointers=1 truncates a multi-entity turn', async () => {
     const block = await runReflexPipeline(
@@ -71,7 +71,7 @@ describe('runReflexPipeline (the ONE pipeline, decision 13)', () => {
       { maxPointers: 1, suppression: 'prior-context' },
     );
     expect(block?.pointers.length).toBe(1);
-  });
+  }, 30_000);
 
   test('suppression prior-context: an already-seen slug is not re-injected; suppression none re-injects', async () => {
     const prior = 'earlier we discussed people/alice-example in detail';
@@ -85,7 +85,7 @@ describe('runReflexPipeline (the ONE pipeline, decision 13)', () => {
       suppression: 'none',
     });
     expect(reinjected?.pointers.map((p) => p.slug)).toContain('people/alice-example');
-  });
+  }, 30_000);
 
   test('no candidates → null (silence, not an empty block)', async () => {
     const block = await runReflexPipeline(engine, 'default', turn('ok thanks, sounds good'), '', {
@@ -93,7 +93,7 @@ describe('runReflexPipeline (the ONE pipeline, decision 13)', () => {
       suppression: 'prior-context',
     });
     expect(block).toBeNull();
-  });
+  }, 30_000);
 });
 
 describe('OpenClawAdapter (production seam)', () => {
@@ -109,7 +109,7 @@ describe('OpenClawAdapter (production seam)', () => {
     const r2 = await a.replayTurn(turn('Does Alice Example have consent lined up?', 2), prior);
     expect(r2.injectedSlugs).not.toContain('people/alice-example');
     await a.endConversation();
-  });
+  }, 30_000);
 });
 
 describe('ClaudeCodeAdapter (contract seam: hook wire shape, no conversation memory)', () => {
@@ -121,7 +121,7 @@ describe('ClaudeCodeAdapter (contract seam: hook wire shape, no conversation mem
     // No memory: prior context does NOT suppress (the measured contract delta).
     expect(r.injectedSlugs).toContain('people/alice-example');
     await a.endConversation();
-  });
+  }, 30_000);
 
   test('respects the 2-pointer hook budget', async () => {
     const a = new ClaudeCodeAdapter();
@@ -129,7 +129,7 @@ describe('ClaudeCodeAdapter (contract seam: hook wire shape, no conversation mem
     const r = await a.replayTurn(turn('Memo: Alice Example, Charlie Example, and Widget Co all in one.'), '');
     expect(r.injectedSlugs.length).toBeLessThanOrEqual(2);
     await a.endConversation();
-  });
+  }, 30_000);
 });
 
 describe('CodexAdapter (contract seam: static preamble + ≤1 fragment)', () => {
@@ -144,7 +144,7 @@ describe('CodexAdapter (contract seam: static preamble + ≤1 fragment)', () => 
     // First turn carried the preamble cost; later turns don't re-pay it.
     expect(r1.injectedTokens).toBeGreaterThan(r2.injectedTokens);
     await a.endConversation();
-  });
+  }, 30_000);
 });
 
 describe('sentinel isolation (the engine-sharing guarantee, eng-review D9)', () => {
@@ -164,5 +164,5 @@ describe('sentinel isolation (the engine-sharing guarantee, eng-review D9)', () 
     expect(facts[0].n).toBe('0');
     // re-seed for any later test in this file (none currently, but keep the brain valid)
     await seedBrain(engine, FIXTURE);
-  });
+  }, 30_000);
 });

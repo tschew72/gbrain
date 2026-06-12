@@ -52,8 +52,16 @@ if git show "${MAIN_REF}:${BASELINE_PATH}" > "$MAIN_BASELINE" 2>/dev/null; then
   echo "[brainbench-gate] comparing against ${MAIN_REF}:${BASELINE_PATH}"
   bun src/cli.ts eval brainbench --compare "$MAIN_BASELINE" --out "$OUT"
 else
-  # First landing: the ref exists but carries no baseline yet. Run without a
-  # gate so the PR that introduces BrainBench can commit the initial baseline.
-  echo "[brainbench-gate] no baseline on ${MAIN_REF} yet — running ungated (initial-landing path)"
-  bun src/cli.ts eval brainbench --out "$OUT"
+  # First landing: the ref exists but carries no baseline yet. The COMMITTED
+  # baseline still gets verified against the actual run (codex adversarial
+  # finding: an unverified first landing could seed a doctored baseline for
+  # every future PR to compare against). Same-hash + committed==run logic
+  # inside --compare does the verification.
+  if [ -f "$BASELINE_PATH" ]; then
+    echo "[brainbench-gate] no baseline on ${MAIN_REF} yet — verifying the run against the COMMITTED baseline (first-landing path)"
+    bun src/cli.ts eval brainbench --compare "$BASELINE_PATH" --out "$OUT"
+  else
+    echo "[brainbench-gate] no baseline on ${MAIN_REF} and none committed — running ungated (pre-baseline tree)"
+    bun src/cli.ts eval brainbench --out "$OUT"
+  fi
 fi
