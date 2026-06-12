@@ -1288,6 +1288,23 @@ async function handleCliOnly(command: string, args: string[]) {
     process.exit(await runReplayNoBrain(args.slice(2)));
   }
 
+  // BrainBench brings its own in-memory PGLite (longmemeval pattern) and is
+  // hermetic by default — no gateway, no user brain, no config required. The
+  // command owns its exit codes (0 pass / 1 regression / 2 error) and exits
+  // explicitly via its grace-tick exit path (PGLite exitCode-hijack guard).
+  if (command === 'eval' && args[0] === 'brainbench') {
+    const { runEvalBrainBench } = await import('./commands/eval-brainbench.ts');
+    if (args.includes('--llm') && !args.includes('--help') && !args.includes('-h')) {
+      // --llm is the one mode that talks to a provider; mirror the
+      // longmemeval gateway bootstrap so extraction calls are priced.
+      const config = loadConfig() ?? ({} as GBrainConfig);
+      const { configureGateway } = await import('./core/ai/gateway.ts');
+      configureGateway(buildGatewayConfig(config));
+    }
+    await runEvalBrainBench(args.slice(1));
+    return; // unreachable — runEvalBrainBench always exits — but keeps control flow explicit
+  }
+
   // v0.28.8: longmemeval brings its own in-memory PGLite. Bypassing
   // connectEngine here keeps `gbrain eval longmemeval --help` and benchmark
   // runs working on machines that have no `~/.gbrain/config.json` configured.
