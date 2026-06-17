@@ -18,6 +18,20 @@ The root cause was the page-generation clock that backs the search cache. Every 
 
 ### To take advantage of v0.42.51.0
 `gbrain upgrade`, then `gbrain doctor`. Existing brains pick up the contention-free clock and the checkpoint integrity constraint automatically on the next migration; the search cache rebuilds itself on first query. Nothing to configure.
+## [0.42.50.0] - 2026-06-17
+
+**CI reliability hardening — a wedged job can no longer run for six hours, a superseded run no longer reports a stale flaky failure, and broken workflow YAML is caught before it ships.** gbrain's CI already had the deep machinery (content-hash run-skip cache, weight-aware shard balancing, test-isolation guards, hermetic E2E). What it lacked was the cheap GitHub-Actions hygiene that was already wired into `heavy-tests.yml` but never into the two hot-path workflows. This pass closes that gap, porting the patterns from the sibling GStack project's CI-reliability work.
+
+### Changed
+- **`test.yml` and `e2e.yml` cancel a superseded run** when a newer commit lands on the same PR (`concurrency` keyed on the PR number — fork-safe — with a `github.ref` fallback so push and scheduled runs always complete). Frees runners and stops a run against an obsolete commit from reporting a flaky failure.
+- **Every job in `test.yml`/`e2e.yml` now has a `timeout-minutes` bound** (test matrix 15, verify 12, serial 15, slow jobs 12, E2E tier 1 20 / tier 2 30, trivial jobs 5-10). A wedged job is converted from a six-hour zombie (GitHub's default) into a fast, legible failure.
+- **`scripts/run-e2e.sh` scrubs operator/agent environment before E2E.** A dev or Conductor shell exporting `CONDUCTOR_*` / `MCP_*` / `GBRAIN_*` config overrides no longer bleeds into E2E child processes (which made "hermetic" E2E non-hermetic and its failures unreproducible across machines). Denylist scrub — `PATH`/`HOME`/`TMPDIR`/`DATABASE_URL` survive; `GBRAIN_HOME` is preserved for the existing HOME isolation.
+
+### Added
+- **`actionlint` workflow** (`rhysd/actionlint`, SHA-pinned) lints all workflow YAML on `.github/workflows/**` changes, catching a malformed workflow / bad action ref / missing-permission bug before it ships a broken pipeline.
+
+### To take advantage of v0.42.50.0
+Nothing to do — these are CI/test-infra changes that take effect automatically on the next push. Contributors running the suite locally get the same hermetic-E2E env scrub via `bash scripts/run-e2e.sh` (or `bun run ci:local`).
 
 ## [0.42.49.0] - 2026-06-16
 
