@@ -5306,6 +5306,7 @@ export const MIGRATIONS: Migration[] = [
 
       SELECT setval('page_generation_clock_seq', GREATEST(
         1,
+        COALESCE((SELECT last_value FROM page_generation_clock_seq), 0),
         COALESCE((SELECT value FROM page_generation_clock WHERE id = 1), 0),
         COALESCE((SELECT MAX(generation) FROM pages), 0)
       ));
@@ -5355,7 +5356,9 @@ export const MIGRATIONS: Migration[] = [
       DO $$
       BEGIN
         IF NOT EXISTS (
-          SELECT 1 FROM pg_constraint WHERE conname = 'op_checkpoints_completed_keys_array'
+          SELECT 1 FROM pg_constraint
+           WHERE conname = 'op_checkpoints_completed_keys_array'
+             AND conrelid = 'op_checkpoints'::regclass
         ) THEN
           ALTER TABLE op_checkpoints
             ADD CONSTRAINT op_checkpoints_completed_keys_array

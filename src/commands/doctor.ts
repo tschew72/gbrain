@@ -3531,7 +3531,7 @@ export async function checkSyncFreshness(
     const details = { unchanged_count, synced_recently_count, stale_count };
     // BUG 4: append in-progress context when any source is actively syncing.
     // Empty otherwise, so steady-state messages are byte-for-byte unchanged.
-    const inProgressNote = inProgress.length ? ` ${inProgress.join('; ')}.` : '';
+    const inProgressNote = inProgress.length ? `. ${inProgress.join('; ')}` : '';
 
     if (hasFailures) {
       return {

@@ -229,8 +229,16 @@ INSERT INTO page_generation_clock (id, value)
 -- first write strictly exceeds the seed; floor 1 (sequence MINVALUE). Layer-1
 -- reads last_value. The table + trigger names are retained.
 CREATE SEQUENCE IF NOT EXISTS page_generation_clock_seq;
-SELECT setval('page_generation_clock_seq',
-  GREATEST(1, COALESCE((SELECT MAX(generation) FROM pages), 0)));
+-- Monotonic seed: GREATEST over the sequence's OWN last_value too, so replaying
+-- this blob on an already-upgraded brain (initSchema is re-runnable) can never
+-- move last_value BACKWARD below a stored query_cache bookmark (which would let
+-- Layer 1 serve stale rows). Mirrors the old table's ON CONFLICT DO NOTHING.
+SELECT setval('page_generation_clock_seq', GREATEST(
+  1,
+  COALESCE((SELECT last_value FROM page_generation_clock_seq), 0),
+  COALESCE((SELECT value FROM page_generation_clock WHERE id = 1), 0),
+  COALESCE((SELECT MAX(generation) FROM pages), 0)
+));
 
 CREATE OR REPLACE FUNCTION bump_page_generation_clock_fn() RETURNS trigger AS $func$
 BEGIN

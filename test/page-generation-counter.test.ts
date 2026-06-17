@@ -295,4 +295,21 @@ describe('v0.42.x sequence-backed clock (BUG 1: contention removal)', () => {
     expect(Number(n3[0].v)).toBe(101);
     await engine.executeRaw(`DROP SEQUENCE test_probe_seq`);
   });
+
+  test('re-seeding is monotonic: the GREATEST guard never moves last_value backward', async () => {
+    // Regression for the codex P1: initSchema replays the schema blob, whose
+    // setval must NOT reset the clock below its current value — a backward move
+    // would let a stored query_cache bookmark serve stale rows. Push the
+    // sequence high, then run the EXACT monotonic seed the blob + v118 use.
+    await engine.executeRaw(`SELECT setval('page_generation_clock_seq', 999999)`);
+    await engine.executeRaw(
+      `SELECT setval('page_generation_clock_seq', GREATEST(
+         1,
+         COALESCE((SELECT last_value FROM page_generation_clock_seq), 0),
+         COALESCE((SELECT value FROM page_generation_clock WHERE id = 1), 0),
+         COALESCE((SELECT MAX(generation) FROM pages), 0)
+       ))`,
+    );
+    expect(await clockValue()).toBeGreaterThanOrEqual(999999);
+  });
 });
