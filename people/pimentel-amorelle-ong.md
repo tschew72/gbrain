@@ -2,7 +2,7 @@
 type: entity
 title: Pimentel Amorelle Ong
 schema_type: person
-slug: people/pimentel-ong
+slug: people/pimentel-amorelle-ong
 role: "Logistics Solutions Hub Pte Ltd — CEM project contact"
 sources:
   - 'projects/logistics-solutions-hub-cem'
