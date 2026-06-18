@@ -81,6 +81,19 @@ export const CANONICAL_PRICING: Record<string, ModelPricing> = {
   // ── Together / DeepSeek (cross-modal-eval panel) ───────────────────────
   'together:meta-llama/Llama-3.3-70B-Instruct-Turbo': { input: 0.88, output: 0.88 },
   'deepseek:deepseek-chat':               { input:  0.14, output:  0.28 },
+
+  // ── MiniMax (M3 rollout 2026-06-14) ────────────────────────────────────
+  // Flagship M3 = "current" generation. Per TOOLS.md: $0.30 in / $1.20 out
+  // per M tokens. Verified against published platform.minimax.io rates.
+  'minimax:MiniMax-M3':                   { input:  0.30, output:  1.20 },
+
+  // ── Kimi (cron override for gbrain internal LLM) ───────────────────────
+  // Routed via ANTHROPIC_BASE_URL=https://api.kimi.com/coding/v1 by the
+  // gbrain-autopilot-cron.sh wrapper. The model id `kimi-for-coding` is
+  // Kimi's coding plan; rate is approximate (estimate; verify when Kimi
+  // publishes the coding-plan number). Per HEARTBEAT 2026-06-14 finding
+  // `findings/2026-06-14-gbrain-kimi-anthropic-bridge`.
+  'anthropic:kimi-for-coding':            { input:  1.00, output:  3.00 },
 };
 
 /**
