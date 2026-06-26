@@ -1,13 +1,14 @@
 ---
-type: lesson
+type: 'lesson'
 title: 'Counter metrics should count what you did, not what you got back'
 date: '2026-06-16T00:00:00.000Z'
-status: shipped
+status: 'shipped'
 sources:
   - 'm365-30min:2026-06-16T1207'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T04:07:23.959Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T00:00:00.000Z'
 ---
 
 # Counter metrics should count what you did, not what you got back

@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Ccecc Scb Jv
+type: 'entity'
+title: 'Ccecc Scb Jv'
 sources:
   - 'm365-30min:2026-06-16T1400'
 updated_at: '2026-06-16T00:00:00.000Z'
@@ -8,10 +8,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T06:06:13.246Z'
 source_kind: 'mcp:put_page'
 tags:
-  - accounts-receivable
-  - client
-  - construction
-  - singapore
+  - 'accounts-receivable'
+  - 'client'
+  - 'construction'
+  - 'singapore'
+created: '2026-06-16T06:06:13.246Z'
 ---
 
 # CCECC-SCB JV

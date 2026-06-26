@@ -1,17 +1,18 @@
 ---
-type: entity
-title: GIC Group CTM + ISO27001 Surveillance Audit
-client: gicgrp
-status: quotation-pending
+type: 'entity'
+title: 'GIC Group CTM + ISO27001 Surveillance Audit'
+client: 'gicgrp'
+status: 'quotation-pending'
 sources:
   - 'm365-30min:2026-06-17T1700'
   - 'email:jonathan.chan@gicgrp.com'
 services:
-  - cyber-trust-mark
-  - iso27001
+  - 'cyber-trust-mark'
+  - 'iso27001'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T09:07:24.754Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T09:07:24.754Z'
 ---
 
 # GIC Group CTM + ISO27001 Surveillance Audit

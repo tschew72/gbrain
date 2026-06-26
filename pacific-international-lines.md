@@ -1,20 +1,23 @@
 ---
-type: entity
-title: Pacific International Lines
+type: 'entity'
+title: 'Pacific International Lines'
 sources:
+  - 'm365-30min:2026-06-26T1736'
   - 'email:vince.chew@evvolabs.com 2025-12'
   - 'm365-30min:2026-06-16T0930'
   - 'm365-30min:2026-06-16T1000'
   - 'm365-30min:2026-06-17T2230'
+  - 'phuong-30min:2026-06-22T1208'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T14:38:58.793Z'
 source_kind: 'mcp:put_page'
 tags:
-  - accounts-receivable
-  - client
-  - invoice
-  - maritime
-  - singapore
+  - 'accounts-receivable'
+  - 'client'
+  - 'invoice'
+  - 'maritime'
+  - 'singapore'
+created: '2026-06-17T14:38:58.793Z'
 ---
 
 # Pacific International Lines
@@ -49,3 +52,14 @@ tags:
 - **New blocker:** Owner confirmation needed — may require Vince/Kailash to reach out to David Aw directly
 - **New activity:** Year 2 ISO 27001 audit is underway — ISMS Manual v1.2 review requested. Ensure Phuong Cao has bandwidth and the review aligns with Year 2 audit scope.
 - No action needed from Vince unless payment remains outstanding beyond 30 days OR owner confirmation is not forthcoming
+
+## ISO 27001 Year 2 Audit Status Update (2026-06-22)
+- **Signal:** SharePoint comment on `PILMAN-ISO-ISMS-Manual 19 Jun` from `lambachkhoa91`
+- **Comment summary:** Asked whether the customer still wants any edits on the draft and noted the substance is already satisfactory (`còn bản chất đã đáp ứng`).
+- **So what:** The manual appears to have moved from drafting into customer-feedback confirmation, which lowers the likelihood of major rework and points to a near-term review/approval step.
+- **Source:** `phuong-30min:2026-06-22T1208`
+
+## ISO 27001 Year 2 Audit Status Update (2026-06-26)
+- Fang's weekly report says Evvo updated the ISMS Manual, submitted the audit plan to PIL, and walked Janet through the updated manual during the weekly meeting.
+- So what: the Year 2 audit engagement has advanced from document review into formal audit-plan submission and client walkthrough completion.
+- Source: `m365-30min:2026-06-26T1736`

@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Apro Asian Protection
+type: 'entity'
+title: 'Apro Asian Protection'
 sources:
   - 'm365-30min:2026-06-16T1400'
 updated_at: '2026-06-16T00:00:00.000Z'
@@ -8,10 +8,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T06:06:13.589Z'
 source_kind: 'mcp:put_page'
 tags:
-  - apro
-  - certification
-  - cyber-trust-mark
-  - lead
+  - 'apro'
+  - 'certification'
+  - 'cyber-trust-mark'
+  - 'lead'
+created: '2026-06-16T06:06:13.589Z'
 ---
 
 # APRO Asian Protection Pte Ltd

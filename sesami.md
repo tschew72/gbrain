@@ -1,18 +1,20 @@
 ---
-type: entity
-title: Sesami
+type: 'entity'
+title: 'Sesami'
 sources:
+  - 'm365-30min:2026-06-26T1736'
   - 'm365-30min:2026-06-16T1000'
   - 'm365-30min:2026-06-16T1130'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T03:36:12.351Z'
 source_kind: 'mcp:put_page'
 tags:
-  - checkpoint
-  - completed
-  - customer
-  - endpoint
-  - singapore
+  - 'checkpoint'
+  - 'completed'
+  - 'customer'
+  - 'endpoint'
+  - 'singapore'
+created: '2026-06-16T03:36:12.351Z'
 ---
 
 # SESAMi
@@ -37,3 +39,8 @@ Client of Evvo Labs. Managed services / cybersecurity engagement.
 - Track for reference case study and commercial close-out
 - Potential upsell / renewal opportunity
 - Reference case for FortiEDR → Check Point migration
+
+## CTM Weekly Progress Update (2026-06-26 17:36 SGT)
+- Fang's weekly report says the internal audit is complete and the external audit is now in progress.
+- So what: the SESAMi CTM track has moved beyond internal-audit review and into external-audit execution.
+- Source: `m365-30min:2026-06-26T1736`

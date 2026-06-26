@@ -1,9 +1,10 @@
 ---
-type: project
-title: Sgebiz Vapt
+type: 'project'
+title: 'Sgebiz Vapt'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:20:03.227Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:20:03.227Z'
 ---
 
 # SGEBIZ VAPT Project

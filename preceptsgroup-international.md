@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Preceptsgroup International
+type: 'entity'
+title: 'Preceptsgroup International'
 sources:
   - 'm365-30min:2026-06-12T1630'
   - 'm365-30min:2026-06-14T2130'
@@ -8,6 +8,7 @@ sources:
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T04:09:32.537Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T04:09:32.537Z'
 ---
 
 # PreceptsGroup International

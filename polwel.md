@@ -1,17 +1,18 @@
 ---
-type: entity
-title: Polwel
+type: 'entity'
+title: 'Polwel'
 sources:
   - 'm365-30min:2026-06-16T1930'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T11:37:33.785Z'
 source_kind: 'mcp:put_page'
 tags:
-  - ciso
-  - ctm
-  - government
-  - prospect
-  - singapore
+  - 'ciso'
+  - 'ctm'
+  - 'government'
+  - 'prospect'
+  - 'singapore'
+created: '2026-06-16T11:37:33.785Z'
 ---
 
 # POLWEL — CISOaaS for CTM Certification

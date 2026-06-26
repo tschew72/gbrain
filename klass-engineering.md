@@ -1,15 +1,16 @@
 ---
-type: entity
-title: Klass Engineering
+type: 'entity'
+title: 'Klass Engineering'
 sources:
   - 'm365-30min:2026-06-16T1100'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T03:08:27.049Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - connectivity
-  - end-user
+  - 'client'
+  - 'connectivity'
+  - 'end-user'
+created: '2026-06-16T03:08:27.049Z'
 ---
 
 # Klass Engineering & Solutions

@@ -1,9 +1,10 @@
 ---
-type: entity
-title: Manageengine Itsm
+type: 'entity'
+title: 'Manageengine Itsm'
 tags:
-  - decision
-  - internal-tool
+  - 'decision'
+  - 'internal-tool'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # ManageEngine ServiceDesk ITSM

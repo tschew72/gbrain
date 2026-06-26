@@ -1,16 +1,17 @@
 ---
-type: decision
-title: Standup Digest Cron Removed — 2026-06-17
-status: applied
+type: 'decision'
+title: 'Standup Digest Cron Removed — 2026-06-17'
+status: 'applied'
 effective_date: '2026-06-17T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T12:24:41.805Z'
 source_kind: 'mcp:put_page'
 tags:
-  - cron
-  - decommissioning
-  - dispatcher
-  - m365
+  - 'cron'
+  - 'decommissioning'
+  - 'dispatcher'
+  - 'm365'
+created: '2026-06-17T12:24:41.805Z'
 ---
 
 # Standup Digest Cron Removed — 2026-06-17 20:24 SGT

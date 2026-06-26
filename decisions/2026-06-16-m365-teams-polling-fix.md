@@ -1,13 +1,14 @@
 ---
-type: decision
-title: M365 Teams Chat Polling Fix — Graph $filter Limitation + Priority Chats
+type: 'decision'
+title: 'M365 Teams Chat Polling Fix — Graph $filter Limitation + Priority Chats'
 date: '2026-06-16T00:00:00.000Z'
-status: shipped
+status: 'shipped'
 sources:
   - 'm365-30min:2026-06-16T0950'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T01:51:49.843Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T00:00:00.000Z'
 ---
 
 # M365 Teams Chat Polling Fix — 2026-06-16 09:50 SGT

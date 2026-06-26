@@ -1,16 +1,17 @@
 ---
-type: decision
-title: RedWolf / GovTech Payment Arrangement
+type: 'decision'
+title: 'RedWolf / GovTech Payment Arrangement'
 sources:
   - 'm365-30min:2026-06-14T0700'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T23:03:32.855Z'
 source_kind: 'mcp:put_page'
 tags:
-  - action-item
-  - govtech
-  - payment
-  - unresolved
+  - 'action-item'
+  - 'govtech'
+  - 'payment'
+  - 'unresolved'
+created: '2026-06-13T23:03:32.855Z'
 ---
 
 # RedWolf / GovTech Payment Arrangement

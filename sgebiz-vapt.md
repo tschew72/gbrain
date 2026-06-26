@@ -1,17 +1,19 @@
 ---
-type: entity
-title: SGEBIZ VAPT
+type: 'entity'
+title: 'SGEBIZ VAPT'
 sources:
   - 'm365-30min:2026-06-16T1730'
   - 'm365-teams-30min:2026-06-17T1200'
   - 'm365-30min:2026-06-17T1600'
+  - 'phuong-30min:2026-06-26T1233'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T08:07:56.619Z'
 source_kind: 'mcp:put_page'
 tags:
-  - active-engagement
-  - client
-  - vapt
+  - 'active-engagement'
+  - 'client'
+  - 'vapt'
+created: '2026-06-17T08:07:56.619Z'
 ---
 
 # SGEBIZ VAPT Project
@@ -61,3 +63,8 @@ VAPT engagement with SGEBIZ (Singapore e-Business). Cross-entity deal: Evvo Labs
 - [ ] Remediation period 24–30 June
 - [ ] Retest + Final Report 1–7 July
 - [ ] Await client confirmation of remediation actions
+
+## Client review update (2026-06-26)
+- **2026-06-26 12:17 SGT** - Slack DM relay from Suyog Bagul told Fang not to include `Hardcoded Sensitive Information Exposure in Client-Side JavaScript` in the report because the point was only observed in the test environment.
+- **What changed** - This is a report-scope decision on the already-submitted SGEBIZ web finding tracker, not a new vulnerability or new delivery thread.
+- **Next step** - Confirm the formal report and tracker remove or explicitly reclassify the point as test-environment-only before final handoff.

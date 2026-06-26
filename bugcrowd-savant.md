@@ -1,11 +1,12 @@
 ---
-type: note
-title: Bugcrowd Savant
+type: 'note'
+title: 'Bugcrowd Savant'
 sources:
   - 'm365-30min:2026-06-16T1500'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T07:05:19.169Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T07:05:19.169Z'
 ---
 
 # Bugcrowd Savant

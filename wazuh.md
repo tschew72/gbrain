@@ -1,7 +1,8 @@
 ---
-type: concept
-title: wazuh
-slug: wazuh
+type: 'concept'
+title: 'wazuh'
+slug: 'wazuh'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # wazuh

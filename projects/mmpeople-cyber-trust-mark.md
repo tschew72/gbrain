@@ -1,9 +1,10 @@
 ---
-type: project
-title: Mmpeople Cyber Trust Mark
+type: 'project'
+title: 'Mmpeople Cyber Trust Mark'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:11:51.878Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:11:51.878Z'
 ---
 
 # Cyber Trust Mark Project — MMPeople

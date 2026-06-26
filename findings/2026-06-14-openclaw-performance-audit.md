@@ -1,22 +1,23 @@
 ---
-type: finding
-title: 2026 06 14 Openclaw Performance Audit
-status: open
+type: 'finding'
+title: '2026 06 14 Openclaw Performance Audit'
+status: 'open'
 audience:
-  - operations
+  - 'operations'
 last-updated: '2026-06-14T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-14T00:16:46.105Z'
 source_kind: 'mcp:put_page'
 tags:
-  - audit
-  - discord
-  - extension-walk
-  - futex
-  - heartbeat
-  - openclaw
-  - performance
-  - strace
+  - 'audit'
+  - 'discord'
+  - 'extension-walk'
+  - 'futex'
+  - 'heartbeat'
+  - 'openclaw'
+  - 'performance'
+  - 'strace'
+created: '2026-06-14T00:16:46.105Z'
 ---
 
 # OpenClaw Performance Audit (2026-06-14)

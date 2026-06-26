@@ -1,9 +1,10 @@
 ---
-type: project
-title: Hometeamns
+type: 'project'
+title: 'Hometeamns'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:20:06.473Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:20:06.473Z'
 ---
 
 # HOMETEAMNS Project

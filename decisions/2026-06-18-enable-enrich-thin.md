@@ -1,16 +1,15 @@
 ---
-type: decision
-title: 2026 06 18 Enable Enrich Thin
+type: 'decision'
+title: '2026 06 18 Enable Enrich Thin'
 date: '2026-06-18T00:00:00.000Z'
-author: vince
-status: active
-trigger: >-
-  151/156 pages are orphans; digest only captures signal-curated entities
-  (3-4/day); dream cycle propose_takes only inserts ~4 proposals/night
+author: 'vince'
+status: 'active'
+trigger: '151/156 pages are orphans; digest only captures signal-curated entities (3-4/day); dream cycle propose_takes only inserts ~4 proposals/night'
 decided_in: '#vince-digest'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:40:28.688Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:00:00.000Z'
 ---
 
 # Decision: Enable `cycle.enrich_thin` in GBrain

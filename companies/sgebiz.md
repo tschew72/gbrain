@@ -1,29 +1,40 @@
 ---
-type: entity
-title: SGEBIZ
-schema_type: company
-slug: companies/sgebiz
-role: "SGEBIZ — Singapore government e-procurement / contracting entity"
+type: 'entity'
+title: 'SGEBIZ'
+role: 'SGEBIZ — Singapore government e-procurement / contracting entity'
 sources:
   - 'projects/sgebiz-vapt'
-tags: [client, singapore, vapt, needs-enrichment]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
-ingested_at: '2026-06-18T00:30:00.000Z'
+enriched_at: '2026-06-18T03:32:23.542Z'
+enriched_by: 'cli:enrich'
+ingested_at: '2026-06-18T03:32:23.883Z'
+schema_type: 'company'
+source_kind: 'put_page'
+ingested_via: 'put_page'
+tags:
+  - 'client'
+  - 'needs-enrichment'
+  - 'singapore'
+  - 'vapt'
+created: '2026-06-18T03:32:23.883Z'
 ---
 
-# SGEBIZ
+## Overview
 
-**Role:** SGEBIZ — Singapore government e-procurement / contracting entity
+SGEBIZ is a Singapore government entity operating in the e-procurement and government contracting space. [Source: companies-sgebiz]
 
-## Context
+## What they do
 
-Client for VAPT engagement. Contact: Suyog Bagul. Project status: in-progress; needs enrichment with domain, scope, deliverables.
+SGEBIZ functions as a Singapore government e-procurement / contracting entity. [Source: companies-sgebiz]
 
-## Sources
+## People
 
-- projects/sgebiz-vapt
+- **Suyog Bagul** — Client contact for the SGEBIZ VAPT engagement. [Source: people/suyog-bagul]
 
-## Projects referencing this entity
+## Projects & Engagements
 
-_(populated by `gbrain-project-linker.py` on next run — search backlinks)_
+- **SGEBIZ VAPT** — Vulnerability Assessment and Penetration Testing engagement with Evvo Labs. Project status: in-progress. [Source: companies-sgebiz] [Source: people/suyog-bagul]
+
+## Notable mentions
+
+- SGEBIZ appears in Phuong Cao's project coordination scope for multiple Singapore-based cybersecurity engagements, though specific SGEBIZ project details beyond the VAPT engagement are not captured. [Source: people-phuong-cao]
+- The SGEBIZ VAPT engagement was referenced in a contract-related inbox item dated 2026-06-11. [Source: inbox/2026-06-11-vapt-sgebiz-contract]

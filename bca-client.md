@@ -1,7 +1,8 @@
 ---
-type: concept
-title: bca-client
-slug: bca-client
+type: 'concept'
+title: 'bca-client'
+slug: 'bca-client'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # bca-client

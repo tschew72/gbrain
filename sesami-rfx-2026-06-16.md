@@ -1,12 +1,13 @@
 ---
-type: note
-title: Sesami Rfx 2026 06 16
-status: new
+type: 'note'
+title: 'Sesami Rfx 2026 06 16'
+status: 'new'
 sources:
   - 'm365-30min:2026-06-16T1830'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T10:37:58.241Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T10:37:58.241Z'
 ---
 
 # SESAMi RFx Alert — 2026-06-16

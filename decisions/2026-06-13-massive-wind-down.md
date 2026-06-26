@@ -1,28 +1,29 @@
 ---
-type: decision-log
-title: 2026 06 13 Massive Wind Down
+type: 'decision-log'
+title: '2026 06 13 Massive Wind Down'
 date: '2026-06-13T00:00:00.000Z'
-domain: operations
-status: active
+domain: 'operations'
+status: 'active'
 related:
-  - decisions/2026-06-13-promptdome-winddown-spec
+  - 'decisions/2026-06-13-promptdome-winddown-spec'
 audience:
-  - operations
-  - vince
+  - 'operations'
+  - 'vince'
 last-updated: '2026-06-13T21:50+08:00'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T13:45:53.649Z'
 source_kind: 'mcp:put_page'
 tags:
-  - cron
-  - llm-cost
-  - m2.7
-  - mnemon
-  - promptdome
+  - 'cron'
+  - 'llm-cost'
+  - 'm2.7'
+  - 'mnemon'
+  - 'promptdome'
   - 'Sat Jun 13 2026 08:00:00 GMT+0800 (Singapore Standard Time)'
-  - strategy
-  - testforge
-  - wind-down
+  - 'strategy'
+  - 'testforge'
+  - 'wind-down'
+created: '2026-06-13T00:00:00.000Z'
 ---
 
 # Vince Wind-Down — 2026-06-13 SGT

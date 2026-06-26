@@ -1,13 +1,14 @@
 ---
-type: project
-title: St Engineering Sensor Buoy
-client: ST Engineering
-status: active
+type: 'project'
+title: 'St Engineering Sensor Buoy'
+client: 'ST Engineering'
+status: 'active'
 sources:
   - 'm365-30min:2026-06-16T1830'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T10:37:45.548Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T10:37:45.548Z'
 ---
 
 # ST Engineering Sensor Buoy Cybersecurity Project

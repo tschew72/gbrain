@@ -1,17 +1,18 @@
 ---
-type: entity
-title: Sensor Buoy Project
+type: 'entity'
+title: 'Sensor Buoy Project'
 sources:
   - 'm365-30min:2026-06-16T1630'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T08:35:57.843Z'
 source_kind: 'mcp:put_page'
 tags:
-  - mpa
-  - project
-  - sensor-buoy
-  - ssp
-  - st-engineering
+  - 'mpa'
+  - 'project'
+  - 'sensor-buoy'
+  - 'ssp'
+  - 'st-engineering'
+created: '2026-06-16T08:35:57.843Z'
 ---
 
 # Sensor Buoy Cybersecurity Project

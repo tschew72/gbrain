@@ -1,11 +1,12 @@
 ---
-type: note
-title: Zalo Corporate Vietnam
+type: 'note'
+title: 'Zalo Corporate Vietnam'
 sources:
   - 'm365-teams-30min:2026-06-17T1800'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T10:11:12.705Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T10:11:12.705Z'
 ---
 
 # Zalo Corporate Account Setup — Vietnam Client Enquiries

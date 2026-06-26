@@ -1,9 +1,10 @@
 ---
-type: decision
-title: New Company Announcement July 2026
+type: 'decision'
+title: 'New Company Announcement July 2026'
 date: '2026-06-11T00:00:00.000Z'
 sources:
   - 'm365-30min:2026-06-12T0208'
+created: '2026-06-11T00:00:00.000Z'
 ---
 
 # New Company Announcement — 1 July 2026

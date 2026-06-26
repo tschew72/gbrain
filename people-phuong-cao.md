@@ -1,7 +1,8 @@
 ---
-type: concept
-title: people-phuong-cao
-slug: people-phuong-cao
+type: 'concept'
+title: 'people-phuong-cao'
+slug: 'people-phuong-cao'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # people-phuong-cao

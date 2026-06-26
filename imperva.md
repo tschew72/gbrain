@@ -1,7 +1,8 @@
 ---
-type: concept
-title: imperva
-slug: imperva
+type: 'concept'
+title: 'imperva'
+slug: 'imperva'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # imperva

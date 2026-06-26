@@ -1,6 +1,6 @@
 ---
-type: note
-title: 2026 06 11 Vapt Sgebiz Contract
+type: 'note'
+title: '2026 06 11 Vapt Sgebiz Contract'
 date: '2026-06-11T00:00:00.000Z'
 sources:
   - 'm365-30min:2026-06-11T2308'
@@ -9,11 +9,12 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T05:04:23.133Z'
 source_kind: 'mcp:put_page'
 tags:
-  - active-engagement
-  - delivery
-  - mobile
-  - sgebiz
-  - vapt
+  - 'active-engagement'
+  - 'delivery'
+  - 'mobile'
+  - 'sgebiz'
+  - 'vapt'
+created: '2026-06-11T00:00:00.000Z'
 ---
 
 # RE: EVVO SG - VAPT (EU: SGEBIZ) Contract No. 31/2026/HĐDV

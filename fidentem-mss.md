@@ -1,11 +1,12 @@
 ---
-type: entity
-title: Fidentem Mss
+type: 'entity'
+title: 'Fidentem Mss'
 sources:
   - 'm365-30min:2026-06-16T1730'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T09:51:03.472Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T09:51:03.472Z'
 ---
 
 # Fidentem — Managed Security Services

@@ -1,12 +1,13 @@
 ---
-type: note
-title: 2026 06 13 Sentineone Partner Portal Migration
+type: 'note'
+title: '2026 06 13 Sentineone Partner Portal Migration'
 sources:
   - 'm365-30min:2026-06-13T1400'
 effective_date: '2026-06-13T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T06:01:57.603Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-13T06:01:57.603Z'
 ---
 
 # SentinelOne Partner Portal Migration — June 19

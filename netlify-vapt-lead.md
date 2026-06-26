@@ -1,15 +1,16 @@
 ---
-type: entity
-title: Netlify VAPT Lead
+type: 'entity'
+title: 'Netlify VAPT Lead'
 sources:
   - 'm365-30min:2026-06-14T0700'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T23:03:25.320Z'
 source_kind: 'mcp:put_page'
 tags:
-  - lead
-  - singapore
-  - vapt
+  - 'lead'
+  - 'singapore'
+  - 'vapt'
+created: '2026-06-13T23:03:25.320Z'
 ---
 
 # Netlify VAPT Lead

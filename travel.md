@@ -1,7 +1,8 @@
 ---
-type: concept
-title: travel
-slug: travel
+type: 'concept'
+title: 'travel'
+slug: 'travel'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # travel

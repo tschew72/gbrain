@@ -1,15 +1,20 @@
 ---
-type: entity
-title: Samantha Chan
-schema_type: person
-slug: people/samantha-chan
-role: "Precepts Group (EPPL Asia) — vCISO client contact (samantha.chan@preceptsgroup.com)"
+type: 'entity'
+title: 'Samantha Chan'
+schema_type: 'person'
+slug: 'people/samantha-chan'
+role: 'Precepts Group (EPPL Asia) — vCISO client contact (samantha.chan@preceptsgroup.com)'
 sources:
   - 'projects/precepts-vciso'
-tags: [client-contact, precepts, vciso, active-engagement]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
+tags:
+  - 'client-contact'
+  - 'precepts'
+  - 'vciso'
+  - 'active-engagement'
+ingested_via: 'script:gbrain-stub-creator'
+source_kind: 'script'
 ingested_at: '2026-06-18T00:30:00.000Z'
+created: '2026-06-18T00:30:00.000Z'
 ---
 
 # Samantha Chan

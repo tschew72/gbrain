@@ -1,13 +1,14 @@
 ---
-type: person
-title: Zedrick Jade D Juntilla
-status: active
+type: 'person'
+title: 'Zedrick Jade D Juntilla'
+status: 'active'
 sources:
   - 'm365-30min:2026-06-15T1100'
   - 'm365-30min:2026-06-16T1130'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T03:36:29.152Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T03:36:29.152Z'
 ---
 
 # Zedrick Jade D Juntilla

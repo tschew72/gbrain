@@ -1,17 +1,22 @@
 ---
-type: entity
-title: HomeTeamNS
-schema_type: company
-slug: companies/hometeamns
-role: "HomeTeamNS — Singapore Home Team National Service (association)"
+type: 'entity'
+title: 'HomeTeamNS'
+schema_type: 'company'
+slug: 'companies/hometeamns'
+role: 'HomeTeamNS — Singapore Home Team National Service (association)'
 sources:
   - 'projects/hometeamns'
   - 'projects/hometeamns-cem'
   - 'm365-30min:2026-06-13T1443'
-tags: [client, singapore, cem, active-rfq]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
+tags:
+  - 'client'
+  - 'singapore'
+  - 'cem'
+  - 'active-rfq'
+ingested_via: 'script:gbrain-stub-creator'
+source_kind: 'script'
 ingested_at: '2026-06-18T00:30:00.000Z'
+created: '2026-06-18T00:30:00.000Z'
 ---
 
 # HomeTeamNS

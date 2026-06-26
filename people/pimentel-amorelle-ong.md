@@ -1,15 +1,20 @@
 ---
-type: entity
-title: Pimentel Amorelle Ong
-schema_type: person
-slug: people/pimentel-amorelle-ong
-role: "Logistics Solutions Hub Pte Ltd — CEM project contact"
+type: 'entity'
+title: 'Pimentel Amorelle Ong'
+schema_type: 'person'
+slug: 'people/pimentel-amorelle-ong'
+role: 'Logistics Solutions Hub Pte Ltd — CEM project contact'
 sources:
   - 'projects/logistics-solutions-hub-cem'
-tags: [client-contact, logistics-solutions-hub, cem, needs-enrichment]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
+tags:
+  - 'client-contact'
+  - 'logistics-solutions-hub'
+  - 'cem'
+  - 'needs-enrichment'
+ingested_via: 'script:gbrain-stub-creator'
+source_kind: 'script'
 ingested_at: '2026-06-18T00:30:00.000Z'
+created: '2026-06-18T00:30:00.000Z'
 ---
 
 # Pimentel Amorelle Ong

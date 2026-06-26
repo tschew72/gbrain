@@ -1,14 +1,15 @@
 ---
-type: decision
-title: Vietnam Vendor Quotes (June 2026)
-region: vietnam
+type: 'decision'
+title: 'Vietnam Vendor Quotes (June 2026)'
+region: 'vietnam'
 sources:
   - 'm365-teams-30min:2026-06-17T1700'
   - 'teams:evvo-vietnam/business-development'
-decision_status: evaluation
+decision_status: 'evaluation'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T09:07:22.819Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T09:07:22.819Z'
 ---
 
 # Vietnam Vendor Quotes (June 2026)

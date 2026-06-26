@@ -1,16 +1,17 @@
 ---
-type: note
-title: Yl Checkpoint Notification
+type: 'note'
+title: 'Yl Checkpoint Notification'
 sources:
   - 'm365-teams-30min:2026-06-17T1030'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T02:39:31.632Z'
 source_kind: 'mcp:put_page'
 tags:
-  - alert
-  - checkpoint
-  - soc
-  - yl
+  - 'alert'
+  - 'checkpoint'
+  - 'soc'
+  - 'yl'
+created: '2026-06-17T02:39:31.632Z'
 ---
 
 # YL Integrated Checkpoint Notification

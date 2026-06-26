@@ -1,7 +1,8 @@
 ---
-type: concept
-title: nguyen-minh-duc
-slug: nguyen-minh-duc
+type: 'concept'
+title: 'nguyen-minh-duc'
+slug: 'nguyen-minh-duc'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # nguyen-minh-duc

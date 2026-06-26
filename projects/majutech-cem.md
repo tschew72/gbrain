@@ -1,9 +1,10 @@
 ---
-type: project
-title: Majutech Cem
+type: 'project'
+title: 'Majutech Cem'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:11:03.508Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:11:03.508Z'
 ---
 
 # Majutech CEM Project

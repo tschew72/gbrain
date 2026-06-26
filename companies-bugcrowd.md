@@ -1,7 +1,8 @@
 ---
-type: concept
-title: companies-bugcrowd
-slug: companies-bugcrowd
+type: 'concept'
+title: 'companies-bugcrowd'
+slug: 'companies-bugcrowd'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # companies-bugcrowd

@@ -1,16 +1,17 @@
 ---
-type: entity
-title: Ipi Innovation Partner
+type: 'entity'
+title: 'Ipi Innovation Partner'
 sources:
   - 'm365-30min:2026-06-17T1030'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T02:39:13.988Z'
 source_kind: 'mcp:put_page'
 tags:
-  - government
-  - innovation
-  - lead
-  - singapore
+  - 'government'
+  - 'innovation'
+  - 'lead'
+  - 'singapore'
+created: '2026-06-17T02:39:13.988Z'
 ---
 
 # IPI - Innovation Partner for Impact

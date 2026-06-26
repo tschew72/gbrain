@@ -1,17 +1,18 @@
 ---
-type: entity
-title: Digital Dragon Cybersecurity
+type: 'entity'
+title: 'Digital Dragon Cybersecurity'
 sources:
   - 'm365-teams-30min:2026-06-17T1100'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T03:14:10.880Z'
 source_kind: 'mcp:put_page'
 tags:
-  - competition
-  - cybersecurity
-  - ddc
-  - event
-  - vietnam
+  - 'competition'
+  - 'cybersecurity'
+  - 'ddc'
+  - 'event'
+  - 'vietnam'
+created: '2026-06-17T03:14:10.880Z'
 ---
 
 # Digital Dragon Cybersecurity Competition (DDC 2026)

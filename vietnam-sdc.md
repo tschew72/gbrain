@@ -1,16 +1,17 @@
 ---
-type: entity
-title: Vietnam Sdc
+type: 'entity'
+title: 'Vietnam Sdc'
 sources:
   - 'm365-teams-30min:2026-06-16T1630'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T08:36:07.805Z'
 source_kind: 'mcp:put_page'
 tags:
-  - business-development
-  - pricing
-  - sdc
-  - vietnam
+  - 'business-development'
+  - 'pricing'
+  - 'sdc'
+  - 'vietnam'
+created: '2026-06-16T08:36:07.805Z'
 ---
 
 # Vietnam SDC Pricing

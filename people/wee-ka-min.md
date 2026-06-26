@@ -1,29 +1,39 @@
 ---
-type: entity
-title: Wee Ka Min
-schema_type: person
-slug: people/wee-ka-min
-role: "Good Bards Pte Ltd — Contact (project: Good Bards VAPT)"
+type: 'entity'
+title: 'Wee Ka Min'
+role: 'Good Bards Pte Ltd — Contact (project: Good Bards VAPT)'
 sources:
   - 'projects/good-bards-vapt'
-tags: [client-contact, needs-enrichment, good-bards]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
-ingested_at: '2026-06-18T00:30:00.000Z'
+enriched_at: '2026-06-18T05:01:23.279Z'
+enriched_by: 'cli:enrich'
+ingested_at: '2026-06-18T05:01:23.630Z'
+schema_type: 'person'
+source_kind: 'put_page'
+ingested_via: 'put_page'
+tags:
+  - 'client-contact'
+  - 'good-bards'
+  - 'needs-enrichment'
+created: '2026-06-18T05:01:23.630Z'
 ---
 
-# Wee Ka Min
+## Overview
 
-**Role:** Good Bards Pte Ltd — Contact (project: Good Bards VAPT)
+Wee Ka Min is the client contact for Good Bards Pte Ltd on the Good Bards VAPT engagement with Evvo Labs. They are identified as the CISOaaS applicant for the project. [Source: projects/good-bards-vapt]
 
-## Context
+## Role & Affiliations
 
-Client contact on the Good Bards VAPT engagement. Needs enrichment.
+- **Good Bards Pte Ltd** — Client contact (CISOaaS applicant) for the VAPT engagement [Source: projects/good-bards-vapt]
 
-## Sources
+## Notable Work
 
-- projects/good-bards-vapt
+- **Good Bards VAPT** — Serving as the client-side contact for the CISOaaS Penetration Testing engagement conducted via the IMDA/CSA program. The engagement covers 10 dynamic pages per web app for 1 to 10 endpoints, with Application No: CISO18042026Q0Lkvq. [Source: projects/good-bards-vapt]
 
-## Projects referencing this entity
+## Relationships
 
-_(populated by `gbrain-project-linker.py` on next run — search backlinks)_
+- **Phuong Cao (Fang)** — Evvo Labs Project Manager coordinating the Good Bards VAPT engagement [Source: projects/good-bards-vapt]
+
+## Timeline Highlights
+
+- **2026-04-18** — CISOaaS application submitted for the Good Bards VAPT engagement [Source: projects/good-bards-vapt]
+- **Ongoing** — Good Bards VAPT engagement status: 🟢 On Track | P1; remediation delays have been flagged [Source: projects/good-bards-vapt]

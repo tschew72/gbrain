@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Cabs Cambodiasoft
+type: 'entity'
+title: 'Cabs Cambodiasoft'
 sources:
   - 'm365-30min:2026-06-16T1730'
   - 'm365-30min:2026-06-17T0600'
@@ -9,12 +9,13 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T03:14:11.373Z'
 source_kind: 'mcp:put_page'
 tags:
-  - business-development
-  - cabs
-  - cambodia
-  - cambodiasoft
-  - partnership
-  - revbits
+  - 'business-development'
+  - 'cabs'
+  - 'cambodia'
+  - 'cambodiasoft'
+  - 'partnership'
+  - 'revbits'
+created: '2026-06-17T03:14:11.373Z'
 ---
 
 # CABS (CambodiaSoft) Collaboration

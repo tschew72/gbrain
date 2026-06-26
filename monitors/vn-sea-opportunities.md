@@ -1,17 +1,18 @@
 ---
-type: monitor
-title: Vn Sea Opportunities
+type: 'monitor'
+title: 'Vn Sea Opportunities'
 date: '2026-06-12T00:00:00.000Z'
-domain: feed
-status: active
+domain: 'feed'
+status: 'active'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-12T01:08:43.180Z'
 source_kind: 'mcp:put_page'
 tags:
-  - newsjack
-  - sea
-  - teams
-  - vietnam
+  - 'newsjack'
+  - 'sea'
+  - 'teams'
+  - 'vietnam'
+created: '2026-06-12T00:00:00.000Z'
 ---
 
 # vn-sea-opportunities monitor

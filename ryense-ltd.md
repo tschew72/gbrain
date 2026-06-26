@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Ryense Ltd
+type: 'entity'
+title: 'Ryense Ltd'
 sources:
   - 'm365-30min:2026-06-11'
   - 'm365-teams-30min:2026-06-17T1600'
@@ -8,11 +8,12 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T08:07:58.713Z'
 source_kind: 'mcp:put_page'
 tags:
-  - active-mandate
-  - prospect
-  - rfq
-  - vietnam
-  - webflow
+  - 'active-mandate'
+  - 'prospect'
+  - 'rfq'
+  - 'vietnam'
+  - 'webflow'
+created: '2026-06-17T08:07:58.713Z'
 ---
 
 # Ryense Ltd

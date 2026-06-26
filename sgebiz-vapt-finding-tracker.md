@@ -1,15 +1,16 @@
 ---
-type: entity
-title: SGEBIZ VAPT Finding Tracker
-client: sgebiz
-status: pending-review
-project: vapt
+type: 'entity'
+title: 'SGEBIZ VAPT Finding Tracker'
+client: 'sgebiz'
+status: 'pending-review'
+project: 'vapt'
 sources:
   - 'm365-30min:2026-06-17T1700'
   - 'email:phuong.cao@evvolabs.com'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T09:07:26.405Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T09:07:26.405Z'
 ---
 
 # SGEBIZ VAPT Finding Tracker

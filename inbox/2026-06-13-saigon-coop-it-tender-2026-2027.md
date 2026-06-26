@@ -1,12 +1,13 @@
 ---
-type: entity
-title: Saigon Co-op IT Equipment & Services Tender 2026-2027
+type: 'entity'
+title: 'Saigon Co-op IT Equipment & Services Tender 2026-2027'
 sources:
   - 'm365-30min:2026-06-13T2000'
 effective_date: '2026-06-10T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T12:04:11.051Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-13T12:04:11.051Z'
 ---
 
 # Saigon Co-op IT Equipment & Services Tender 2026-2027

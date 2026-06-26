@@ -1,7 +1,8 @@
 ---
-type: concept
-title: companies-evvo
-slug: companies-evvo
+type: 'concept'
+title: 'companies-evvo'
+slug: 'companies-evvo'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # companies-evvo

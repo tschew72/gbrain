@@ -1,11 +1,12 @@
 ---
-type: note
-title: EDB Baiduspider Bot Access Control Exception
+type: 'note'
+title: 'EDB Baiduspider Bot Access Control Exception'
 sources:
   - 'm365-30min:2026-06-17T0730'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T23:39:49.148Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T23:39:49.148Z'
 ---
 
 # EDB Baiduspider Bot Access Control Exception

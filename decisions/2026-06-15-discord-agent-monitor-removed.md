@@ -1,18 +1,19 @@
 ---
-type: decision
-title: 2026 06 15 Discord Agent Monitor Removed
+type: 'decision'
+title: '2026 06 15 Discord Agent Monitor Removed'
 date: '2026-06-15T00:00:00.000Z'
-actor: vince
-status: completed
+actor: 'vince'
+status: 'completed'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-14T22:42:34.514Z'
 source_kind: 'mcp:put_page'
 tags:
-  - agent-monitor
-  - cleanup
-  - discord
-  - openclaw
-  - systemd
+  - 'agent-monitor'
+  - 'cleanup'
+  - 'discord'
+  - 'openclaw'
+  - 'systemd'
+created: '2026-06-15T00:00:00.000Z'
 ---
 
 # OpenClaw Discord Agent Monitor — Removed

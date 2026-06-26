@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Comfortdelgro
+type: 'entity'
+title: 'Comfortdelgro'
 sources:
   - 'm365-30min:2026-06-11T0200'
   - 'm365-30min:2026-06-17T1100'
@@ -9,10 +9,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T03:37:59.043Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - sgebiz
-  - tender
-  - vapt
+  - 'client'
+  - 'sgebiz'
+  - 'tender'
+  - 'vapt'
+created: '2026-06-17T03:37:59.043Z'
 ---
 
 # ComfortDelGro

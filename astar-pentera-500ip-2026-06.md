@@ -1,6 +1,6 @@
 ---
-type: concept
-title: Astar Pentera 500ip 2026 06
+type: 'concept'
+title: 'Astar Pentera 500ip 2026 06'
 sources:
   - 'm365-30min:2026-06-15T1705'
   - 'm365-30min:2026-06-17T0944'
@@ -9,12 +9,13 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T02:17:09.304Z'
 source_kind: 'mcp:put_page'
 tags:
-  - astar
-  - inbox
-  - payment-terms
-  - pentera
-  - sales
-  - singapore
+  - 'astar'
+  - 'inbox'
+  - 'payment-terms'
+  - 'pentera'
+  - 'sales'
+  - 'singapore'
+created: '2026-06-17T02:17:09.304Z'
 ---
 
 # A*STAR Pentera 500 IP — Payment Term Pushback

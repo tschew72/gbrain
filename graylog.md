@@ -1,7 +1,8 @@
 ---
-type: concept
-title: graylog
-slug: graylog
+type: 'concept'
+title: 'graylog'
+slug: 'graylog'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # graylog

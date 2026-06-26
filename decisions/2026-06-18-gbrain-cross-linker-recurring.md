@@ -1,20 +1,21 @@
 ---
-type: decision
-title: GBrain Cross-Linker — make LLM-driven orphan reduction recurring
+type: 'decision'
+title: 'GBrain Cross-Linker — make LLM-driven orphan reduction recurring'
 date: '2026-06-18T00:00:00.000Z'
-status: shipped
-made_by: max
-project: gbrain
+status: 'shipped'
+made_by: 'max'
+project: 'gbrain'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:38:40.541Z'
 source_kind: 'mcp:put_page'
 tags:
-  - automation
-  - brain-score
-  - gbrain
-  - linker
-  - llm
-  - recurring
+  - 'automation'
+  - 'brain-score'
+  - 'gbrain'
+  - 'linker'
+  - 'llm'
+  - 'recurring'
+created: '2026-06-18T00:00:00.000Z'
 ---
 
 # GBrain Cross-Linker — recurring

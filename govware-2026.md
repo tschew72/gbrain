@@ -1,15 +1,16 @@
 ---
-type: note
-title: GovWare 2026
+type: 'note'
+title: 'GovWare 2026'
 sources:
   - 'm365-30min:2026-06-16T1430'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T06:38:22.420Z'
 source_kind: 'mcp:put_page'
 tags:
-  - cybersecurity
-  - event
-  - singapore
+  - 'cybersecurity'
+  - 'event'
+  - 'singapore'
+created: '2026-06-16T06:38:22.420Z'
 ---
 
 # GovWare 2026

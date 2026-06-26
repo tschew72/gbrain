@@ -1,7 +1,8 @@
 ---
-type: concept
-title: zalo
-slug: zalo
+type: 'concept'
+title: 'zalo'
+slug: 'zalo'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # zalo

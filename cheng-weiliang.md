@@ -1,7 +1,8 @@
 ---
-type: concept
-title: cheng-weiliang
-slug: cheng-weiliang
+type: 'concept'
+title: 'cheng-weiliang'
+slug: 'cheng-weiliang'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # cheng-weiliang

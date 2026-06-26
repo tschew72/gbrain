@@ -1,3 +1,13 @@
+---
+type: reference
+title: GBrain Checkout — default source
+created: '2026-06-12T05:51:00.000Z'
+domain: ops
+status: active
+source_kind: filesystem
+ingested_via: filesystem
+---
+
 # GBrain Checkout — default source
 
 This is the on-disk working directory for the `default` source in the

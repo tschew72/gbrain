@@ -1,25 +1,26 @@
 ---
-type: decision-log
-title: 2026 06 13 Mnemon Uninstall
+type: 'decision-log'
+title: '2026 06 13 Mnemon Uninstall'
 date: '2026-06-13T00:00:00.000Z'
-domain: operations
-status: active
+domain: 'operations'
+status: 'active'
 related:
-  - decisions/2026-06-13-massive-wind-down
+  - 'decisions/2026-06-13-massive-wind-down'
 audience:
-  - operations
-  - vince
+  - 'operations'
+  - 'vince'
 last-updated: '2026-06-13T21:50+08:00'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T13:46:51.295Z'
 source_kind: 'mcp:put_page'
 tags:
-  - infrastructure
-  - mnemon
-  - retirement
+  - 'infrastructure'
+  - 'mnemon'
+  - 'retirement'
   - 'Sat Jun 13 2026 08:00:00 GMT+0800 (Singapore Standard Time)'
-  - uninstall
-  - wind-down
+  - 'uninstall'
+  - 'wind-down'
+created: '2026-06-13T00:00:00.000Z'
 ---
 
 # mnemon Full Uninstall — 2026-06-13 21:50 SGT

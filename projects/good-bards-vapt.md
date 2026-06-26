@@ -1,9 +1,10 @@
 ---
-type: project
-title: Good Bards Vapt
+type: 'project'
+title: 'Good Bards Vapt'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:20:17.621Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:20:17.621Z'
 ---
 
 # Good Bards VAPT Project

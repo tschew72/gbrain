@@ -1,20 +1,21 @@
 ---
-type: decision
-title: 2026 06 13 Promptdome Pause
+type: 'decision'
+title: '2026 06 13 Promptdome Pause'
 date: '2026-06-13T00:00:00.000Z'
-status: wind-down-uniform
-made_by: vince
-project: promptdome
+status: 'wind-down-uniform'
+made_by: 'vince'
+project: 'promptdome'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T07:43:39.211Z'
 source_kind: 'mcp:put_page'
 tags:
-  - freeze
-  - promptdome
-  - strategic-decision
-  - structured-retirement
-  - uniform
-  - wind-down
+  - 'freeze'
+  - 'promptdome'
+  - 'strategic-decision'
+  - 'structured-retirement'
+  - 'uniform'
+  - 'wind-down'
+created: '2026-06-13T00:00:00.000Z'
 ---
 
 # PromptDome Wind-Down — 2026-06-13 (uniform)

@@ -1,12 +1,13 @@
 ---
-type: decision
-title: Gbrain Vs Memory Decision 2026 06 07
+type: 'decision'
+title: 'Gbrain Vs Memory Decision 2026 06 07'
 date: '2026-06-07T00:00:00.000Z'
-author: Max
-status: active
+author: 'Max'
+status: 'active'
 related:
-  - architecture/gbrain-postgres-migration-2026-06-05
-  - architecture/gbrain-capture-chain-design
+  - 'architecture/gbrain-postgres-migration-2026-06-05'
+  - 'architecture/gbrain-capture-chain-design'
+created: '2026-06-07T00:00:00.000Z'
 ---
 
 # GBrain vs MEMORY.md — Dual-Store Architecture Decision

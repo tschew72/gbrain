@@ -1,16 +1,17 @@
 ---
-type: decision
-title: Mas Ai Risk Management Toolkit 2026
+type: 'decision'
+title: 'Mas Ai Risk Management Toolkit 2026'
 date: '2026-06-13T00:00:00.000Z'
-domain: regulatory
+domain: 'regulatory'
 audience:
-  - ciso
-  - sales
-  - consulting
+  - 'ciso'
+  - 'sales'
+  - 'consulting'
 last-updated: '2026-06-13T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T00:09:13.431Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-13T00:00:00.000Z'
 ---
 
 # MAS AI Risk Management Toolkit (March 20, 2026) + TPRM Overhaul

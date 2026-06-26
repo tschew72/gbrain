@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Mapletree
+type: 'entity'
+title: 'Mapletree'
 sources:
   - 'm365-30min:2026-06-16T1500'
   - 'm365-30min:2026-06-16T1530'
@@ -9,10 +9,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T22:08:22.357Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - contract
-  - phishing-test
-  - vietnam
+  - 'client'
+  - 'contract'
+  - 'phishing-test'
+  - 'vietnam'
+created: '2026-06-16T22:08:22.357Z'
 ---
 
 # Mapletree

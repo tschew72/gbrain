@@ -1,22 +1,23 @@
 ---
-type: finding
-title: 2026 06 14 Gbrain Kimi Anthropic Bridge
-status: deployed
+type: 'finding'
+title: '2026 06 14 Gbrain Kimi Anthropic Bridge'
+status: 'deployed'
 audience:
-  - operations
+  - 'operations'
 last-updated: '2026-06-14T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T23:40:38.174Z'
 source_kind: 'mcp:put_page'
 tags:
-  - anthropic
-  - deploy
-  - env-override
-  - full-deploy
-  - gbrain
-  - kimi
-  - llm
-  - smoke-test
+  - 'anthropic'
+  - 'deploy'
+  - 'env-override'
+  - 'full-deploy'
+  - 'gbrain'
+  - 'kimi'
+  - 'llm'
+  - 'smoke-test'
+created: '2026-06-13T23:40:38.174Z'
 ---
 
 # GBrain → Kimi Anthropic-Protocol Bridge (FULLY DEPLOYED 2026-06-14)

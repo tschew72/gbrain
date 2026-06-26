@@ -1,6 +1,6 @@
 ---
-type: note
-title: 2026 06 15 Received Pos Batch Mtech Connectivity
+type: 'note'
+title: '2026 06 15 Received Pos Batch Mtech Connectivity'
 sources:
   - 'm365-30min:2026-06-15T1631'
   - 'm365-30min:2026-06-15T1628'
@@ -9,6 +9,7 @@ effective_date: '2026-06-15T08:31:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-15T08:40:40.091Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-15T08:40:40.091Z'
 ---
 
 # PO Batch — 2026-06-15 (M.Tech + Connectivity Global channel)

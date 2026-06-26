@@ -1,7 +1,8 @@
 ---
-type: concept
-title: people-ryan-villegas
-slug: people-ryan-villegas
+type: 'concept'
+title: 'people-ryan-villegas'
+slug: 'people-ryan-villegas'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # people-ryan-villegas

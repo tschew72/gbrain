@@ -1,7 +1,8 @@
 ---
-type: concept
-title: people-vince-chew
-slug: people-vince-chew
+type: 'concept'
+title: 'people-vince-chew'
+slug: 'people-vince-chew'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # people-vince-chew

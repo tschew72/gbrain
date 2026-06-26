@@ -1,16 +1,17 @@
 ---
-type: lesson
+type: 'lesson'
 title: 'Lesson — When Cadence is Decided, Don''t Re-Ask'
-status: active
+status: 'active'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T12:50:00.725Z'
 source_kind: 'mcp:put_page'
 tags:
-  - cadence
-  - clarity
-  - digest
-  - m365
-  - questions
+  - 'cadence'
+  - 'clarity'
+  - 'digest'
+  - 'm365'
+  - 'questions'
+created: '2026-06-17T12:50:00.725Z'
 ---
 
 # Lesson: Don't Re-Ask Cadence Questions When Cadence is Already Decided

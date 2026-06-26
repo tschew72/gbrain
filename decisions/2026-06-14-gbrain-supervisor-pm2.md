@@ -1,18 +1,19 @@
 ---
-type: decision
-title: 2026 06 14 Gbrain Supervisor Pm2
+type: 'decision'
+title: '2026 06 14 Gbrain Supervisor Pm2'
 date: '2026-06-14T00:00:00.000Z'
-vince: general
-status: shipped
+vince: 'general'
+status: 'shipped'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-14T03:16:31.778Z'
 source_kind: 'mcp:put_page'
 tags:
-  - gbrain
-  - lesson
-  - ops
-  - pm2
-  - supervisor
+  - 'gbrain'
+  - 'lesson'
+  - 'ops'
+  - 'pm2'
+  - 'supervisor'
+created: '2026-06-14T00:00:00.000Z'
 ---
 
 # 2026-06-14: gbrain jobs supervisor → PM2

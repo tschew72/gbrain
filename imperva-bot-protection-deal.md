@@ -1,8 +1,8 @@
 ---
-type: deal
-title: Imperva Bot Protection Deal
-status: active
-product: Advanced Bot Protection (IMPERVA)
+type: 'deal'
+title: 'Imperva Bot Protection Deal'
+status: 'active'
+product: 'Advanced Bot Protection (IMPERVA)'
 sources:
   - 'm365-30min:2026-06-16T1830'
 customer: null
@@ -10,6 +10,7 @@ amount_sgd: 87360
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T10:37:45.743Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T10:37:45.743Z'
 ---
 
 # Advanced Bot Protection (IMPERVA) Deal — S$87,360

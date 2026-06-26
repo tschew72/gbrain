@@ -1,11 +1,12 @@
 ---
-type: entity
-title: Thales Group
+type: 'entity'
+title: 'Thales Group'
 sources:
   - 'm365-30min:2026-06-17T2230'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T14:38:43.397Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T14:38:43.397Z'
 ---
 
 # Thales Group

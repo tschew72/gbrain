@@ -1,12 +1,13 @@
 ---
-type: entity
-title: Nyk Business Systems South Asia
+type: 'entity'
+title: 'Nyk Business Systems South Asia'
 sources:
   - 'm365-30min:2026-06-16T1400'
   - 'm365-30min:2026-06-16T1730'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T09:50:10.619Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T09:50:10.619Z'
 ---
 
 # NYK Business Systems South Asia (NBSSA)

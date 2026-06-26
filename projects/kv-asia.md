@@ -1,9 +1,10 @@
 ---
-type: project
-title: Kv Asia
+type: 'project'
+title: 'Kv Asia'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:26:41.125Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:26:41.125Z'
 ---
 
 # KV Asia Project

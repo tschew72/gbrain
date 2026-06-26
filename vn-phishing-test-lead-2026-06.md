@@ -1,12 +1,13 @@
 ---
-type: entity
-title: Vietnam Phishing Test & Security Awareness Training Lead
+type: 'entity'
+title: 'Vietnam Phishing Test & Security Awareness Training Lead'
 sources:
   - 'm365-30min:2026-06-14T0630'
 effective_date: '2026-06-14T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T22:33:52.553Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-13T22:33:52.553Z'
 ---
 
 # Vietnam Phishing Test & Security Awareness Training Lead

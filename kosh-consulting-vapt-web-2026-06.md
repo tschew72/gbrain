@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Kosh Consulting Vapt Web 2026 06
+type: 'entity'
+title: 'Kosh Consulting Vapt Web 2026 06'
 sources:
   - 'm365-30min:2026-06-15T1700'
 effective_date: '2026-06-15T00:00:00.000Z'
@@ -8,12 +8,13 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-15T09:07:28.493Z'
 source_kind: 'mcp:put_page'
 tags:
-  - follow-up
-  - inbox
-  - kosh-consulting
-  - lead
-  - singapore
-  - vapt
+  - 'follow-up'
+  - 'inbox'
+  - 'kosh-consulting'
+  - 'lead'
+  - 'singapore'
+  - 'vapt'
+created: '2026-06-15T09:07:28.493Z'
 ---
 
 # Kosh Consulting Group — VAPT (Web) Follow-up

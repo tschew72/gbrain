@@ -1,15 +1,20 @@
 ---
-type: entity
-title: Yohan Mendis
-schema_type: person
-slug: people/yohan-mendis
-role: "Healthway Medical Group — Project Manager IT (Cyber Trust Mark contact)"
+type: 'entity'
+title: 'Yohan Mendis'
+schema_type: 'person'
+slug: 'people/yohan-mendis'
+role: 'Healthway Medical Group — Project Manager IT (Cyber Trust Mark contact)'
 sources:
   - 'projects/healthway-medical-ctm'
-tags: [client-contact, healthway-medical, ctm, needs-enrichment]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
+tags:
+  - 'client-contact'
+  - 'healthway-medical'
+  - 'ctm'
+  - 'needs-enrichment'
+ingested_via: 'script:gbrain-stub-creator'
+source_kind: 'script'
 ingested_at: '2026-06-18T00:30:00.000Z'
+created: '2026-06-18T00:30:00.000Z'
 ---
 
 # Yohan Mendis

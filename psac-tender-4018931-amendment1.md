@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Psac Tender 4018931 Amendment1
+type: 'entity'
+title: 'Psac Tender 4018931 Amendment1'
 sources:
   - 'm365-30min:2026-06-15T1637'
   - 'm365-30min:2026-06-15T1657'
@@ -10,15 +10,16 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-15T09:07:27.379Z'
 source_kind: 'mcp:put_page'
 tags:
-  - db-monitoring
-  - decision
-  - inbox
-  - pam
-  - psac
-  - psa-corporation
-  - remote-access
-  - skip
-  - tender
+  - 'db-monitoring'
+  - 'decision'
+  - 'inbox'
+  - 'pam'
+  - 'psac'
+  - 'psa-corporation'
+  - 'remote-access'
+  - 'skip'
+  - 'tender'
+created: '2026-06-15T09:07:27.379Z'
 ---
 
 # PSAC Tender 4018931 — Amendment 1 (PAM, Remote Access, DB Monitoring Renewals)

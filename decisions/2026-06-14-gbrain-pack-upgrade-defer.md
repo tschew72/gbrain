@@ -1,18 +1,17 @@
 ---
-type: decision
-title: 2026 06 14 Gbrain Pack Upgrade Defer
+type: 'decision'
+title: '2026 06 14 Gbrain Pack Upgrade Defer'
 date: '2026-06-14T00:00:00.000Z'
-status: active
-context: >-
-  gbrain doctor fires pack_upgrade_available WARN despite brain already on
-  gbrain-base-v2
+status: 'active'
+context: 'gbrain doctor fires pack_upgrade_available WARN despite brain already on gbrain-base-v2'
 related:
-  - findings/2026-06-14-gbrain-pack-upgrade-false-positive
-decided_by: V!₦©€ (Vince)
+  - 'findings/2026-06-14-gbrain-pack-upgrade-false-positive'
+decided_by: 'V!₦©€ (Vince)'
 decided_in: null
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-14T04:55:57.095Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-14T00:00:00.000Z'
 ---
 
 # Gbrain pack upgrade — DEFER to upstream fix (2026-06-14)

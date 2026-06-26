@@ -1,9 +1,10 @@
 ---
-type: project
-title: Mapletree Knowbe4
+type: 'project'
+title: 'Mapletree Knowbe4'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:27:39.996Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:27:39.996Z'
 ---
 
 # Mapletree KnowBe4 + Phishing Project

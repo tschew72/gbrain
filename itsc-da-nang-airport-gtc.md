@@ -1,12 +1,13 @@
 ---
-type: entity
-title: ITSC - Da Nang Airport GTC
+type: 'entity'
+title: 'ITSC - Da Nang Airport GTC'
 sources:
   - 'm365-30min:2026-06-15T1300'
 effective_date: '2026-06-15T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-15T05:06:36.009Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-15T05:06:36.009Z'
 ---
 
 # ITSC - Da Nang Airport GTC

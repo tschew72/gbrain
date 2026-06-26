@@ -1,9 +1,10 @@
 ---
-type: project
-title: Healthway Medical Ctm
+type: 'project'
+title: 'Healthway Medical Ctm'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:27:41.444Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:27:41.444Z'
 ---
 
 # Healthway Medical CTM Project

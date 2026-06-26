@@ -1,18 +1,19 @@
 ---
-type: decision
-title: 2026 06 12 Strategic Changes
+type: 'decision'
+title: '2026 06 12 Strategic Changes'
 date: '2026-06-12T00:00:00.000Z'
-domain: strategic
-source: vince-direct
-status: active
+domain: 'strategic'
+source: 'vince-direct'
+status: 'active'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-12T00:51:37.919Z'
 source_kind: 'mcp:put_page'
 tags:
-  - feed
-  - product
-  - promptdome
-  - vietnam
+  - 'feed'
+  - 'product'
+  - 'promptdome'
+  - 'vietnam'
+created: '2026-06-12T00:00:00.000Z'
 ---
 
 # Strategic decisions — 2026-06-12

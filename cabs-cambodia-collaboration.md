@@ -1,16 +1,17 @@
 ---
-type: opportunity
-title: Cabs Cambodia Collaboration
-status: active
+type: 'opportunity'
+title: 'Cabs Cambodia Collaboration'
+status: 'active'
 parties:
-  - Evvo Labs
-  - CABS / CambodiaSoft
-  - RevBits
+  - 'Evvo Labs'
+  - 'CABS / CambodiaSoft'
+  - 'RevBits'
 sources:
   - 'm365-30min:2026-06-16T1830'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T10:37:46.050Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T10:37:46.050Z'
 ---
 
 # CABS (Cambodia) Collaboration — RevBits Introduction

@@ -1,9 +1,10 @@
 ---
-type: project
-title: Ensign Vapt
+type: 'project'
+title: 'Ensign Vapt'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:20:16.635Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:20:16.635Z'
 ---
 
 # Ensign (Ademco) VAPT Project

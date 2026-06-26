@@ -1,12 +1,13 @@
 ---
-type: entity
-title: 2026 06 13 Cisco Catalyst 8000v Danang
+type: 'entity'
+title: '2026 06 13 Cisco Catalyst 8000v Danang'
 sources:
   - 'm365-30min:2026-06-13T1400'
 effective_date: '2026-06-13T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T06:01:57.857Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-13T06:01:57.857Z'
 ---
 
 # Cisco Catalyst 8000V Renewal — Da Nang Office

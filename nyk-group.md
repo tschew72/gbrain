@@ -1,22 +1,26 @@
 ---
-type: entity
-title: Nyk Group
+type: 'entity'
+title: 'Nyk Group'
 sources:
   - 'm365-30min:2026-06-16T1500'
   - 'm365-30min:2026-06-16T1530'
   - 'm365-30min:2026-06-16T1600'
   - 'm365-30min:2026-06-16T1700'
   - 'm365-30min:2026-06-17T0600'
+  - 'm365-30min:2026-06-25T1300'
+  - 'm365-30min:2026-06-26T0600'
+  - 'm365-30min:2026-06-26T0937'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T22:08:26.195Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - enterprise
-  - lead
-  - maritime
-  - nyk-group
-  - vapt
+  - 'client'
+  - 'enterprise'
+  - 'lead'
+  - 'maritime'
+  - 'nyk-group'
+  - 'vapt'
+created: '2026-06-16T22:08:26.195Z'
 ---
 
 # NYK Group
@@ -71,3 +75,30 @@ NYK Group is a client with an ongoing Annual VAPT (Vulnerability Assessment and 
 - Kailash Amin
 - Ryan Villegas
 - Pacific International Lines (related entity in NYK Group — PIL is a subsidiary)
+
+## Update 2026-06-25 12:57-13:02 SGT
+- Efren Adia sent proposal-clarification questions on the NBSSA FY2026 Entity-01 and Entity-03 quotations.
+- Entity-01 questions focused on the man-day basis for External Web Apps VAPT and an additional AD Assessment point.
+- Entity-03 questions focused on network-VAPT throughput per day and why the 14-IP versus 63-IP pricing appeared close.
+
+## So What 2026-06-25
+- The deal has moved into detailed commercial and scope scrutiny, which is a positive buying signal but raises the need for crisp effort-and-pricing justification.
+- A weak or slow answer here could erode confidence across both the VAPT pack and the bundled Red Team workstream.
+
+## Update 2026-06-25 23:17-23:41 SGT
+- Kailash Amin replied inline to Efren Adia's Entity-01 and Entity-03 quotation questions.
+- Efren said he understood Evvo's methodology on Entity-03, which suggests the network-VAPT throughput and pricing concern there has been answered.
+- Efren kept Entity-01 open by asking for an explicit External Web Apps VAPT testing/report man-day breakdown and continuing the AD Assessment clarification thread.
+
+## So What 2026-06-25 23:41 SGT
+- NYK's scrutiny has narrowed from two questioned entities to one remaining effort-model clarification on Entity-01.
+- A crisp E1 man-day breakdown should help keep the bundled VAPT and Red Team motion moving without reopening the E3 pricing discussion.
+
+## Update 2026-06-26 09:15 SGT
+- Kailash Amin asked Nu Nguyen (Anna) to confirm whether the Entity-01 AD Assessment should be treated as `Blackbox` or `Greybox`.
+- He said the client prefers `Greybox` and can provide `1 test credential with admin level`.
+- This gives Evvo a clearer execution preference on the still-open Entity-01 clarification thread while the explicit External Web Apps VAPT testing/report man-day breakdown remains outstanding.
+
+## So What 2026-06-26 09:15 SGT
+- NYK is moving from generic quote scrutiny into specific delivery-assumption shaping on Entity-01.
+- Evvo should answer the remaining man-day question quickly and align the AD assessment assumption toward a credentialed / greybox path so the bundled VAPT and Red Team motion keeps moving.

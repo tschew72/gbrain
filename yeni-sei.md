@@ -1,15 +1,16 @@
 ---
-type: entity
-title: YeniSei
+type: 'entity'
+title: 'YeniSei'
 sources:
   - 'm365-30min:2026-06-17T1230'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T04:43:02.117Z'
 source_kind: 'mcp:put_page'
 tags:
-  - contract
-  - prospect
-  - vapt
+  - 'contract'
+  - 'prospect'
+  - 'vapt'
+created: '2026-06-17T04:43:02.117Z'
 ---
 
 # YeniSei

@@ -1,7 +1,8 @@
 ---
-type: concept
-title: people-dung-bui
-slug: people-dung-bui
+type: 'concept'
+title: 'people-dung-bui'
+slug: 'people-dung-bui'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # people-dung-bui

@@ -1,11 +1,12 @@
 ---
-type: entity
-title: Changi Airport Group
+type: 'entity'
+title: 'Changi Airport Group'
 sources:
   - 'm365-30min:2026-06-12T1930'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-12T11:32:49.651Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-12T11:32:49.651Z'
 ---
 
 # Changi Airport Group (CAG)

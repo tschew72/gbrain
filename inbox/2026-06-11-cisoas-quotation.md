@@ -1,9 +1,10 @@
 ---
-type: note
-title: 2026 06 11 Cisoas Quotation
+type: 'note'
+title: '2026 06 11 Cisoas Quotation'
 date: '2026-06-11T00:00:00.000Z'
 sources:
   - 'm365-30min:2026-06-11T2308'
+created: '2026-06-11T00:00:00.000Z'
 ---
 
 # RE: Scope and Quotation for CISOaas

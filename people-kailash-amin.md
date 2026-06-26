@@ -1,7 +1,8 @@
 ---
-type: concept
-title: people-kailash-amin
-slug: people-kailash-amin
+type: 'concept'
+title: 'people-kailash-amin'
+slug: 'people-kailash-amin'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # people-kailash-amin

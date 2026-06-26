@@ -1,7 +1,8 @@
 ---
-type: concept
-title: evvo
-slug: evvo
+type: 'concept'
+title: 'evvo'
+slug: 'evvo'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # evvo

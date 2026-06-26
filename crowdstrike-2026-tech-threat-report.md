@@ -1,6 +1,6 @@
 ---
-type: note
-title: Crowdstrike 2026 Tech Threat Report
+type: 'note'
+title: 'Crowdstrike 2026 Tech Threat Report'
 sources:
   - 'm365-30min:2026-06-16T1200'
 ingested_via: 'mcp:put_page'
@@ -8,9 +8,10 @@ ingested_at: '2026-06-16T04:08:02.664Z'
 source_kind: 'mcp:put_page'
 tags:
   - '2026'
-  - crowdstrike
-  - technology-sector
-  - threat-intel
+  - 'crowdstrike'
+  - 'technology-sector'
+  - 'threat-intel'
+created: '2026-06-16T04:08:02.664Z'
 ---
 
 # CrowdStrike 2026 Technology Threat Landscape Report

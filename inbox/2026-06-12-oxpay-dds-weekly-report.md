@@ -1,6 +1,6 @@
 ---
-type: note
-title: 2026 06 12 Oxpay Dds Weekly Report
+type: 'note'
+title: '2026 06 12 Oxpay Dds Weekly Report'
 sources:
   - 'm365-30min:2026-06-12T2330'
   - 'm365-30min:2026-06-13T1400'
@@ -8,6 +8,7 @@ effective_date: '2026-06-12T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T06:02:08.694Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-13T06:02:08.694Z'
 ---
 
 # Oxpay DDS Weekly Monitoring Report (Jun 4-10)

@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Gicg Group
+type: 'entity'
+title: 'Gicg Group'
 sources:
   - 'm365-30min:2026-06-16T1330'
   - 'm365-30min:2026-06-17T1600'
@@ -9,10 +9,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T10:10:42.385Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - consulting
-  - cyber-trust-mark
-  - iso27001
+  - 'client'
+  - 'consulting'
+  - 'cyber-trust-mark'
+  - 'iso27001'
+created: '2026-06-17T10:10:42.385Z'
 ---
 
 # GICG Group (GIC Group)

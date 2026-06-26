@@ -1,17 +1,18 @@
 ---
-type: decision
-title: Vietnam Phishing Test Lead — In-Person Meeting
+type: 'decision'
+title: 'Vietnam Phishing Test Lead — In-Person Meeting'
 sources:
   - 'm365-30min:2026-06-14T0700'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T23:03:45.385Z'
 source_kind: 'mcp:put_page'
 tags:
-  - action-item
-  - in-person
-  - phishing
-  - sales
-  - vietnam
+  - 'action-item'
+  - 'in-person'
+  - 'phishing'
+  - 'sales'
+  - 'vietnam'
+created: '2026-06-13T23:03:45.385Z'
 ---
 
 # Vietnam Phishing Test Lead — In-Person Meeting

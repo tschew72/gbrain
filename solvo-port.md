@@ -1,11 +1,12 @@
 ---
-type: entity
-title: Solvo Port
+type: 'entity'
+title: 'Solvo Port'
 sources:
   - 'm365-30min:2026-06-16T1730'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T09:51:03.093Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T09:51:03.093Z'
 ---
 
 # SOLVO — Port Project Discussion

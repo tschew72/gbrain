@@ -1,16 +1,17 @@
 ---
-type: finding
-title: 2026 06 14 Gbrain Pack Upgrade False Positive
+type: 'finding'
+title: '2026 06 14 Gbrain Pack Upgrade False Positive'
 date: '2026-06-14T00:00:00.000Z'
-status: active
-context: gbrain doctor pack_upgrade_available WARN is a false positive for this brain
+status: 'active'
+context: 'gbrain doctor pack_upgrade_available WARN is a false positive for this brain'
 related:
-  - decisions/2026-06-14-gbrain-pack-upgrade-defer
-  - decisions/2026-06-14-gbrain-supervisor-pm2
-severity: low
+  - 'decisions/2026-06-14-gbrain-pack-upgrade-defer'
+  - 'decisions/2026-06-14-gbrain-supervisor-pm2'
+severity: 'low'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-14T04:55:54.255Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-14T00:00:00.000Z'
 ---
 
 # gbrain pack_upgrade_available doctor check is a false positive (v0.42 onboarding bug)

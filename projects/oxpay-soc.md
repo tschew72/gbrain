@@ -1,9 +1,10 @@
 ---
-type: project
-title: Oxpay Soc
-ingested_via: 'mcp:put_page'
-ingested_at: '2026-06-18T00:28:09.103Z'
+type: 'project'
+title: 'Oxpay Soc'
+ingested_at: '2026-06-20T07:06:32.394Z'
 source_kind: 'mcp:put_page'
+ingested_via: 'mcp:put_page'
+created: '2026-06-20T07:06:32.394Z'
 ---
 
 # Oxpay CISOaaS (SOC) Project
@@ -32,7 +33,9 @@ source_kind: 'mcp:put_page'
 - 2026-04-15: Maxim confirmed renewal for another year
 - 2026-04-16: Contract signed by RV
 - Monthly: SOC reports uploaded to Basecamp
+- 2026-06-20: Andrew shared SAT participation progress for the PCI DSS finding follow-up: 36 of 53 members had completed the training as of 19 June 2026, with the reference list attached for Maxim's review.
 
 ## Notes
 - Oxpay also has separate IID (Independent Insurance Directive) decision pending — commercial pipeline
 - Vince: "We will issue proposal and invoice from Singapore moving forward"
+- Latest delta source: `phuong-30min:2026-06-20T1503` from Andrew's email "Re: [Evvo Labs x OxPay] Planning for SAT and recommendation about PCI DSS Finding".

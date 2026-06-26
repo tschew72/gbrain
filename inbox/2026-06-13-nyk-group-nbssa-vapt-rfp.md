@@ -1,6 +1,6 @@
 ---
-type: entity
-title: 2026 06 13 Nyk Group Nbssa Vapt Rfp
+type: 'entity'
+title: '2026 06 13 Nyk Group Nbssa Vapt Rfp'
 sources:
   - 'm365-30min:2026-06-13T1800'
   - 'm365-30min:2026-06-13T2130'
@@ -10,6 +10,7 @@ effective_date: '2026-06-13T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-14T08:05:30.068Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-14T08:05:30.068Z'
 ---
 
 # NYK Group — NBSSA FY2026 VAPT Project

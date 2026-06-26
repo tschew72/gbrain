@@ -1,7 +1,8 @@
 ---
-type: concept
-title: people-fuad-zulkifli
-slug: people-fuad-zulkifli
+type: 'concept'
+title: 'people-fuad-zulkifli'
+slug: 'people-fuad-zulkifli'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # people-fuad-zulkifli

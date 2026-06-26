@@ -1,9 +1,10 @@
 ---
-type: project
-title: Globalsign Dbs Wsa
+type: 'project'
+title: 'Globalsign Dbs Wsa'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:11:00.008Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:11:00.008Z'
 ---
 
 # GlobalSign DBS/WSA Project

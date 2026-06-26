@@ -1,6 +1,6 @@
 ---
-type: entity
-title: SAFRA Gamification Project — Status Update June 2026
+type: 'entity'
+title: 'SAFRA Gamification Project — Status Update June 2026'
 date: '2026-06-13T00:00:00.000Z'
 sources:
   - 'm365-30min:2026-06-13T1932'
@@ -8,9 +8,10 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T11:36:11.735Z'
 source_kind: 'mcp:put_page'
 tags:
-  - gamification
-  - project-status
-  - safrage
+  - 'gamification'
+  - 'project-status'
+  - 'safrage'
+created: '2026-06-13T00:00:00.000Z'
 ---
 
 # SAFRA Gamification Project

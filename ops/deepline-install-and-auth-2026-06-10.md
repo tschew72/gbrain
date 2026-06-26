@@ -1,13 +1,14 @@
 ---
-type: operations
-title: Deepline Install And Auth 2026 06 10
-domain: tooling
-status: resolved
+type: 'operations'
+title: 'Deepline Install And Auth 2026 06 10'
+domain: 'tooling'
+status: 'resolved'
 audience:
-  - main
-  - sales
-  - cfo
+  - 'main'
+  - 'sales'
+  - 'cfo'
 last-updated: '2026-06-10T00:00:00.000Z'
+created: '2026-06-10T00:00:00.000Z'
 ---
 
 # Deepline Install + Auth — 2026-06-10

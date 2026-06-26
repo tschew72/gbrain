@@ -1,11 +1,12 @@
 ---
-type: entity
-title: Minh Sapota
+type: 'entity'
+title: 'Minh Sapota'
 sources:
   - 'm365-30min:2026-06-17T1800'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T10:11:13.147Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T10:11:13.147Z'
 ---
 
 # Minh Sapota

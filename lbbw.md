@@ -1,16 +1,19 @@
 ---
-type: entity
-title: LBBW - Red Team + VAPT
+type: 'entity'
+title: 'LBBW - Red Team + VAPT'
 sources:
   - 'm365-teams-30min:2026-06-17T1230'
+  - 'phuong-30min:2026-06-26T1404'
+  - 'phuong-30min:2026-06-26T1430'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T04:43:02.533Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - financial
-  - red-team
-  - vapt
+  - 'client'
+  - 'financial'
+  - 'red-team'
+  - 'vapt'
+created: '2026-06-17T04:43:02.533Z'
 ---
 
 # LBBW — Red Team Assessment + VAPT Project
@@ -48,3 +51,15 @@ Client: Landesbank Baden-Württemberg (LBBW), a German bank. Engagement through 
 - Dual engagement: Red Team + VAPT
 - KOM is imminent — project is moving to execution phase
 - 16 IP external blackbox scope with retest
+
+## Status Update (2026-06-26 14:04 SGT)
+- Amir Guzman replied in the kickoff recap thread that the required account details had already been sent in a separate email.
+- This does not change the LBBW Red Team + VAPT scope, but it confirms the post-kickoff prerequisite handoff is actively moving.
+- So what: access-readiness is progressing, so the next execution risk is validating the received details and keeping the test schedule on track.
+- Source: `phuong-30min:2026-06-26T1404`
+
+## Status Update (2026-06-26 14:30 SGT)
+- Fang replied in the kickoff recap thread with Evvo's testing source IP `122.11.242.236` for whitelisting and said the Red Team questionnaire will follow as soon as it is ready.
+- This does not change the LBBW Red Team + VAPT scope, but it converts the earlier access-handoff thread into explicit environment-readiness and requirement-gathering work.
+- So what: the client-side whitelisting step is now on the critical path, while Evvo still owes the questionnaire to keep the Red Team start on track.
+- Source: `phuong-30min:2026-06-26T1430`

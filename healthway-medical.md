@@ -1,15 +1,16 @@
 ---
-type: entity
-title: Healthway Medical
+type: 'entity'
+title: 'Healthway Medical'
 sources:
   - 'm365-30min:2026-06-16T1730'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T09:50:11.331Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - ctm
-  - invoice
+  - 'client'
+  - 'ctm'
+  - 'invoice'
+created: '2026-06-16T09:50:11.331Z'
 ---
 
 # Healthway Medical Group

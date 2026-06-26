@@ -1,18 +1,19 @@
 ---
-type: decision
-title: 2026 06 18 Propose Takes Timeout Fix
+type: 'decision'
+title: '2026 06 18 Propose Takes Timeout Fix'
 date: '2026-06-18T00:00:00.000Z'
-status: active
+status: 'active'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:10:53.152Z'
 source_kind: 'mcp:put_page'
 tags:
-  - dream-cycle
-  - fix
-  - gbrain
-  - propose_takes
-  - timeouts
-  - v0.42.20.0
+  - 'dream-cycle'
+  - 'fix'
+  - 'gbrain'
+  - 'propose_takes'
+  - 'timeouts'
+  - 'v0.42.20.0'
+created: '2026-06-18T00:00:00.000Z'
 ---
 
 # GBrain propose_takes SIGTERM — Permanent Fix (v0.42.20.0)

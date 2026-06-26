@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Aileen Trang
+type: 'entity'
+title: 'Aileen Trang'
 sources:
   - 'm365-30min:2026-06-14T0730'
   - 'm365-30min:2026-06-15T1532'
@@ -8,6 +8,7 @@ effective_date: '2026-06-14T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-15T07:36:45.048Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-15T07:36:45.048Z'
 ---
 
 # Aileen Trang

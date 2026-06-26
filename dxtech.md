@@ -1,6 +1,6 @@
 ---
-type: entity
-title: DXTECH
+type: 'entity'
+title: 'DXTECH'
 sources:
   - 'm365-30min:2026-06-14T1130'
   - 'm365-30min:2026-06-16T1430'
@@ -8,9 +8,10 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T06:38:19.726Z'
 source_kind: 'mcp:put_page'
 tags:
-  - business-development
-  - prospect
-  - vietnam
+  - 'business-development'
+  - 'prospect'
+  - 'vietnam'
+created: '2026-06-16T06:38:19.726Z'
 ---
 
 # DXTECH

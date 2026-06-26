@@ -1,12 +1,13 @@
 ---
-type: lesson
-title: 2026 06 17 Graph Perm Test 403 Shows Exact Missing Perms
+type: 'lesson'
+title: '2026 06 17 Graph Perm Test 403 Shows Exact Missing Perms'
 date: '2026-06-17T00:00:00.000Z'
-domain: m365-graph
-status: active
+domain: 'm365-graph'
+status: 'active'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T13:25:41.326Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T00:00:00.000Z'
 ---
 
 # Graph API 403 errors tell you exactly which perms are missing

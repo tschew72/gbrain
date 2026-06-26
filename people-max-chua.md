@@ -1,7 +1,8 @@
 ---
-type: concept
-title: people-max-chua
-slug: people-max-chua
+type: 'concept'
+title: 'people-max-chua'
+slug: 'people-max-chua'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # people-max-chua

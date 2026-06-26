@@ -1,15 +1,20 @@
 ---
-type: entity
-title: Daniel
-schema_type: person
-slug: people/daniel-kv-asia
-role: "KV Asia Capital — client POC (VAPT)"
+type: 'entity'
+title: 'Daniel'
+schema_type: 'person'
+slug: 'people/daniel-kv-asia'
+role: 'KV Asia Capital — client POC (VAPT)'
 sources:
   - 'projects/kv-asia'
-tags: [client-contact, kv-asia, vapt, needs-enrichment]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
+tags:
+  - 'client-contact'
+  - 'kv-asia'
+  - 'vapt'
+  - 'needs-enrichment'
+ingested_via: 'script:gbrain-stub-creator'
+source_kind: 'script'
 ingested_at: '2026-06-18T00:30:00.000Z'
+created: '2026-06-18T00:30:00.000Z'
 ---
 
 # Daniel

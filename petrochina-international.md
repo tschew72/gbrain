@@ -1,11 +1,12 @@
 ---
-type: entity
-title: Petrochina International
+type: 'entity'
+title: 'Petrochina International'
 sources:
   - 'm365-30min:2026-06-16T1000'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T02:08:07.870Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-16T02:08:07.870Z'
 ---
 
 # PetroChina International

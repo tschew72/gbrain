@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Cabs Collaboration
+type: 'entity'
+title: 'Cabs Collaboration'
 sources:
   - 'm365-30min:2026-06-16T1600'
   - 'm365-30min:2026-06-16T1700'
@@ -10,13 +10,14 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T03:13:45.174Z'
 source_kind: 'mcp:put_page'
 tags:
-  - business-development
-  - cabs
-  - cambodia
-  - cambodiasoft
-  - partnership
-  - revbits
-  - vietnam
+  - 'business-development'
+  - 'cabs'
+  - 'cambodia'
+  - 'cambodiasoft'
+  - 'partnership'
+  - 'revbits'
+  - 'vietnam'
+created: '2026-06-17T03:13:45.174Z'
 ---
 
 # CABS Collaboration (Cambodia-ASEAN Business Summit)

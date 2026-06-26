@@ -1,12 +1,13 @@
 ---
-type: entity
-title: Thales Evvo Supplier Query
+type: 'entity'
+title: 'Thales Evvo Supplier Query'
 sources:
   - 'm365-30min:2026-06-17T2335'
   - 'm365-30min:2026-06-17T2306'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T15:37:15.221Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T15:37:15.221Z'
 ---
 
 # Thales Group — EVVO Labs Supplier Query

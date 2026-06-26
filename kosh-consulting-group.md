@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Kosh Consulting Group
+type: 'entity'
+title: 'Kosh Consulting Group'
 sources:
   - 'm365-30min:2026-06-14T0700'
   - 'm365-30min:2026-06-16T0930'
@@ -8,10 +8,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T01:40:57.888Z'
 source_kind: 'mcp:put_page'
 tags:
-  - lead
-  - lost
-  - singapore
-  - vapt
+  - 'lead'
+  - 'lost'
+  - 'singapore'
+  - 'vapt'
+created: '2026-06-16T01:40:57.888Z'
 ---
 
 # Kosh Consulting Group

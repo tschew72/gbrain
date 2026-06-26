@@ -1,6 +1,6 @@
 ---
-type: entity
-title: KV Asia — Annual Due Diligence Questionnaire FY26
+type: 'entity'
+title: 'KV Asia — Annual Due Diligence Questionnaire FY26'
 date: '2026-06-12T00:00:00.000Z'
 sources:
   - 'm365-30min:2026-06-13T1932'
@@ -9,8 +9,9 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-14T13:06:41.411Z'
 source_kind: 'mcp:put_page'
 tags:
-  - due-diligence
-  - investor-relations
+  - 'due-diligence'
+  - 'investor-relations'
+created: '2026-06-12T00:00:00.000Z'
 ---
 
 # KV Asia DDQ FY26 Follow-up

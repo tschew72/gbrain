@@ -1,17 +1,18 @@
 ---
-type: note
-title: Bca Professional Service Package
+type: 'note'
+title: 'Bca Professional Service Package'
 sources:
   - 'm365-30min:2026-06-16T1200'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T04:08:19.165Z'
 source_kind: 'mcp:put_page'
 tags:
-  - bca
-  - cheng-weiliang
-  - operations
-  - service-package
-  - sla
+  - 'bca'
+  - 'cheng-weiliang'
+  - 'operations'
+  - 'service-package'
+  - 'sla'
+created: '2026-06-16T04:08:19.165Z'
 ---
 
 # BCA Professional Service Package — Scope Clarification

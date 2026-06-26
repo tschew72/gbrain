@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Gammon Construction
+type: 'entity'
+title: 'Gammon Construction'
 sources:
   - 'm365-30min:2026-06-11'
   - 'm365-30min:2026-06-16T1730'
@@ -9,8 +9,9 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T04:42:23.845Z'
 source_kind: 'mcp:put_page'
 tags:
-  - client
-  - contract
+  - 'client'
+  - 'contract'
+created: '2026-06-17T04:42:23.845Z'
 ---
 
 # Gammon Construction

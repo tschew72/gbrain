@@ -1,6 +1,6 @@
 ---
-type: note
-title: Check Point Joins OpenAI Trusted Access for Cyber Program
+type: 'note'
+title: 'Check Point Joins OpenAI Trusted Access for Cyber Program'
 date: '2026-06-12T00:00:00.000Z'
 sources:
   - 'm365-30min:2026-06-13T1932'
@@ -8,9 +8,10 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-13T11:36:01.787Z'
 source_kind: 'mcp:put_page'
 tags:
-  - ai-security
-  - competitive-intel
-  - vendor-intelligence
+  - 'ai-security'
+  - 'competitive-intel'
+  - 'vendor-intelligence'
+created: '2026-06-12T00:00:00.000Z'
 ---
 
 # Check Point + OpenAI Trusted Access + Daybreak Initiative

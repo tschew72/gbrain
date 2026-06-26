@@ -1,7 +1,8 @@
 ---
-type: concept
-title: evvo-soc-stack
-slug: evvo-soc-stack
+type: 'concept'
+title: 'evvo-soc-stack'
+slug: 'evvo-soc-stack'
+created: '2026-06-26T22:41:16.000Z'
 ---
 
 # evvo-soc-stack

@@ -1,9 +1,10 @@
 ---
-type: project
-title: Logistics Solutions Hub Cem
+type: 'project'
+title: 'Logistics Solutions Hub Cem'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-18T00:27:38.710Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-18T00:27:38.710Z'
 ---
 
 # Logistics Solutions Hub CEM Project

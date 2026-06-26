@@ -1,6 +1,6 @@
 ---
-type: note
-title: Wazuh Migration
+type: 'note'
+title: 'Wazuh Migration'
 sources:
   - 'm365-30min:2026-06-16T1200'
   - 'm365-30min:2026-06-16T1430'
@@ -8,11 +8,12 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T06:38:36.763Z'
 source_kind: 'mcp:put_page'
 tags:
-  - graylog
-  - kailash
-  - migration
-  - operations
-  - wazuh
+  - 'graylog'
+  - 'kailash'
+  - 'migration'
+  - 'operations'
+  - 'wazuh'
+created: '2026-06-16T06:38:36.763Z'
 ---
 
 # Wazuh Migration

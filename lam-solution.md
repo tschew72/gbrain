@@ -1,15 +1,16 @@
 ---
-type: entity
-title: Lam Solution
+type: 'entity'
+title: 'Lam Solution'
 sources:
   - 'm365-teams-30min:2026-06-17T1600'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T08:08:10.074Z'
 source_kind: 'mcp:put_page'
 tags:
-  - qualified
-  - vendor
-  - vietnam
+  - 'qualified'
+  - 'vendor'
+  - 'vietnam'
+created: '2026-06-17T08:08:10.074Z'
 ---
 
 # Lam Solution

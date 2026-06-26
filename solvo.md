@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Solvo
+type: 'entity'
+title: 'Solvo'
 sources:
   - 'm365-30min:2026-06-13T1400'
   - 'm365-30min:2026-06-16T1030'
@@ -14,10 +14,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T11:37:49.688Z'
 source_kind: 'mcp:put_page'
 tags:
-  - contract
-  - port
-  - tos
-  - vietnam
+  - 'contract'
+  - 'port'
+  - 'tos'
+  - 'vietnam'
+created: '2026-06-17T11:37:49.688Z'
 ---
 
 # Evvo × SOLVO Port Project — Contract Negotiation

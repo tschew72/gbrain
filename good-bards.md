@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Good Bards
+type: 'entity'
+title: 'Good Bards'
 sources:
   - 'm365-30min:2026-06-12T1630'
   - 'm365-30min:2026-06-12T2330'
@@ -10,6 +10,7 @@ sources:
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-17T11:37:48.265Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-17T11:37:48.265Z'
 ---
 
 # Good Bards

@@ -1,6 +1,6 @@
 ---
-type: concept
-title: 2026 06 13 Fidentem Soc Services
+type: 'concept'
+title: '2026 06 13 Fidentem Soc Services'
 sources:
   - 'm365-30min:2026-06-13T2000'
   - 'm365-30min:2026-06-15T1400'
@@ -9,6 +9,7 @@ effective_date: '2026-06-15T08:35:00.000Z'
 ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-15T08:40:08.169Z'
 source_kind: 'mcp:put_page'
+created: '2026-06-15T08:40:08.169Z'
 ---
 
 # Fidentem SOC Services — SDC/Supplier Role Discussion

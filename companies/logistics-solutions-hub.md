@@ -1,15 +1,21 @@
 ---
-type: entity
-title: Logistics Solutions Hub Pte Ltd
-schema_type: company
-slug: companies/logistics-solutions-hub
-role: "Client — Logistics Solutions Hub CEM (Cyber Essentials Mark) engagement"
+type: 'entity'
+title: 'Logistics Solutions Hub Pte Ltd'
+schema_type: 'company'
+slug: 'companies/logistics-solutions-hub'
+role: 'Client — Logistics Solutions Hub CEM (Cyber Essentials Mark) engagement'
 sources:
   - 'projects/logistics-solutions-hub-cem'
-tags: [client, singapore, cem, completed, needs-enrichment]
-ingested_via: script:gbrain-stub-creator
-source_kind: script
+tags:
+  - 'client'
+  - 'singapore'
+  - 'cem'
+  - 'completed'
+  - 'needs-enrichment'
+ingested_via: 'script:gbrain-stub-creator'
+source_kind: 'script'
 ingested_at: '2026-06-18T00:30:00.000Z'
+created: '2026-06-18T00:30:00.000Z'
 ---
 
 # Logistics Solutions Hub Pte Ltd

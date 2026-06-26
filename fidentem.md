@@ -1,6 +1,6 @@
 ---
-type: entity
-title: Fidentem
+type: 'entity'
+title: 'Fidentem'
 sources:
   - 'm365-30min:2026-06-16T1430'
   - 'm365-30min:2026-06-16T1930'
@@ -8,10 +8,11 @@ ingested_via: 'mcp:put_page'
 ingested_at: '2026-06-16T11:37:19.684Z'
 source_kind: 'mcp:put_page'
 tags:
-  - competitor
-  - mss
-  - singapore
-  - wazuh
+  - 'competitor'
+  - 'mss'
+  - 'singapore'
+  - 'wazuh'
+created: '2026-06-16T11:37:19.684Z'
 ---
 
 # Fidentem
