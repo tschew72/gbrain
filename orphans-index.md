@@ -14,18 +14,15 @@ tags:
 
 # Orphans Master Index
 
-Brain-health category indexes that collect 47 previously-orphan pages by topic.
+Brain-health category indexes that collect 26 previously-orphan pages by topic.
 
 Each category index is itself a normal page that the brain can traverse; it links to the orphans in its category, providing them with their first inbound wikilink.
 
-## Categories (6)
+## Categories (3)
 
-- [[extracts-orphan-index|Extracts]] — 17 pages
-- [[dated-notes-orphan-index|Dated Note]] — 10 pages
+- [[extracts-orphan-index|Extracts]] — 12 pages
 - [[ops-orphan-index|Ops]] — 10 pages
-- [[entities-orphan-index|Entity]] — 8 pages
-- [[decisions-orphan-index|Decisions]] — 1 pages
-- [[people-orphan-index|People]] — 1 pages
+- [[entities-orphan-index|Entity]] — 4 pages
 
 ## Note
 
