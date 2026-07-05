@@ -21,4 +21,7 @@ created: '2026-06-26T22:41:16.000Z'
 | 7 | Evvo has financial sector clients including Precepts | fact | 0.9 | private | medium | 2026-06-17 |  | mcp:put_page |  |
 | 8 | Meeting between Evvo Labs and DTGroup scheduled for Friday, 19 June 2026, 16:00–17:00 SGT (08:00–09:00 UTC) | event | 1.0 | private | low | 2026-06-17 |  | mcp:put_page |  |
 | 9 | Meeting location: 123 Phạm Huy Thông, Sơn Trà, Đà Nẵng 50000, Vietnam | fact | 1.0 | private | low | 2026-06-17 |  | mcp:put_page |  |
+| 10 | Vince forwarded the SESAMi BusinessAlert RFx batch to EVVO LABS PTE LTD on 2026-07-03 for evaluation | event | 0.95 | private | medium | 2026-07-04 |  | mcp:put_page |  |
+| 11 | Vince instructed the team: 'Rysense and NTUC health... please pick up all the tenders for evaluation' | commitment | 1.0 | private | medium | 2026-07-04 |  | mcp:put_page |  |
+| 12 | Vince sent a second follow-up: 'Please get this and let me know if we can do it' | commitment | 1.0 | private | low | 2026-07-04 |  | mcp:put_page |  |
 <!--- gbrain:facts:end -->
