@@ -1,17 +1,9 @@
 ---
-type: entity
+type: concept
 title: Valuemax
-created: '2026-06-17T00:00:00.000Z'
-sources:
-  - 'm365-30min:2026-06-26T1736'
-  - 'm365-30min:2026-06-17T1530'
-  - 'm365-30min:2026-06-25T1230'
-  - 'm365-30min:2026-06-25T1300'
-enriched_at: '2026-06-18T03:33:03.982Z'
-enriched_by: 'cli:enrich'
-ingested_at: '2026-06-18T03:33:04.935Z'
-source_kind: put_page
-ingested_via: put_page
+ingested_via: 'mcp:put_page'
+ingested_at: '2026-07-16T12:05:38.332Z'
+source_kind: 'mcp:put_page'
 tags:
   - checkpoint
   - customer
@@ -20,63 +12,84 @@ tags:
   - support-open
 ---
 
-## Overview
+---
+sources:
+  - m365-teams-30min:2026-06-19T1733
+  - m365-30min:2026-06-22T0936
+  - m365-30min:2026-06-25T1230
+  - m365-30min:2026-06-25T1300
+  - m365-30min:2026-06-25T1430
+  - m365-30min:2026-06-26T1736
+  - m365-30min:2026-07-16T2000
+  - m365-30min:2026-07-16T1952
+ type: entity
+---
 
-Valuemax Group Ltd (valuemax.com.sg) is an Evvo Labs client under a 12-month vCISO retainer covering ISO 27001 gap analysis and continuous security posture review. [Source: projects/valuemax-vciso] The engagement is led by Kailash Amin with Phuong Cao (Fang) as project manager. [Source: projects/valuemax-vciso] Prior completed work includes a VAPT engagement (Contract 30-2025/HĐDV, completed December 30, 2025) and ClearSight IT Dev work (Contract 34-2025/HĐDV, completed February 4, 2026). [Source: projects/valuemax-vciso]
+# Valuemax
 
-## Current Engagement
+Active Evvo vCISO / ISMS client engagement now moving into routine reporting and document-delivery cadence, with explicit executive attention on vendor-thread visibility for support escalations.
 
-- **Contract:** 08/2026/HĐDV (12-month retainer, April 2026 – March 2027) [Source: projects/valuemax-vciso]
-- **Quote:** ELFN260340 [Source: projects/valuemax-vciso]
-- **Status:** On Track | P1 [Source: projects/valuemax-vciso]
-- **Scope:** ISO 27001 gap analysis and mapping; continuous security posture review and planning [Source: projects/valuemax-vciso]
+## Signal 2026-06-19
+- Phuong Cao (Fang) suggested sending the weekly report to keep the client updated on CISO activities.
+- Lam is finalizing the initial ISMS Manual for the client.
+- Fang will review the manual internally and share the updated version with Kailash Amin and Vince Chew for review next week.
+- Fang also plans to propose a monthly cadence call when the ISMS Manual is sent.
 
-## Client Contacts
+## Update 2026-06-22 09:23 SGT
+- On support case `SG-SC-067487` (`All agents suddenly got disconnected`), Vince Chew forwarded the Netpoleon vendor update to Ryan Villegas and told him to stay in the loop.
+- Vince also directed the team to formalize a recurring recipient pattern for future vendor engagements rather than relying on ad hoc email recipients.
+- This adds an executive-watched vendor-escalation visibility requirement around the ValueMax account.
 
-- **Aw Wai Loon** (wailoon@valuemax.com.sg) — primary technical POC [Source: projects/valuemax-vciso]
-- **Aye Min Han** (minhan@valuemax.com.sg) — Head of Digital Solution & Technology [Source: projects/valuemax-vciso]
-- **Chee Leong Chong** — IT operations [Source: projects/valuemax-vciso]
-- **Kwee Sheng** — Malaysia entity contact (Kedai Pajak Well Chip Sdn Bhd) [Source: projects/valuemax-vciso]
+## Contacts
+- Phuong Cao (Fang) - Evvo delivery lead
+- Lam - Evvo document owner for the initial ISMS Manual
+- Kailash Amin - Evvo commercial / account lead
+- Vince Chew - executive oversight
+- Ryan Villegas - vendor-thread visibility / follow-up oversight
 
-## Commercial
-
-- **Invoice 26154:** SGD 36,000 — split 80% Singapore / 20% Malaysia [Source: projects/valuemax-vciso]
-- **Invoice 26173:** SGD 9,000 — Malaysia entity [Source: projects/valuemax-vciso]
-- **Payment delays** resolved late May 2026 [Source: projects/valuemax-vciso]
-
-## Key Dates
-
-- **2026-02-03:** Kailash initiated CISOaaS retainer discussion [Source: projects/valuemax-vciso]
-- **2026-03-31:** Contract signed [Source: projects/valuemax-vciso]
-- **2026-04-02:** Kickoff meeting (Fang, Kailash, Anna, Andrew) [Source: projects/valuemax-vciso]
-- **2026-04-13:** Client providing system/network documentation for gap analysis [Source: projects/valuemax-vciso]
-
-## Prior Engagements
-
-| Engagement | Contract | Completion Date |
-|------------|----------|-----------------|
-| VAPT | 30-2025/HĐDV | December 30, 2025 [Source: projects/valuemax-vciso] |
-| ClearSight IT Dev | 34-2025/HĐDV | February 4, 2026 [Source: projects/valuemax-vciso] |
+## Notes
+- Relevance: the account is no longer just moving through reporting cadence; it now also carries an explicit process expectation for vendor visibility on support escalations.
+- Immediate next step: ensure Ryan is included on current vendor threads for the case and set up the reusable distribution list or standard recipient group for future vendor-facing engagement.
 
 ## Update 2026-06-25 12:10-12:12 SGT
-- Ryan Villegas submitted a May 2026 claims request that included ValueMax entertainment.
-- Vince asked for the purpose of the ValueMax entertainment and who the ValueMax AM is.
-- This adds a commercial-account ownership check on top of the earlier vendor-thread visibility rule for the account.
+- Ryan Villegas submitted a May 2026 claims approval thread that included ValueMax entertainment.
+- Vince asked for the purpose of the ValueMax entertainment and who the ValueMax account manager is.
+- Vince used the same thread to restate that if a sales owner is assigned, other staff should not be doing the sales-facing entertaining work for that account.
 
-## Implication 2026-06-25
-- The business purpose of client-entertainment claims for ValueMax should be explicit.
-- The assigned account manager should be clear in CRM/account planning so sales-facing relationship activity does not drift to the wrong owner.
+## Follow-up 2026-06-25
+- Ryan should clarify the business purpose of the ValueMax entertainment claim.
+- The ValueMax account owner should be explicit in the CRM and account plan so client-facing entertaining and claim approvals map to the right salesperson.
 
 ## Clarification 2026-06-25 12:33 SGT
-- Ryan Villegas confirmed Fiona is the AM for both ValueMax and SPTel.
-- He said he sometimes covers customer dinners and drinks when Fiona cannot attend at night because of family commitments.
-- He acknowledged Vince's point and said he will take note moving forward.
+- Ryan Villegas replied that Fiona is the AM for both ValueMax and SPTel.
+- He said customers sometimes ask for dinner and drinks, and he occasionally covers when Fiona cannot go out at night because of family commitments.
+- He said he will take note moving forward.
 
-## Implication 2026-06-25 12:33 SGT
-- The AM ambiguity is resolved, but the commercial-account ownership rule still applies.
-- Future client-entertainment exceptions should be documented clearly so relationship coverage does not blur sales ownership.
+## Follow-up 2026-06-25 12:33 SGT
+- The account-owner ambiguity Vince flagged at 12:30 is now resolved for ValueMax.
+- Any future coverage exceptions should still be explicit so client entertainment and claim approvals remain aligned to the assigned sales owner.
+
+## Update 2026-06-25 14:16-14:29 SGT
+- Vince approved Ryan's May claims after the owner clarification landed.
+- He said he wants to see a change starting from `June 2026` expenses and asked what should be done better to avoid the additional cost and effort behind these sales-related claims.
+
+## Follow-up 2026-06-25 14:29 SGT
+- ValueMax-related entertainment and similar claims now sit under an explicit executive expectation to reduce avoidable exception handling, not just under a generic owner-alignment reminder.
 
 ## Update 2026-06-26 17:36 SGT
 - Fang told Aw Wai Loon the team reviewed the additional documents, prepared the initial ISMS Manual, and sent it for review with comments.
-- So what: the engagement has moved from internal drafting/finalization into first client review of the ISMS Manual deliverable.
-- Source: `m365-30min:2026-06-26T1736`
+- This advances the account from internal ISMS-manual drafting into first client review of the document.
+- Source: `m365-30min:2026-06-26T1736`.
+
+## Update 2026-07-16 19:52 SGT
+- Kailash Amin accepted the meeting invite for "Valuemax ISO/IEC 27001 Roadmap Discussion."
+- This is a new planning checkpoint under the existing ValueMax engagement and likely a step toward the ISO/IEC 27001 workstream.
+- Source: `m365-30min:2026-07-16T2000`.
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | Valuemax: ISO/IEC 27001 roadmap discussion accepted by multiple attendees; weekly meeting/report follow-ups ongoing | fact | 0.9 | private | medium | 2026-07-19 |  | mcp:extract_facts |  |
+<!--- gbrain:facts:end -->

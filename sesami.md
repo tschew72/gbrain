@@ -44,3 +44,12 @@ Client of Evvo Labs. Managed services / cybersecurity engagement.
 - Fang's weekly report says the internal audit is complete and the external audit is now in progress.
 - So what: the SESAMi CTM track has moved beyond internal-audit review and into external-audit execution.
 - Source: `m365-30min:2026-06-26T1736`
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | SESAMi is Completed; remove from Active and At Risk sections | event | 1.0 | private | medium | 2026-07-22 |  | mcp:put_page |  |
+| 2 | SESAMi project status is Completed | fact | 1.0 | world | medium | 2026-07-22 |  | mcp:extract_facts |  |
+<!--- gbrain:facts:end -->

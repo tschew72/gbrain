@@ -37,3 +37,13 @@ Mapletree is a client/end-user of EVVO Labs. On 2026-06-16, EVVO Labs Vietnam ex
 ## Related
 - EVVO Labs Vietnam
 - Ryan Villegas
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | Mapletree has an active dispute with KnowBe4 over phishing-log reconciliation | event | 0.95 | private | medium | 2026-07-16 |  | mcp:extract_facts |  |
+| 2 | Approximately 800 users were affected by the phishing email at Mapletree | fact | 0.9 | private | medium | 2026-07-16 |  | mcp:extract_facts |  |
+| 3 | Mapletree: 1st Campaign 2026 UAT and campaign-prep replies | event | 0.9 | private | medium | 2026-07-19 |  | mcp:extract_facts |  |
+<!--- gbrain:facts:end -->

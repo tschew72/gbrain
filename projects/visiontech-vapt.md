@@ -72,3 +72,13 @@ UMobile/JLL project in Teams is SEPARATE — not commercially approved. VisionTe
 ## Notes 2026-06-26 20:00 SGT
 - Relevance: the blocker has shifted from client silence to delivery-readiness coordination.
 - Immediate next step: Fang/Fiona should send the prerequisite list and confirm whether the Jul 6-17 window is still workable before the Jul 7 PMO go/no-go date is overtaken by events.
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | Vision VAPT started on 2026-07-06 | event | 1.0 | private | medium | 2026-07-22 |  | mcp:put_page |  |
+| 2 | Vision VAPT is Active and not blocked | fact | 1.0 | private | medium | 2026-07-22 |  | mcp:put_page |  |
+| 3 | Vision VAPT client is delaying retest while resolving reported issues | fact | 1.0 | private | medium | 2026-07-22 |  | mcp:put_page |  |
+<!--- gbrain:facts:end -->

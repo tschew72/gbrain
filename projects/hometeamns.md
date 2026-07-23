@@ -40,3 +40,11 @@ created: '2026-06-18T00:20:06.473Z'
 - 2026-03-19: Fang took over weekly reports
 - 2026-04-22: VAPT kickoff
 - 2026-05-04: Finding tracker submitted
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | HomeTeamNS project status is Completed | fact | 1.0 | world | medium | 2026-07-22 |  | mcp:extract_facts |  |
+<!--- gbrain:facts:end -->

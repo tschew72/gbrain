@@ -1,65 +1,24 @@
 ---
-type: 'entity'
-title: 'Pacific International Lines'
-sources:
-  - 'm365-30min:2026-06-26T1736'
-  - 'email:vince.chew@evvolabs.com 2025-12'
-  - 'm365-30min:2026-06-16T0930'
-  - 'm365-30min:2026-06-16T1000'
-  - 'm365-30min:2026-06-17T2230'
-  - 'phuong-30min:2026-06-22T1208'
+type: client
+title: Pacific International Lines
+aliases:
+  - PIL
 ingested_via: 'mcp:put_page'
-ingested_at: '2026-06-17T14:38:58.793Z'
+ingested_at: '2026-07-23T05:03:51.478Z'
 source_kind: 'mcp:put_page'
 tags:
-  - 'accounts-receivable'
-  - 'client'
-  - 'invoice'
-  - 'maritime'
-  - 'singapore'
-created: '2026-06-17T14:38:58.793Z'
+  - accounts-receivable
+  - client
+  - invoice
+  - maritime
+  - singapore
 ---
 
-# Pacific International Lines
+## Notes
 
-**Type:** Client (Evvo Labs)
-**Industry:** Maritime / Shipping
-**Status:** Active engagement, outstanding invoice
+- 2026-07-23: new inbox invite from Janet Quek <janet.quek@sgp.pilship.com> for `ISO 27001 Weekly Meeting`.
+- This is consistent with an ongoing ISO 27001 weekly cadence and should be merged into the existing PIL client thread as more signals arrive.
 
-## Invoices
-- **00025404, 00025405** — Historical (2025-12)
-- **00026255** — Sent 10 Jun 2026, **outstanding as of 16 Jun 2026**. Michelle Then sent follow-up 09:39 SGT.
-- Contact: Raymond (Pacific International Lines)
+## Sources
 
-### AR Status Update (2026-06-16 09:50 SGT)
-- **Invoice 00026255:** Payment blocked — owner confirmation needed
-- Raymond Sun (raymond.sun@cn.pilship.com): "We need owner confirmation of the service delivery."
-- Owner to verify: Aw Boon Leng David
-- Michelle Then sent follow-up on 2026-06-16 09:39 SGT
-- **Action needed:** Provide delivery evidence or escalate to David Aw for confirmation
-
-## ISO 27001 Year 2 Audit (2026-06-17)
-- **Contact:** Janet Quek (janet.quek@sgp.pilship.com)
-- **Subject:** [ISO 27001 - Year 2 Audit] - Review ISMS Manual version 1.2
-- **Request:** Janet requesting Phuong Cao (Evvo) review revised ISMS Manual (PILMAN-ISO-ISMS-Manual.docx) in SharePoint Editable folder, track changes enabled.
-- **Significance:** PIL Year 2 audit engagement is active. ISMS Manual review is a core compliance deliverable for the audit.
-- **Evvo contact:** Phuong Cao
-- **Source:** `m365-30min:2026-06-17T2230`
-
-## So What for Evvo
-- Repeat client in maritime sector — important for Evvo's sector diversification (maritime = critical infrastructure)
-- Outstanding payment on invoice 26255 — accounts follow-up in progress
-- **New blocker:** Owner confirmation needed — may require Vince/Kailash to reach out to David Aw directly
-- **New activity:** Year 2 ISO 27001 audit is underway — ISMS Manual v1.2 review requested. Ensure Phuong Cao has bandwidth and the review aligns with Year 2 audit scope.
-- No action needed from Vince unless payment remains outstanding beyond 30 days OR owner confirmation is not forthcoming
-
-## ISO 27001 Year 2 Audit Status Update (2026-06-22)
-- **Signal:** SharePoint comment on `PILMAN-ISO-ISMS-Manual 19 Jun` from `lambachkhoa91`
-- **Comment summary:** Asked whether the customer still wants any edits on the draft and noted the substance is already satisfactory (`còn bản chất đã đáp ứng`).
-- **So what:** The manual appears to have moved from drafting into customer-feedback confirmation, which lowers the likelihood of major rework and points to a near-term review/approval step.
-- **Source:** `phuong-30min:2026-06-22T1208`
-
-## ISO 27001 Year 2 Audit Status Update (2026-06-26)
-- Fang's weekly report says Evvo updated the ISMS Manual, submitted the audit plan to PIL, and walked Janet through the updated manual during the weekly meeting.
-- So what: the Year 2 audit engagement has advanced from document review into formal audit-plan submission and client walkthrough completion.
-- Source: `m365-30min:2026-06-26T1736`
+- `m365-30min:2026-07-23T1300`

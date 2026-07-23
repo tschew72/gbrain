@@ -20,4 +20,6 @@ created: '2026-06-26T22:41:16.000Z'
 | 6 | Fiona Ng sent PO processing email for GoTakeBike Web & Mobile App VAPT quotation | event | 0.9 | private | medium | 2026-07-04 |  | mcp:put_page |  |
 | 7 | GoTakeBike CISOaaS project has moved beyond eligibility into close-out / claim handling phase | event | 0.85 | private | high | 2026-07-04 |  | mcp:put_page |  |
 | 8 | Original IMDA/CSA CISOaaS message was addressed to developer@gotakebike.com and cc'd to Vince | fact | 0.95 | private | low | 2026-07-04 |  | mcp:put_page |  |
+| 9 | Vendor: Leiz | fact | 1.0 | world | low | 2026-07-09 |  | mcp:extract_facts |  |
+| 10 | The Supabase migration is currently blocked pending the connection string from Vince. | fact | 0.9 | private | medium | 2026-07-18 |  | mcp:put_page |  |
 <!--- gbrain:facts:end -->

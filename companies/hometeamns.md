@@ -37,3 +37,11 @@ Client for CEM (Cyber Essentials Mark) and RFQ engagements. M365 sweep 2026-06-1
 ## Projects referencing this entity
 
 _(populated by `gbrain-project-linker.py` on next run — search backlinks)_
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | HomeTeamNS is Completed; remove from Active and At Risk sections | event | 1.0 | private | medium | 2026-07-22 |  | mcp:put_page |  |
+<!--- gbrain:facts:end -->

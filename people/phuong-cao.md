@@ -49,3 +49,14 @@ Phuong Cao (also known as Fang) is a project manager at Evvo Labs based in Singa
 - **2026-06-17** — Requested by Janet Quek (Pacific International Lines) to review ISMS Manual v1.2 for Year 2 ISO 27001 audit [Source: pacific-international-lines]
 - **2026-06-22** — Continued managing Pacific International Lines' ISMS Manual review; a SharePoint status comment suggested the draft was substantively complete and awaiting customer edits or confirmation [Source: pacific-international-lines]
 - **Ongoing** — Active PM on multiple Singapore VAPT/CEM/CTM projects; daily M365 Digest Bot operation [Source: people-phuong-cao] [Source: companies/majutech] [Source: companies/visiongroup]
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | Phuong Cao (Fang) tagged for reference | event | 1.0 | world | low | 2026-07-09 |  | mcp:extract_facts |  |
+| 2 | Phuong Cao is the Evvo team lead on the Valuemax ISO/IEC 27001 engagement | fact | 0.9 | private | medium | 2026-07-17 |  | mcp:put_page |  |
+| 3 | Phuong Cao (Fang) sent email 'VAPT - Finding Tracker Submission' for EVVO Labs x GoTakeBike | event | 0.9 | private | medium | 2026-07-22 |  | mcp:extract_facts |  |
+| 4 | Phuong Cao (Fang) sent email 'Recap - CTM Project Kick-off Meeting' for EVVO Labs x Renaissance | event | 0.9 | private | medium | 2026-07-22 |  | mcp:extract_facts |  |
+<!--- gbrain:facts:end -->

@@ -1,17 +1,14 @@
 ---
-type: 'note'
-title: 'Yl Checkpoint Notification'
-sources:
-  - 'm365-teams-30min:2026-06-17T1030'
+type: note
+title: Yl Checkpoint Notification
 ingested_via: 'mcp:put_page'
-ingested_at: '2026-06-17T02:39:31.632Z'
+ingested_at: '2026-07-15T01:41:17.044Z'
 source_kind: 'mcp:put_page'
 tags:
-  - 'alert'
-  - 'checkpoint'
-  - 'soc'
-  - 'yl'
-created: '2026-06-17T02:39:31.632Z'
+  - alert
+  - checkpoint
+  - soc
+  - yl
 ---
 
 # YL Integrated Checkpoint Notification
@@ -39,6 +36,13 @@ Attachment-only message. Likely automated alert from YL Integrated Checkpoint sy
 - [ ] If security incident, escalate per SOC runbook
 - [ ] If false positive, mark as noise
 
+## Update 2026-07-15 01:07 UTC
+- Another attachment-only message landed in the same `SOC Operations` → `YL Integrated Checkpoint Notification` channel.
+- `msg_id`: `1784077674264`
+- `from`: unknown
+- `content`: `<attachment id="148d922a34134e77a6664e171b545c73"></attachment>`
+- No readable body came through again, so this remains an opaque automated/system-style alert until the attachment is inspected.
+
 ## Raw Signal
 
 ```json
@@ -46,8 +50,8 @@ Attachment-only message. Likely automated alert from YL Integrated Checkpoint sy
   "source": "channel",
   "team": "SOC Operations",
   "channel": "YL Integrated Checkpoint Notification",
-  "created": "2026-06-17T01:40:34.557Z",
+  "created": "2026-07-15T01:07:54.264Z",
   "from": "unknown",
-  "content": "<attachment id=\"1a315c0401d94077af5ac137f758fe71\"></attachment>"
+  "content": "<attachment id=\"148d922a34134e77a6664e171b545c73\"></attachment>"
 }
 ```

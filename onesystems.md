@@ -27,3 +27,11 @@ OneSystems is a consulting lead related to Cyber Trust Mark (CTM) certification.
 
 - **CTM-only engagement** — No ISO 27001 mentioned in the consulting discussions. [Source: onesystems]
 - **Directly aligned with Evvo's core CTM consulting service** — The engagement fits Evvo's primary Cyber Trust Mark offering. [Source: onesystems]
+
+## Facts
+
+<!--- gbrain:facts:begin -->
+| # | claim | kind | confidence | visibility | notability | valid_from | valid_until | source | context |
+|---|-------|------|------------|------------|------------|------------|-------------|--------|---------|
+| 1 | Kailash asked whether Himel is still with OST and requested surveillance audit dates for Cyber Trust Mark to process Onesystems renewal before expiry | event | 1.0 | private | medium | 2026-07-09 |  | mcp:put_page |  |
+<!--- gbrain:facts:end -->

@@ -1,31 +1,30 @@
 ---
-type: 'project'
-title: 'Mapletree Knowbe4'
+type: project
+title: Mapletree x KnowBe4 campaign preparation
+sources:
+  - 'm365-30min:2026-07-16T1230'
+  - 'm365-30min:2026-07-16T1303'
 ingested_via: 'mcp:put_page'
-ingested_at: '2026-06-18T00:27:39.996Z'
+ingested_at: '2026-07-16T05:05:19.795Z'
 source_kind: 'mcp:put_page'
-created: '2026-06-18T00:27:39.996Z'
+tags:
+  - knowbe4
+  - m365
+  - mapletree
+  - project-delivery
 ---
 
-# Mapletree KnowBe4 + Phishing Project
+# Mapletree x KnowBe4 campaign preparation
 
-**Client:** Mapletree Investment
-**Contacts:** Jeremy Tan (jeremy.tan@mapletree.com.sg), Jolly Kang
-**Evvo Lead:** Dung Bui (Andrew) / Anna
-**Status:** On Track | P2
-**Recurring:** Monthly phishing campaigns + KnowBe4 platform
+## Update 2026-07-16 13:03 SGT
+- Andrew (Dung Bui) replied that he has noted the feedback and connected with the KB4 team to clarify the issue, or possibly arrange a meeting, to better prepare for future campaigns.
+- He said he will share any updates once available.
 
-## Services
-- KnowBe4 platform management
-- Phishing simulation campaigns (quarterly)
-- Security awareness training
+## Prior context 2026-07-16 12:30 SGT
+- Jeremy TAN followed up on the first campaign 2026 UAT and campaign preparation thread.
+- The earlier note indicated the issue was being clarified with the KB4 team and a meeting might be arranged to better prepare future campaigns.
 
-## Key Dates
-- 2025-12-19: 3rd phishing exercise (Nov 2025) report sent by Andrew
-- 2026-01-12: Vince flagged renewal review — "review scope and pricing, detailed discussion with client"
-- 2026-05-14: NDA (Mutual) signed via DocuSign
-- 2026-06-10: KnowBe4 renewal PO processing
-
-## Notes
-- Vince wants pricing/scope review before renewal
-- 1st evaluation file shared Dec 2025
+## Working readout
+- This is a commercial / project-delivery thread.
+- No pricing, contract, or delivery-risk change surfaced in the latest delta.
+- Watch for the KB4 clarification or meeting outcome if it changes UAT readiness or campaign timing.
