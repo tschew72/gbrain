@@ -1,19 +1,17 @@
 ---
 type: note
 title: ISOZ Technology signed quote thread
-source_tags:
-  - m365-2026-07-23-isoz-quote-thread
-  - 'm365-30min:2026-07-24T0630'
+effective_date: '2026-07-24T00:00:00.000Z'
 ingested_via: 'mcp:put_page'
-ingested_at: '2026-07-23T22:34:21.739Z'
+ingested_at: '2026-07-24T02:33:25.431Z'
 source_kind: 'mcp:put_page'
 ---
 
 # ISOZ Technology signed quote thread
 
-- Source email: `RE: ISOZ TECHNOLOGY PTE LTD Signed Quote` from `Andy Low <alow@isoztech.com>` received 2026-07-23T17:25:55Z.
-- New detail in this delta: Andy asked for a quote that breaks out `Audit for CEM for ICT Vendors` at `US$550`, `Audit for CTM-4 by end October`, and optional add-ons for `Cloud Security` (`US$575 after grant`) and `AI Se...`.
-- Existing context: the thread is already a live commercial follow-up with funding/approval dependencies and quote closure work.
+- Source email: `RE: ISOZ TECHNOLOGY PTE LTD Signed Quote` from `Andy Low <alow@isoztech.com>` received 2026-07-24T02:09:34Z.
+- New detail in this delta: the thread remains active commercial follow-up and now has a fresh inbound on the signed quote thread. The message is part of quote closure / approval work rather than a generic newsletter or system notice.
+- Existing context: yesterday's thread already contained quote breakdown details for `Audit for CEM for ICT Vendors`, `Audit for CTM-4 by end October`, and optional add-ons for `Cloud Security` and `AI Security`.
 
 ## So what
-This is still a live commercial conversion thread. The new pricing detail makes the deal a concrete quote-closure task rather than a generic follow-up, so it is worth tracking for close timing and upsell scope.
+This stays in the live commercial pipeline. Vince should treat it as a quote-closure thread worth monitoring for approval timing, scope finalization, and potential upsell follow-on.
